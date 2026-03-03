@@ -11,7 +11,7 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
 :root{--bg:#f0f2f5;--sidebar:#0f172a;--primary:#2563eb;--pd:#1d4ed8;--ok:#059669;--bad:#dc2626;--warn:#d97706;--sur:#fff;--bdr:#e2e8f0;--txt:#1e293b;--tm:#64748b;--tl:#94a3b8;--mono:'IBM Plex Mono',monospace;--font:'IBM Plex Sans',sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100vh;display:flex;overflow:hidden;font-size:13px;}
+body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100vh;display:flex;overflow:hidden;font-size:12px;}
 #app{flex:1;min-width:0;width:100%;}
 .hidden{display:none!important;}
 
@@ -53,7 +53,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100vh;
 .co-new-sub{font-size:10px;color:#34d399;opacity:.7;}
 .co-loading{color:#64748b;font-size:13px;text-align:center;padding:24px 0;}
 /* Company switcher in topbar */
-.co-switcher{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:4px 11px;font-size:11px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
+.co-switcher{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:7px;padding:3px 9px;font-size:10px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;}
 .co-switcher:hover{background:#2563eb;border-color:#2563eb;color:#fff;}
 /* Step indicator for new company wizard */
 .step-dots{display:flex;gap:6px;margin-bottom:22px;justify-content:center;}
@@ -62,44 +62,60 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100vh;
 .setup-step{display:none;}.setup-step.active{display:block;}
 
 /* ── SIDEBAR ── */
-#sidebar{width:220px;background:var(--sidebar);color:#fff;display:flex;flex-direction:column;flex-shrink:0;transition:width .2s;overflow:hidden;}
-#sidebar.col{width:52px;}
-.slg{padding:14px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px;min-height:58px;}
-.logo-n{font-size:13px;font-weight:700;color:#e2e8f0;white-space:nowrap;}
+#sidebar{width:200px;background:var(--sidebar);color:#fff;display:flex;flex-direction:column;flex-shrink:0;transition:width .2s;overflow:hidden;}
+#sidebar.col{width:44px;}
+.slg{padding:10px 12px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:8px;min-height:44px;}
+.logo-n{font-size:12px;font-weight:700;color:#e2e8f0;white-space:nowrap;}
 .logo-s{font-size:10px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:145px;}
 .stog{background:none;border:none;color:#64748b;cursor:pointer;padding:6px;font-size:18px;flex-shrink:0;line-height:1;}
 .stog:hover{color:#fff;}
 .snav{flex:1;padding:8px 0;overflow-y:auto;}
-.ni{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;color:#94a3b8;font-size:12.5px;font-weight:500;transition:all .15s;white-space:nowrap;border-left:3px solid transparent;}
+.ni{display:flex;align-items:center;gap:8px;padding:7px 12px 7px 22px;cursor:pointer;color:#94a3b8;font-size:12px;font-weight:500;transition:all .15s;white-space:nowrap;border-left:3px solid transparent;}
 .ni:hover{background:#1e293b;color:#e2e8f0;}
 .ni.act{background:#1e3a6e;color:#fff;border-left-color:#2563eb;}
-.nico{font-size:15px;flex-shrink:0;width:20px;text-align:center;}
+.nico{font-size:13px;flex-shrink:0;width:16px;text-align:center;}
 .nsec{padding:12px 14px 4px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#334155;white-space:nowrap;}
 #sidebar.col .nsec,#sidebar.col .nlb,#sidebar.col .ltxt{display:none;}
+/* Accordion sidebar */
+.nsec-acc{display:flex;align-items:center;gap:6px;padding:8px 12px 8px 10px;cursor:pointer;color:#7c8fa8;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;transition:all .15s;border-left:3px solid transparent;margin-top:2px;}
+.nsec-acc:hover{background:#1e293b;color:#cbd5e1;}
+.nsec-acc.open{color:#93c5fd;border-left-color:#3b82f6;}
+.nsec-ico{font-size:12px;flex-shrink:0;width:16px;text-align:center;}
+.nsec-lbl{flex:1;}
+.acc-arrow{font-size:10px;transition:transform .25s;color:#475569;}
+.nsec-acc.open .acc-arrow{transform:rotate(0deg);}
+.nsec-acc:not(.open) .acc-arrow{transform:rotate(-90deg);}
+.acc-body{overflow:hidden;max-height:0;transition:max-height .28s ease;}
+.acc-body.open{max-height:400px;}
+#sidebar.col .nsec-acc .nsec-lbl,#sidebar.col .nsec-acc .acc-arrow{display:none;}
+/* ── KEYBOARD SHORTCUTS ── */
+.sk{display:inline-block;background:rgba(255,255,255,.18);color:#fff;font-weight:800;border-radius:3px;padding:0 3px;font-size:10px;border-bottom:1.5px solid rgba(255,255,255,.4);margin:0 1px;line-height:1.4;letter-spacing:0;}
+.ni:hover .sk,.ni.act .sk{background:rgba(255,255,255,.28);border-bottom-color:rgba(255,255,255,.7);}
+
 
 /* ── MAIN ── */
 #main{flex:1;min-width:0;width:100%;display:flex;flex-direction:column;overflow:hidden;}
-#topbar{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.05);}
-.pg-title{font-size:15px;font-weight:700;color:var(--txt);}
+#topbar{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 20px;height:44px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.pg-title{font-size:13px;font-weight:700;color:var(--txt);}
 .tbr{display:flex;align-items:center;gap:8px;}
-.fy-badge{background:#eff6ff;color:#2563eb;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #bfdbfe;}
-.save-status{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.fy-badge{background:#eff6ff;color:#2563eb;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid #bfdbfe;}
+.save-status{font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:20px;}
 .save-ok{background:#ecfdf5;color:#059669;border:1px solid #a7f3d0;}
 .save-ing{background:#fefce8;color:#b45309;border:1px solid #fde68a;}
-.usr-badge{background:#f1f5f9;color:#475569;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;cursor:pointer;}
+.usr-badge{background:#f1f5f9;color:#475569;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;cursor:pointer;}
 .usr-badge:hover{background:#e2e8f0;}
-#content{flex:1;min-height:0;overflow-y:auto;padding:18px 22px;width:100%;}
+#content{flex:1;min-height:0;overflow-y:auto;padding:12px 16px;width:100%;}
 .page-full{display:flex;flex-direction:column;min-height:calc(100vh - 88px);}
 .page-full .pf-grid{flex:1;}
 
 /* ── CARDS & COMPONENTS ── */
 .card{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);}
-.ch{background:#0f172a;color:#fff;padding:12px 18px;font-weight:700;font-size:13px;}
-.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
-.sc{border-radius:12px;padding:16px;color:#fff;position:relative;overflow:hidden;}
+.ch{background:#0f172a;color:#fff;padding:9px 14px;font-weight:700;font-size:11.5px;}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.sc{border-radius:10px;padding:11px 14px;color:#fff;position:relative;overflow:hidden;}
 .sc::after{content:'';position:absolute;right:-8px;top:-8px;width:72px;height:72px;background:rgba(255,255,255,.07);border-radius:50%;}
-.sl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.8;}
-.sv{font-size:20px;font-weight:700;margin-top:5px;font-family:var(--mono);}
+.sl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;opacity:.8;}
+.sv{font-size:17px;font-weight:700;margin-top:3px;font-family:var(--mono);}
 .ss{font-size:10px;opacity:.65;margin-top:2px;}
 .sc-b{background:linear-gradient(135deg,#2563eb,#3b82f6);}
 .sc-g{background:linear-gradient(135deg,#059669,#10b981);}
@@ -107,27 +123,27 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100vh;
 .sc-p{background:linear-gradient(135deg,#7c3aed,#8b5cf6);}
 .sc-o{background:linear-gradient(135deg,#d97706,#f59e0b);}
 
-.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:600;font-family:var(--font);transition:all .15s;white-space:nowrap;}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:6px 11px;border-radius:7px;border:none;cursor:pointer;font-size:11.5px;font-weight:600;font-family:var(--font);transition:all .15s;white-space:nowrap;}
 .btn-p{background:var(--primary);color:#fff;}.btn-p:hover{background:var(--pd);}
 .btn-s{background:var(--ok);color:#fff;}.btn-s:hover{background:#047857;}
 .btn-d{background:var(--bad);color:#fff;}.btn-d:hover{background:#b91c1c;}
 .btn-g{background:var(--bdr);color:var(--txt);}.btn-g:hover{background:#cbd5e1;}
 .btn-w{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;}.btn-w:hover{background:#ffedd5;}
-.btn-sm{padding:4px 9px;font-size:11px;}
+.btn-sm{padding:3px 7px;font-size:10.5px;}
 .btn:disabled{opacity:.4;cursor:not-allowed;}
 
-.tb{display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap;}
+.tb{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
 .tg{display:flex;gap:3px;background:var(--bdr);padding:3px;border-radius:8px;}
 .t{padding:5px 11px;border-radius:6px;border:none;cursor:pointer;font-size:11px;font-weight:600;background:none;color:var(--tm);font-family:var(--font);transition:all .15s;}
 .t.act{background:#fff;color:var(--primary);box-shadow:0 1px 3px rgba(0,0,0,.1);}
 .t:hover:not(.act){color:var(--txt);}
 
-.si{padding:7px 12px;border:1px solid var(--bdr);border-radius:8px;font-size:12px;font-family:var(--font);outline:none;transition:border .15s;min-width:180px;}
+.si{padding:5px 10px;border:1px solid var(--bdr);border-radius:7px;font-size:11.5px;font-family:var(--font);outline:none;transition:border .15s;min-width:180px;}
 .si:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.08);}
 
 .tbl{width:100%;border-collapse:collapse;}
-.tbl th{background:#0f172a;color:#e2e8f0;padding:9px 13px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-.tbl td{padding:9px 13px;border-bottom:1px solid var(--bdr);font-size:12.5px;vertical-align:middle;}
+.tbl th{background:#0f172a;color:#e2e8f0;padding:7px 9px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.tbl td{padding:7px 9px;border-bottom:1px solid var(--bdr);font-size:11.5px;vertical-align:middle;}
 .tbl tr:last-child td{border-bottom:none;}
 .tbl tr:hover td{background:#f8fafc;}
 .tbl tr.alt td{background:#fafafa;}.tbl tr.alt:hover td{background:#f0f4ff;}
@@ -136,53 +152,53 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100vh;
 .mono{font-family:var(--mono);}.tr{text-align:right;}.tc{text-align:center;}
 .tb-{color:#2563eb;}.tg-{color:#059669;}.tr-{color:#dc2626;}.tm-{color:var(--tm);}
 
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:9.5px;font-weight:700;white-space:nowrap;}
 .bb{background:#eff6ff;color:#1d4ed8;}.bg-{background:#ecfdf5;color:#059669;}
 .br{background:#fef2f2;color:#dc2626;}.by{background:#fefce8;color:#b45309;}
 .bp{background:#faf5ff;color:#7c3aed;}.bgr{background:#f1f5f9;color:#475569;}
 .bo{background:#fff7ed;color:#c2410c;}
 
-.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:11px;}
-.fgr{display:flex;flex-direction:column;gap:4px;}
-.fl{font-size:11px;font-weight:600;color:var(--tm);}
-.fc{padding:8px 10px;border:1px solid var(--bdr);border-radius:8px;font-size:12.5px;font-family:var(--font);outline:none;transition:border .15s;background:#fff;width:100%;}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;}
+.fgr{display:flex;flex-direction:column;gap:3px;}
+.fl{font-size:10.5px;font-weight:600;color:var(--tm);}
+.fc{padding:6px 9px;border:1px solid var(--bdr);border-radius:7px;font-size:12px;font-family:var(--font);outline:none;transition:border .15s;background:#fff;width:100%;}
 .fc:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.08);}
 .fc:disabled{background:#f8fafc;color:var(--tm);}
 
-.fp{background:#f8fafc;border:1px solid var(--bdr);border-radius:12px;padding:18px;margin-bottom:14px;}
+.fp{background:#f8fafc;border:1px solid var(--bdr);border-radius:10px;padding:13px;margin-bottom:10px;}
 
-.al{padding:10px 13px;border-radius:8px;font-size:12px;margin-bottom:10px;}
+.al{padding:8px 11px;border-radius:7px;font-size:11.5px;margin-bottom:8px;}
 .al-s{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0;}
 .al-d{background:#fef2f2;color:#991b1b;border:1px solid #fca5a5;}
 .al-w{background:#fefce8;color:#92400e;border:1px solid #fde68a;}
 .al-i{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;}
 
 .et{width:100%;border-collapse:collapse;border:1px solid var(--bdr);border-radius:8px;overflow:hidden;}
-.et th{background:#334155;color:#e2e8f0;padding:8px 10px;font-size:11px;font-weight:700;text-align:left;}
-.et td{padding:6px 8px;border-bottom:1px solid var(--bdr);}
-.et tfoot td{background:#f8fafc;font-weight:700;padding:8px 10px;}
+.et th{background:#334155;color:#e2e8f0;padding:6px 8px;font-size:10.5px;font-weight:700;text-align:left;}
+.et td{padding:5px 7px;border-bottom:1px solid var(--bdr);}
+.et tfoot td{background:#f8fafc;font-weight:700;padding:6px 8px;}
 .et tfoot.bal td{background:#ecfdf5;color:#065f46;}
 .et tfoot.unbal td{background:#fef2f2;color:#991b1b;}
 
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px;}
 .mo.hidden{display:none;}
-.mb{background:#fff;border-radius:16px;max-width:780px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,.3);}
+.mb{background:#fff;border-radius:14px;max-width:800px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,.3);}
 .mh{background:#0f172a;color:#fff;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:16px 16px 0 0;}
-.mbdy{padding:20px;}
+.mbdy{padding:14px;}
 .mc{background:none;border:none;color:#94a3b8;cursor:pointer;font-size:20px;line-height:1;}
 .mc:hover{color:#fff;}
 
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
 
-.rp{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;padding:18px;}
-.rst{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tl);margin-bottom:7px;margin-top:14px;}
-.rr{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--bdr);}
+.rp{background:var(--sur);border:1px solid var(--bdr);border-radius:10px;padding:14px;}
+.rst{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--tl);margin-bottom:5px;margin-top:11px;}
+.rr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--bdr);}
 .rrl{color:var(--txt);padding-left:12px;}
 .rrv{font-weight:600;font-family:var(--mono);}
-.rtot{display:flex;justify-content:space-between;padding:9px 12px;border-radius:8px;font-weight:700;margin-top:7px;}
+.rtot{display:flex;justify-content:space-between;padding:7px 10px;border-radius:7px;font-weight:700;margin-top:5px;}
 .rt-b{background:#eff6ff;color:#1e40af;}.rt-g{background:#ecfdf5;color:#065f46;}.rt-r{background:#fef2f2;color:#991b1b;}
-.rg{background:#0f172a;color:#fff;border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;font-weight:700;margin-top:10px;font-size:13px;}
+.rg{background:#0f172a;color:#fff;border-radius:8px;padding:9px 13px;display:flex;justify-content:space-between;font-weight:700;margin-top:8px;font-size:12px;}
 
 .qg{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;}
 .ql{display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 7px;border-radius:12px;border:2px solid;cursor:pointer;background:none;font-family:var(--font);transition:all .15s;}
@@ -584,51 +600,70 @@ input[type=number]{-moz-appearance:textfield;}
       </div>
     </div>
     <div class="snav">
-      <div class="nsec">Main</div>
-      <div class="ni act" id="nav-dashboard" onclick="navigate('dashboard')"><span class="nico">🏠</span><span class="nlb">Dashboard</span></div>
-      <div class="nsec">Masters</div>
-      <div class="ni" id="nav-accounts" onclick="navigate('accounts')"><span class="nico">📋</span><span class="nlb">Chart of Accounts</span></div>
-      <div class="ni" id="nav-items" onclick="navigate('items')"><span class="nico">📦</span><span class="nlb">Item Master (HSN/SAC)</span></div>
-      <div class="ni" id="nav-vendors" onclick="navigate('vendors')"><span class="nico">🏭</span><span class="nlb">Vendors / Suppliers</span></div>
-      <div class="ni" id="nav-debtors" onclick="navigate('debtors')"><span class="nico">🤝</span><span class="nlb">Customers / Debtors</span></div>
-      <div class="nsec">Transactions</div>
-      <div class="ni" id="nav-vouchers" onclick="navigate('vouchers')"><span class="nico">📝</span><span class="nlb">Voucher Entry</span></div>
-      <div class="ni" id="nav-advances" onclick="navigate('advances')"><span class="nico">💰</span><span class="nlb">Advance Payments</span></div>
-      <div class="nsec">Books</div>
-      <div class="ni" id="nav-daybook" onclick="navigate('daybook')"><span class="nico">📅</span><span class="nlb">Day Book</span></div>
-      <div class="ni" id="nav-cashbook" onclick="navigate('cashbook')"><span class="nico">💵</span><span class="nlb">Cash Book</span></div>
-      <div class="ni" id="nav-ledger" onclick="navigate('ledger')"><span class="nico">📖</span><span class="nlb">Ledger</span></div>
-      <div class="ni" id="nav-bankrecon" onclick="navigate('bankrecon')"><span class="nico">🏦</span><span class="nlb">Bank Reconciliation</span></div>
-      <div class="nsec">Registers</div>
-      <div class="ni" id="nav-reg-sales" onclick="navigate('reg-sales')"><span class="nico">🧾</span><span class="nlb">Sales Register</span></div>
-      <div class="ni" id="nav-reg-purchase" onclick="navigate('reg-purchase')"><span class="nico">🛒</span><span class="nlb">Purchase Register</span></div>
-      <div class="ni" id="nav-reg-debit" onclick="navigate('reg-debit')"><span class="nico">📤</span><span class="nlb">Debit Note Register</span></div>
-      <div class="ni" id="nav-reg-credit" onclick="navigate('reg-credit')"><span class="nico">📥</span><span class="nlb">Credit Note Register</span></div>
-      <div class="ni" id="nav-reg-journal" onclick="navigate('reg-journal')"><span class="nico">📓</span><span class="nlb">Journal Register</span></div>
-      <div class="nsec">Reports</div>
-      <div class="ni" id="nav-trial" onclick="navigate('trial')"><span class="nico">⚖️</span><span class="nlb">Trial Balance</span></div>
-      <div class="ni" id="nav-pnl" onclick="navigate('pnl')"><span class="nico">📊</span><span class="nlb">Profit & Loss</span></div>
-      <div class="ni" id="nav-balance" onclick="navigate('balance')"><span class="nico">🏗</span><span class="nlb">Balance Sheet</span></div>
-      <div class="ni" id="nav-cashflow" onclick="navigate('cashflow')"><span class="nico">💸</span><span class="nlb">Cash Flow (AS-3)</span></div>
-      <div class="ni" id="nav-gst" onclick="navigate('gst')"><span class="nico">🧾</span><span class="nlb">GST Reports</span></div>
-      <div class="ni" id="nav-tds" onclick="navigate('tds')"><span class="nico">📑</span><span class="nlb">TDS Reports</span></div>
-      <div class="ni" id="nav-outstanding" onclick="navigate('outstanding')"><span class="nico">🔴</span><span class="nlb">Outstanding Report</span></div>
-      <div class="nsec">Data</div>
-      <div class="ni" id="nav-import" onclick="navigate('import')"><span class="nico">🔄</span><span class="nlb">Excel Import/Export</span></div>
-      <div class="nsec">Admin</div>
-      <div class="ni" id="nav-settings" onclick="navigate('settings')"><span class="nico">⚙️</span><span class="nlb">Settings</span></div>
-      <div class="nsec">Billing</div>
-      <div class="ni" id="nav-invoice" onclick="navigate('invoice')"><span class="nico">🧾</span><span class="nlb">GST Invoices</span></div>
-      <div class="nsec">HR &amp; Payroll</div>
-      <div class="ni" id="nav-employees" onclick="navigate('employees')"><span class="nico">👥</span><span class="nlb">Employee Master</span></div>
-      <div class="ni" id="nav-payroll" onclick="navigate('payroll')"><span class="nico">💼</span><span class="nlb">Payroll Processing</span></div>
-      <div class="nsec">Compliance</div>
-      <div class="ni" id="nav-gstr1" onclick="navigate('gstr1')"><span class="nico">📋</span><span class="nlb">GSTR-1 Return</span></div>
-      <div class="ni" id="nav-gstr3b" onclick="navigate('gstr3b')"><span class="nico">📊</span><span class="nlb">GSTR-3B Return</span></div>
-      <div class="ni" id="nav-einvoice" onclick="navigate('einvoice')"><span class="nico">🔐</span><span class="nlb">E-Invoice (IRN)</span></div>
-      <div class="ni" id="nav-audittrail" onclick="navigate('audittrail')"><span class="nico">🕵️</span><span class="nlb">Audit Trail</span></div>
-      <div class="nsec">Users</div>
-      <div class="ni" id="nav-usermgmt" onclick="navigate('usermgmt')"><span class="nico">🔐</span><span class="nlb">User Management</span></div>
+      <div class="ni act" id="nav-dashboard" onclick="navigate('dashboard')"><span class="nico">🏠</span><span class="nlb"><span class="sk">D</span>ashboard</span></div>
+      <!-- MASTERS -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-masters')"><span class="nico">📂</span><span class="nlb nsec-lbl">Masters</span><span class="acc-arrow nlb" id="arr-masters">▾</span></div>
+      <div class="acc-body" id="acc-masters">
+        <div class="ni" id="nav-accounts" onclick="navigate('accounts')"><span class="nico">📋</span><span class="nlb">Chart of <span class="sk">A</span>ccounts</span></div>
+        <div class="ni" id="nav-items" onclick="navigate('items')"><span class="nico">📦</span><span class="nlb"><span class="sk">I</span>tem Master (HSN/SAC)</span></div>
+        <div class="ni" id="nav-vendors" onclick="navigate('vendors')"><span class="nico">🏭</span><span class="nlb"><span class="sk">V</span>endors / Suppliers</span></div>
+        <div class="ni" id="nav-debtors" onclick="navigate('debtors')"><span class="nico">🤝</span><span class="nlb">C<span class="sk">u</span>stomers / Debtors</span></div>
+      </div>
+      <!-- TRANSACTIONS -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-txn')"><span class="nico">💼</span><span class="nlb nsec-lbl">Transactions</span><span class="acc-arrow nlb" id="arr-txn">▾</span></div>
+      <div class="acc-body" id="acc-txn">
+        <div class="ni" id="nav-vouchers" onclick="navigate('vouchers')"><span class="nico">📝</span><span class="nlb">Voucher <span class="sk">E</span>ntry</span></div>
+        <div class="ni" id="nav-advances" onclick="navigate('advances')"><span class="nico">💰</span><span class="nlb">Advance <span class="sk">P</span>ayments</span></div>
+      </div>
+      <!-- BOOKS -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-books')"><span class="nico">📚</span><span class="nlb nsec-lbl">Books</span><span class="acc-arrow nlb" id="arr-books">▾</span></div>
+      <div class="acc-body" id="acc-books">
+        <div class="ni" id="nav-daybook" onclick="navigate('daybook')"><span class="nico">📅</span><span class="nlb">Da<span class="sk">y</span> Book</span></div>
+        <div class="ni" id="nav-cashbook" onclick="navigate('cashbook')"><span class="nico">💵</span><span class="nlb">Cash Boo<span class="sk">k</span></span></div>
+        <div class="ni" id="nav-ledger" onclick="navigate('ledger')"><span class="nico">📖</span><span class="nlb"><span class="sk">L</span>edger</span></div>
+        <div class="ni" id="nav-bankrecon" onclick="navigate('bankrecon')"><span class="nico">🏦</span><span class="nlb"><span class="sk">B</span>ank Reconciliation</span></div>
+      </div>
+      <!-- REGISTERS -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-reg')"><span class="nico">📒</span><span class="nlb nsec-lbl">Registers</span><span class="acc-arrow nlb" id="arr-reg">▾</span></div>
+      <div class="acc-body" id="acc-reg">
+        <div class="ni" id="nav-reg-sales" onclick="navigate('reg-sales')"><span class="nico">🧾</span><span class="nlb">Sales Register <span class="sk">4</span></span></div>
+        <div class="ni" id="nav-reg-purchase" onclick="navigate('reg-purchase')"><span class="nico">🛒</span><span class="nlb">Purchase Register <span class="sk">5</span></span></div>
+        <div class="ni" id="nav-reg-debit" onclick="navigate('reg-debit')"><span class="nico">📤</span><span class="nlb">Debit Note Register <span class="sk">6</span></span></div>
+        <div class="ni" id="nav-reg-credit" onclick="navigate('reg-credit')"><span class="nico">📥</span><span class="nlb">Credit Note Register <span class="sk">7</span></span></div>
+        <div class="ni" id="nav-reg-journal" onclick="navigate('reg-journal')"><span class="nico">📓</span><span class="nlb">Journal Register <span class="sk">8</span></span></div>
+      </div>
+      <!-- REPORTS -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-rpt')"><span class="nico">📊</span><span class="nlb nsec-lbl">Reports</span><span class="acc-arrow nlb" id="arr-rpt">▾</span></div>
+      <div class="acc-body" id="acc-rpt">
+        <div class="ni" id="nav-trial" onclick="navigate('trial')"><span class="nico">⚖️</span><span class="nlb"><span class="sk">T</span>rial Balance</span></div>
+        <div class="ni" id="nav-pnl" onclick="navigate('pnl')"><span class="nico">📊</span><span class="nlb">Pro<span class="sk">f</span>it &amp; Loss</span></div>
+        <div class="ni" id="nav-balance" onclick="navigate('balance')"><span class="nico">🏗</span><span class="nlb">Balance <span class="sk">S</span>heet</span></div>
+        <div class="ni" id="nav-cashflow" onclick="navigate('cashflow')"><span class="nico">💸</span><span class="nlb">Cash Flo<span class="sk">w</span> (AS-3)</span></div>
+        <div class="ni" id="nav-gst" onclick="navigate('gst')"><span class="nico">🧾</span><span class="nlb">GST <span class="sk">R</span>eports</span></div>
+        <div class="ni" id="nav-tds" onclick="navigate('tds')"><span class="nico">📑</span><span class="nlb">TDS <span class="sk">X</span>Reports</span></div>
+        <div class="ni" id="nav-outstanding" onclick="navigate('outstanding')"><span class="nico">🔴</span><span class="nlb"><span class="sk">O</span>utstanding</span></div>
+      </div>
+      <!-- COMPLIANCE -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-comp')"><span class="nico">✅</span><span class="nlb nsec-lbl">Compliance</span><span class="acc-arrow nlb" id="arr-comp">▾</span></div>
+      <div class="acc-body" id="acc-comp">
+        <div class="ni" id="nav-gstr1" onclick="navigate('gstr1')"><span class="nico">📋</span><span class="nlb">GSTR-<span class="sk">1</span> Return</span></div>
+        <div class="ni" id="nav-gstr3b" onclick="navigate('gstr3b')"><span class="nico">📊</span><span class="nlb">GSTR-<span class="sk">3</span>B Return</span></div>
+        <div class="ni" id="nav-einvoice" onclick="navigate('einvoice')"><span class="nico">🔐</span><span class="nlb">E-I<span class="sk">n</span>voice (IRN)</span></div>
+        <div class="ni" id="nav-audittrail" onclick="navigate('audittrail')"><span class="nico">🕵️</span><span class="nlb">Audit Trai<span class="sk">l</span></span></div>
+      </div>
+      <!-- HR & PAYROLL -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-hr')"><span class="nico">👥</span><span class="nlb nsec-lbl">HR &amp; Payroll</span><span class="acc-arrow nlb" id="arr-hr">▾</span></div>
+      <div class="acc-body" id="acc-hr">
+        <div class="ni" id="nav-employees" onclick="navigate('employees')"><span class="nico">👤</span><span class="nlb">E<span class="sk">m</span>ployee Master</span></div>
+        <div class="ni" id="nav-payroll" onclick="navigate('payroll')"><span class="nico">💼</span><span class="nlb">Payroll (<span class="sk">J</span>)</span></div>
+      </div>
+      <!-- ADMIN -->
+      <div class="nsec-acc" onclick="toggleAcc('acc-adm')"><span class="nico">⚙️</span><span class="nlb nsec-lbl">Admin</span><span class="acc-arrow nlb" id="arr-adm">▾</span></div>
+      <div class="acc-body" id="acc-adm">
+        <div class="ni" id="nav-import" onclick="navigate('import')"><span class="nico">🔄</span><span class="nlb">Excel Im<span class="sk">p</span>ort</span></div>
+        <div class="ni" id="nav-settings" onclick="navigate('settings')"><span class="nico">⚙️</span><span class="nlb">Settings (<span class="sk">C</span>)</span></div>
+        <div class="ni" id="nav-usermgmt" onclick="navigate('usermgmt')"><span class="nico">🔐</span><span class="nlb">User Mgmt (<span class="sk">H</span>)</span></div>
+      </div>
     </div>
   </nav>
   <div id="main">
@@ -851,9 +886,17 @@ function resetSessionTimer(){
     }
   }, SESSION_TIMEOUT_MS);
 }
-['click','keydown','mousemove','touchstart'].forEach(ev=>{
+// PERF FIX 1: Throttle session timer reset — mousemove was firing resetSessionTimer
+// on every pixel of movement (~60x/sec), causing constant clearTimeout/setTimeout churn.
+let _sessionThrottle=0;
+['click','keydown','touchstart'].forEach(ev=>{
   document.addEventListener(ev, ()=>{ if(currentUser) resetSessionTimer(); }, { passive:true });
 });
+document.addEventListener('mousemove', ()=>{
+  if(!currentUser) return;
+  const now=Date.now();
+  if(now-_sessionThrottle > 10000){ _sessionThrottle=now; resetSessionTimer(); }
+}, { passive:true });
 
 // ── AUDIT TRAIL ──
 // Logs who did what and when. Call logAudit(action, detail) anywhere.
@@ -885,9 +928,9 @@ let _selectedCompanyId=null;
 // ══════════════════════════════════════════════════════════════════
 async function getCompanyRegistry(){
   try{
-    const {data,error}=await getSupa().from('companies_registry').select('*').order('created_at',{ascending:true});
+    const {data,error}=await getSupa().from('companies_registry').select('company_id,name,gstin,fy');
     if(error) throw error;
-    return (data||[]).map(r=>({companyId:r.company_id,name:r.name,gstin:r.gstin||'',fy:r.fy||'2025-26',createdAt:r.created_at}));
+    return (data||[]).map(r=>({companyId:r.company_id,name:r.name,gstin:r.gstin||'',fy:r.fy||'2025-26'}));
   }catch(e){console.error('Registry load',e);return[];}
 }
 async function saveCompanyRegistry(reg){ /* no-op v11 */ }
@@ -915,7 +958,7 @@ async function showCompanySelectScreen(){
   if(loading){loading.textContent='⏳ Loading companies…';loading.style.display='block';}
   try{
     const {data,error}=await Promise.race([
-      getSupa().from('companies_registry').select('*').order('created_at',{ascending:true}),
+      getSupa().from('companies_registry').select('company_id,name,gstin,fy'),
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000))
     ]);
     if(loading)loading.style.display='none';
@@ -1000,19 +1043,42 @@ async function doLogin(){
       showLoginErr('Invalid username or password.');
       return;
     }
-    // Step 2: Fetch app_users row (RLS: only own company visible)
-    const {data:userRow,error:rowErr}=await getSupa().from('app_users')
-      .select('*').eq('username',u.toLowerCase()).maybeSingle();
-    if(rowErr||!userRow){
+
+    // LOGIN FIX 1: Force Supabase client to use the new auth session for RLS.
+    // The singleton was created before login so its RLS context was anonymous.
+    // Explicitly set the session so subsequent queries run as authenticated user.
+    if(authData.session){
+      try{ await getSupa().auth.setSession(authData.session); }catch(_){}
+    }
+
+    // Step 2: Fetch app_users row — try multiple query strategies for resilience
+    let userRow=null, rowErr=null;
+    // Strategy A: filter by username (standard path)
+    const ra = await getSupa().from('app_users').select('*').eq('username',u.toLowerCase()).maybeSingle();
+    if(!ra.error && ra.data){ userRow=ra.data; }
+    // Strategy B: filter by user_id from auth (catches username case-mismatch)
+    if(!userRow && authData.user?.id){
+      const rb = await getSupa().from('app_users').select('*').eq('user_id',authData.user.id).maybeSingle();
+      if(!rb.error && rb.data){ userRow=rb.data; rowErr=null; }
+      else { rowErr=rb.error; }
+    }
+    if(!userRow){
       await getSupa().auth.signOut();
-      showLoginErr('User account not found. Contact your admin.');
+      const errMsg = rowErr ? ('DB error: '+rowErr.message) : 'User account not found. Contact your admin.';
+      showLoginErr(errMsg);
       return;
     }
     // Step 3: Confirm correct company selected
     if(userRow.company_id!==_selectedCompanyId){
       await getSupa().auth.signOut();
       recordFailedLogin(u);
-      showLoginErr('This user belongs to a different company. Please select the correct company.');
+      // LOGIN FIX 2: Helpful error — auto-switch to the correct company
+      showLoginErr('⚠️ Wrong company selected. Switching you to the correct company…');
+      setTimeout(()=>{
+        _selectedCompanyId=userRow.company_id;
+        // Re-attempt login with corrected company
+        doLogin();
+      }, 1500);
       return;
     }
     clearFailedLogins(u);
@@ -1058,6 +1124,12 @@ async function doLoginSuccess(found,companyId){
   applyRoleRestrictions(found.role);
   updateCompanySwitcherBtn();
   navigate('dashboard');
+  setTimeout(()=>{
+    ['acc-masters','acc-txn','acc-books'].forEach(id=>{
+      const b=document.getElementById(id),k=id.replace('acc-',''),h=document.getElementById('arr-'+k)?.parentElement;
+      if(b){b.classList.add('open');if(h)h.classList.add('open');}
+    });
+  },200);
 }
 
 function applyRoleRestrictions(role){
@@ -1169,7 +1241,12 @@ async function doCreateCompany(){
       if(!authData.user) throw new Error('Signup failed — go to Supabase → Auth → Settings → Email and turn OFF "Enable email confirmations".');
       authUserId=authData.user.id;
       // Set session immediately so RLS passes on next inserts
-      if(authData.session) await getSupa().auth.setSession(authData.session);
+      if(authData.session){
+        await getSupa().auth.setSession(authData.session);
+      } else {
+        const {data:si,error:siE}=await getSupa().auth.signInWithPassword({email,password:_ncData.password});
+        if(!siE&&si&&si.session) await getSupa().auth.setSession(si.session);
+      }
     }
 
     // ── Step 2: Insert companies_registry FIRST (FK parent) ──────
@@ -1377,7 +1454,7 @@ async function executeDeleteCompany(companyId, companyName){
 function showLoginErr(msg){
   const el=document.getElementById('login-err');
   if(!el)return;
-  el.textContent=msg;el.style.display='block';
+  el.textContent=msg; el.style.display='block'; // LOGIN FIX 4+5: show error
   if(showLoginErr._timer)clearTimeout(showLoginErr._timer);
   showLoginErr._timer=setTimeout(()=>{el.style.display='none';showLoginErr._timer=null;},7000);
   // Show remaining attempts warning
@@ -1454,6 +1531,15 @@ function scheduleSave(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(saveState,600);
 }
+// PERF FIX 3: Generic debounce helper for search inputs
+function _debounce(fn, ms){
+  let t=null;
+  return function(...args){ clearTimeout(t); t=setTimeout(()=>fn(...args), ms); };
+}
+const _debouncedRenderAcc     = _debounce(()=>renderAccounts(),     200);
+const _debouncedRenderVendors = _debounce(()=>renderVendors(),      200);
+const _debouncedRenderDebtors = _debounce(()=>renderDebtors(),      200);
+const _debouncedRenderItems   = _debounce(()=>renderItems(),        200);
 function setSaveInd(s){
   const el=document.getElementById('save-ind');
   if(!el)return;
@@ -1525,23 +1611,53 @@ const PTITLES={dashboard:'🏠 Dashboard',accounts:'📋 Chart of Accounts',item
   'reg-sales':'🧾 Sales Register','reg-purchase':'🛒 Purchase Register',
   'reg-debit':'📤 Debit Note Register','reg-credit':'📥 Credit Note Register',
   'reg-journal':'📓 Journal Register',
-  invoice:'🧾 GST Invoice Generator',employees:'👥 Employee Master',
+  employees:'👥 Employee Master',
   payroll:'💼 Payroll Processing',usermgmt:'🔐 User Management',
   outstanding:'🔴 Party-wise Outstanding Report',
   gstr1:'📋 GSTR-1 Return',gstr3b:'📊 GSTR-3B Return',
   einvoice:'🔐 E-Invoice (IRN) Generator',audittrail:'🕵️ Audit Trail'};
 
+function toggleAcc(id){
+  const body=document.getElementById(id);
+  const key=id.replace('acc-','');
+  const arrow=document.getElementById('arr-'+key);
+  const hdr=body?.previousElementSibling;
+  if(!body)return;
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  if(hdr)hdr.classList.toggle('open',!isOpen);
+}
+// Map pages to their accordion section
+const _pageAcc={
+  accounts:'acc-masters',items:'acc-masters',vendors:'acc-masters',debtors:'acc-masters',
+  vouchers:'acc-txn',advances:'acc-txn',
+  daybook:'acc-books',cashbook:'acc-books',ledger:'acc-books',bankrecon:'acc-books',
+  'reg-sales':'acc-reg','reg-purchase':'acc-reg','reg-debit':'acc-reg','reg-credit':'acc-reg','reg-journal':'acc-reg',
+  trial:'acc-rpt',pnl:'acc-rpt',balance:'acc-rpt',cashflow:'acc-rpt',gst:'acc-rpt',tds:'acc-rpt',outstanding:'acc-rpt',
+  gstr1:'acc-comp',gstr3b:'acc-comp',einvoice:'acc-comp',audittrail:'acc-comp',
+  employees:'acc-hr',payroll:'acc-hr',
+  import:'acc-adm',settings:'acc-adm',usermgmt:'acc-adm'
+};
+function _openAccFor(page){
+  const accId=_pageAcc[page];
+  if(!accId)return;
+  const body=document.getElementById(accId);
+  const key=accId.replace('acc-','');
+  const hdr=document.getElementById('arr-'+key)?.parentElement;
+  if(body&&!body.classList.contains('open')){body.classList.add('open');if(hdr)hdr.classList.add('open');}
+}
 function navigate(page){
   if(typeof destroyDashCharts==='function') destroyDashCharts();
   document.querySelectorAll('.ni').forEach(el=>el.classList.remove('act'));
   const n=document.getElementById('nav-'+page);
   if(n)n.classList.add('act');
+  _openAccFor(page);
   document.getElementById('pg-title').textContent=PTITLES[page]||page;
   const pages={dashboard:pgDashboard,accounts:pgAccounts,items:pgItems,vendors:pgVendors,debtors:pgDebtors,
     vouchers:pgVouchers,advances:pgAdvances,daybook:pgDayBook,cashbook:pgCashBook,ledger:pgLedger,
     bankrecon:pgBankRecon,trial:pgTrial,pnl:pgPnL,balance:pgBalance,cashflow:pgCashFlow,
     gst:pgGST,tds:pgTDS,import:pgImport,settings:pgSettings,
-    invoice:pgInvoice,employees:pgEmployees,payroll:pgPayroll,usermgmt:pgUserMgmt,outstanding:pgOutstanding,
+    employees:pgEmployees,payroll:pgPayroll,usermgmt:pgUserMgmt,outstanding:pgOutstanding,
     'reg-sales':()=>pgRegister('Sales'),'reg-purchase':()=>pgRegister('Purchase'),
     'reg-debit':()=>pgRegister('Debit Note'),'reg-credit':()=>pgRegister('Credit Note'),
     'reg-journal':()=>pgRegister('Journal'),
@@ -1591,6 +1707,7 @@ let dashFromDate=''; // YYYY-MM-DD
 let dashToDate='';   // YYYY-MM-DD
 let dashPickerOpen=false;
 let _dashCharts={};
+let _byMonth={}; // CRITICAL FIX 8: module-level month index shared between pgDashboard and buildTimeSeriesData
 
 function destroyDashCharts(){
   Object.values(_dashCharts).forEach(c=>{try{c.destroy();}catch(e){}});
@@ -1605,17 +1722,18 @@ function pgDashboard(){
   // ── FY-filtered computations for KPI cards ──
   const fyVouchers=state.vouchers.filter(v=>v.date>=state.fyStart&&v.date<=state.fyEnd);
   const accTypeMap={};state.accounts.forEach(a=>{accTypeMap[a.id]={type:a.type,group:a.group,name:a.name};});
-  let totInc=0,totExp=0,cash=0,gstLiab=0,gstCredit=0;
+  let totInc=0,totExp=0,cash=0;
   fyVouchers.forEach(v=>{
     v.entries.forEach(e=>{
       const a=accTypeMap[e.accId]||{};
       if(a.type==='Income') totInc+=(e.cr||0);
       if(a.type==='Expense') totExp+=(e.dr||0);
       if(a.group==='Cash & Bank'){cash+=(e.dr||0);cash-=(e.cr||0);}
-      if(a.name&&a.name.includes('Output')) gstLiab+=(e.cr||0);
-      if(a.name&&a.name.includes('Input')) gstCredit+=(e.dr||0);
     });
   });
+  // Use same logic as GST Report: only Sales/DN for output, Purchase/CN for input
+  const _gst=calcNetGST(fyVouchers);
+  const gstLiab=_gst.outputTax, gstCredit=_gst.inputCredit;
   // Full ledger for balance sheet KPIs (assets/liabilities need all-time data)
   const L=computeLedger();
   const totAssets=Object.values(L).filter(a=>a.type==='Asset').reduce((s,a)=>s+a.closingDr,0);
@@ -1735,8 +1853,8 @@ function pgDashboard(){
 
   eid('content').innerHTML=`
   <style>
-  .dash-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
-  .kpi-card{border-radius:14px;padding:16px 18px;color:#fff;position:relative;overflow:hidden;cursor:default;transition:transform .15s,box-shadow .15s;}
+  .dash-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;}
+  .kpi-card{border-radius:11px;padding:12px 14px;color:#fff;position:relative;overflow:hidden;cursor:default;transition:transform .15s,box-shadow .15s;}
   .kpi-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,.15);}
   .kpi-card::before{content:'';position:absolute;right:-15px;top:-15px;width:90px;height:90px;background:rgba(255,255,255,.08);border-radius:50%;}
   .kpi-card::after{content:'';position:absolute;right:10px;bottom:-20px;width:60px;height:60px;background:rgba(255,255,255,.05);border-radius:50%;}
@@ -1751,13 +1869,13 @@ function pgDashboard(){
   .kpi-p{background:linear-gradient(135deg,#6d28d9,#a78bfa);}
   .kpi-o{background:linear-gradient(135deg,#b45309,#f59e0b);}
   .kpi-t{background:linear-gradient(135deg,#0f766e,#2dd4bf);}
-  .dash-charts-row{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;margin-bottom:14px;}
-  .dash-charts-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .dash-charts-row{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-bottom:10px;}
+  .dash-charts-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
   .chart-card{background:#fff;border:1px solid var(--bdr);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
   .chart-card-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--bdr);background:#f8fafc;}
   .chart-card-title{font-size:12px;font-weight:700;color:#0f172a;}
   .chart-card-body{padding:14px;}
-  .dash-bottom{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-bottom:14px;}
+  .dash-bottom{display:grid;grid-template-columns:1.3fr 1fr;gap:10px;margin-bottom:10px;}
   .qa-modern{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;}
   .qa-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:13px 8px;border-radius:12px;border:1.5px solid;cursor:pointer;background:none;font-family:var(--font);transition:all .18s;}
   .qa-btn:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.12);}
@@ -1769,7 +1887,7 @@ function pgDashboard(){
   .profit-bar-fill{height:100%;border-radius:20px;transition:width .6s ease;}
   </style>
 
-  <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a6e 60%,#0b4a6e 100%);border-radius:16px;padding:18px 24px;color:#fff;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;box-shadow:0 4px 20px rgba(15,23,42,.3);">
+  <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a6e 60%,#0b4a6e 100%);border-radius:12px;padding:13px 18px;color:#fff;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;box-shadow:0 4px 20px rgba(15,23,42,.3);">
     <div>
       <div style="font-size:22px;font-weight:800;letter-spacing:-0.5px;">${state.company}</div>
       <div style="color:#93c5fd;font-size:12px;margin-top:5px;display:flex;gap:10px;flex-wrap:wrap;">
@@ -2133,7 +2251,7 @@ function renderAccounts(){
   </tr>`).join('');
   eid('content').innerHTML=`
   <div class="tb no-print">
-    <input class="si" id="acc-s" placeholder="🔍 Search…" value="${accSrch}" oninput="accSrch=this.value;renderAccounts()">
+    <input class="si" id="acc-s" placeholder="🔍 Search…" value="${accSrch}" oninput="accSrch=this.value;_debouncedRenderAcc()">
     <div class="tg">${['All',...AT].map(t=>`<button class="t ${accFil===t?'act':''}" onclick="accFil='${t}';renderAccounts()">${t}</button>`).join('')}</div>
     <button class="btn btn-p" onclick="openAccForm()">+ New Account</button>
     <button class="btn btn-s" onclick="exportAccounts()" style="margin-left:auto;">⬇ Export Excel</button>
@@ -2207,7 +2325,7 @@ function renderVendors(){
   </tr>`).join('');
   eid('content').innerHTML=`
   <div class="tb no-print">
-    <input class="si" id="vnd-s" placeholder="🔍 Search vendors…" value="${vndSrch}" oninput="vndSrch=this.value;renderVendors()">
+    <input class="si" id="vnd-s" placeholder="🔍 Search vendors…" value="${vndSrch}" oninput="vndSrch=this.value;_debouncedRenderVendors()">
     <button class="btn btn-p" onclick="openPartyForm('vendor')">+ Add Vendor</button>
     <button class="btn btn-s" onclick="exportParty('vendor')" style="margin-left:auto;">⬇ Export Excel</button>
   </div>
@@ -2234,7 +2352,7 @@ function renderDebtors(){
   </tr>`).join('');
   eid('content').innerHTML=`
   <div class="tb no-print">
-    <input class="si" id="dbt-s" placeholder="🔍 Search customers…" value="${dbtSrch}" oninput="dbtSrch=this.value;renderDebtors()">
+    <input class="si" id="dbt-s" placeholder="🔍 Search customers…" value="${dbtSrch}" oninput="dbtSrch=this.value;_debouncedRenderDebtors()">
     <button class="btn btn-p" onclick="openPartyForm('debtor')">+ Add Customer / Debtor</button>
     <button class="btn btn-s" onclick="exportParty('debtor')" style="margin-left:auto;">⬇ Export Excel</button>
   </div>
@@ -2356,7 +2474,7 @@ function renderItems(){
   </tr>`).join('');
   eid('content').innerHTML=`
   <div class="tb no-print">
-    <input class="si" id="itm-s" placeholder="🔍 Search items, HSN/SAC…" value="${itemSrch}" oninput="itemSrch=this.value;renderItems()">
+    <input class="si" id="itm-s" placeholder="🔍 Search items, HSN/SAC…" value="${itemSrch}" oninput="itemSrch=this.value;_debouncedRenderItems()">
     <button class="btn btn-p" onclick="openItemForm()">+ New Item / Service</button>
     <button class="btn btn-s" onclick="exportItems()" style="margin-left:auto;">⬇ Excel</button>
   </div>
@@ -2435,236 +2553,377 @@ function exportItems(){
 }
 
 // ══════════════════════════════════════════════════════════════════
-//  PAGE: VOUCHERS — Zoho-Style with Item Lines, GST Auto-split,
-//        TDS Engine, Entry Preview Panel, Advance Adjustment
+//  PAGE: VOUCHERS — Tally+Zoho Fusion Style
+//        AI Invoice Upload · PDF Export · Live Journal Preview
 // ══════════════════════════════════════════════════════════════════
-let vFil='All', vItemLines=[], vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}], editVId=null, vMode='smart';
+let vFil='All', vItemLines=[], vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}], editVId=null, vMode='smart', _curVType='Sales',
+    _vNar='',_vRef='',_vId='',_vDate='',_vDue='',_vParty='',_vTds='';
+
+// Inject voucher + upload styles once
+(function _voucherStyles(){
+  if(document.getElementById('_vstyles')) return;
+  const s=document.createElement('style');
+  s.id='_vstyles';
+  s.textContent=`
+  /* ── VOUCHER FORM ── */
+  .vf-wrap{display:grid;grid-template-columns:1fr 360px;gap:0;min-height:calc(100vh - 120px);border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.07);}
+  .vf-left{background:#fff;display:flex;flex-direction:column;}
+  .vf-header{background:linear-gradient(135deg,#0f172a 0%,#1e3a6e 100%);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+  .vf-title{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.3px;}
+  .vf-subtitle{font-size:10px;color:#93c5fd;margin-top:2px;}
+  .vf-type-bar{display:flex;background:#f8fafc;border-bottom:1px solid #e2e8f0;overflow-x:auto;}
+  .vf-type-btn{padding:10px 18px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;border:none;background:none;color:#64748b;border-bottom:3px solid transparent;font-family:var(--font);transition:all .15s;flex-shrink:0;}
+  .vf-type-btn:hover{color:#1e293b;background:#f1f5f9;}
+  .vf-type-btn.active{color:#2563eb;border-bottom-color:#2563eb;background:#fff;}
+  .vf-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px 18px;border-bottom:1px solid #f1f5f9;}
+  .vf-meta-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px 12px;border-bottom:1px solid #f1f5f9;}
+  .vf-label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+  .vf-inp{width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:12.5px;font-family:var(--font);color:#1e293b;outline:none;transition:border .15s;background:#fafafa;}
+  .vf-inp:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.08);}
+  .vf-inp.hi{border-color:#f59e0b;background:#fffbeb;}
+  .vf-mode-bar{display:flex;align-items:center;gap:8px;padding:10px 18px;border-bottom:1px solid #f1f5f9;background:#fafcff;}
+  .vf-mode-btn{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-family:var(--font);transition:all .15s;}
+  .vf-mode-btn.active{background:#2563eb;border-color:#2563eb;color:#fff;}
+  .vf-items{flex:1;overflow-y:auto;padding:0;}
+  .vf-item-hdr{display:grid;grid-template-columns:180px 1fr 80px 100px 60px 80px 140px 90px 36px;background:#334155;color:#e2e8f0;font-size:10px;font-weight:700;padding:0 12px;}
+  .vf-item-hdr>div{padding:7px 6px;}
+  .vf-item-row{display:grid;grid-template-columns:180px 1fr 80px 100px 60px 80px 140px 90px 36px;border-bottom:1px solid #f1f5f9;padding:0 12px;transition:background .1s;}
+  .vf-item-row:hover{background:#fafcff;}
+  .vf-item-row>div{padding:5px 4px;display:flex;align-items:center;}
+  .vf-small{width:100%;padding:5px 7px;border:1px solid #e2e8f0;border-radius:6px;font-size:11.5px;font-family:var(--font);outline:none;transition:border .12s;background:#fff;}
+  .vf-small:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.1);}
+  .vf-total-bar{background:#f0fdf4;border-top:1px solid #a7f3d0;padding:10px 18px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .vf-total-item{text-align:center;}
+  .vf-total-label{font-size:9px;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:.5px;}
+  .vf-total-val{font-size:14px;font-weight:800;color:#065f46;margin-top:2px;}
+  .vf-footer{padding:12px 18px;background:#f8fafc;border-top:1px solid #e2e8f0;display:flex;align-items:center;gap:10px;}
+  .vf-post-btn{padding:10px 24px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:var(--font);box-shadow:0 3px 10px rgba(5,150,105,.35);transition:all .15s;}
+  .vf-post-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(5,150,105,.45);}
+  .vf-right{background:#0f172a;display:flex;flex-direction:column;border-left:1px solid #1e293b;}
+  .vf-preview-hdr{padding:14px 16px;border-bottom:1px solid #1e293b;display:flex;align-items:center;justify-content:space-between;}
+  .vf-preview-title{font-size:12px;font-weight:800;color:#e2e8f0;letter-spacing:.3px;}
+  .vf-preview-body{flex:1;overflow-y:auto;padding:8px 0;}
+  .vf-je-row{display:grid;grid-template-columns:68px 1fr 64px 64px;font-size:11px;padding:6px 14px;border-bottom:1px solid #1e293b;}
+  .vf-je-row:hover{background:#1e293b;}
+  .vf-je-hdr{background:#1e293b;font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;}
+  .vf-preview-footer{padding:10px 14px;border-top:1px solid #1e293b;}
+  .vf-totals-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}
+  .vf-bal-chip{border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;text-align:center;}
+  /* ── VOUCHER LIST ── */
+  .vlist-table{width:100%;border-collapse:collapse;}
+  .vlist-table th{background:#f8fafc;color:#64748b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;text-align:left;border-bottom:1px solid #e2e8f0;}
+  .vlist-table td{padding:9px 12px;border-bottom:1px solid #f1f5f9;font-size:12.5px;}
+  .vlist-table tr:hover td{background:#fafcff;}
+  /* ── PDF VOUCHER ── */
+  @media print{
+    body * {visibility:hidden !important;}
+    #voucher-pdf-wrap, #voucher-pdf-wrap *{visibility:visible !important;}
+    #voucher-pdf-wrap{position:fixed;inset:0;padding:0;margin:0;background:#fff;}
+  }
+  `;
+  document.head.appendChild(s);
+})();
 
 function pgVouchers(){
   vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];
   vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];
-  editVId=null;renderVouchers();
+  editVId=null; _curVType='Sales';
+  _vNar='';_vRef='';_vId='';_vDate='';_vDue='';_vParty='';_vTds='';
+  renderVouchers();
 }
 
 function renderVouchers(){
   if(!state.items)state.items=[];
+  const curType=eid('v-type')?.value||_curVType||'Sales';
+  _curVType=curType; // keep in sync
   const fil=vFil==='All'?state.vouchers:state.vouchers.filter(v=>v.type===vFil);
-  const sorted=[...fil].sort((a,b)=>b.date.localeCompare(a.date));
-  const rows=sorted.map((v,i)=>{
+  // PERF FIX 6: Cache sorted voucher list; skip re-sort if data unchanged
+  const _vHash=fil.length+'|'+fil.map(v=>v.id+v.date).join(',');
+  if(!renderVouchers._cache || renderVouchers._cache.hash!==_vHash || renderVouchers._cache.fil!==vFil){
+    renderVouchers._cache={hash:_vHash, fil:vFil, sorted:[...fil].sort((a,b)=>b.date.localeCompare(a.date))};
+  }
+  const sorted=renderVouchers._cache.sorted;
+  const usedNums=new Set(state.vouchers.map(v=>parseInt(v.id.replace(/\D/g,''))||0));
+  let nextNum=1;while(usedNums.has(nextNum))nextNum++;
+  const nextId='V'+String(nextNum).padStart(3,'0');
+  const partyList=(['Sales','Debit Note','Receipt'].includes(curType)?state.debtors:state.vendors);
+  // PERF FIX 8: Cache partyOpts — only rebuild when list or type changes
+  const _pHash=curType+'|'+partyList.map(p=>p.id).join(',');
+  if(!renderVouchers._pCache||renderVouchers._pCache.hash!==_pHash){
+    renderVouchers._pCache={hash:_pHash,opts:partyList.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')};
+  }
+  const partyOpts=renderVouchers._pCache.opts;
+  // PERF FIX 9: Cache itemOpts — only rebuild when items list changes
+  const _iHash=(state.items||[]).map(i=>i.id).join(',');
+  if(!renderVouchers._iCache||renderVouchers._iCache.hash!==_iHash){
+    renderVouchers._iCache={hash:_iHash,opts:(state.items||[]).map(i=>`<option value="${i.id}">${i.name}</option>`).join('')};
+  }
+  const itemOpts=renderVouchers._iCache.opts;
+  // Preserve live field values across re-renders (snapshot wins if no DOM element yet)
+  const _dv=eid('v-date')?.value||_vDate||today();
+  const _rv=eid('v-ref')?.value||_vRef||'';
+  const _nv=eid('v-nar')?.value||_vNar||'';
+  const _duev=eid('v-due')?.value||_vDue||'';
+  const _idv=editVId||(eid('v-id')?.value||_vId||nextId);
+  const _tdv=eid('v-tds')?.value||_vTds||'';
+  const _pv=eid('v-party')?.value||_vParty||'';
+  // PERF FIX 5: compute preview + tax ONCE — previously called twice each render
+  const preview=computePreviewEntries(curType,vItemLines);
+  const taxSummary=calcTaxSummary(vItemLines,curType); // reuse below instead of re-calling
+  const totDrP=preview.reduce((s,e)=>s+(e.dr||0),0);
+  const totCrP=preview.reduce((s,e)=>s+(e.cr||0),0);
+  const balP=Math.abs(totDrP-totCrP)<0.01;
+
+  // ── Voucher list rows ──
+  const listRows=sorted.map((v,i)=>{
     const amt=v.entries.reduce((s,e)=>s+(e.dr||0),0);
-    const hasItems=v.items&&v.items.length>0;
-    return`<tr class="${i%2?'alt':''}">
-      <td class="mono tb-">${v.id}</td><td>${fmtD(v.date)}</td>
-      <td><span class="badge ${bcol(v.type)}">${v.type}</span></td>
-      <td class="tm-" style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${v.narration}</td>
-      <td class="tm-" style="font-size:11px;">${v.ref||'—'}</td>
-      ${hasItems?`<td><span class="badge bg-">${v.items.length} item${v.items.length>1?'s':''}</span></td>`:'<td class="tm-" style="font-size:10px;">Manual</td>'}
-      <td class="tr mono">${fmt(amt)}</td>
-      <td style="white-space:nowrap;">
+    const typeColors={Sales:'#059669',Purchase:'#2563eb',Receipt:'#059669',Payment:'#dc2626',Journal:'#7c3aed',Contra:'#64748b','Debit Note':'#d97706','Credit Note':'#db2777'};
+    const tc=typeColors[v.type]||'#64748b';
+    return`<tr>
+      <td style="padding:8px 12px;font-family:monospace;font-size:11px;color:#2563eb;font-weight:700;">${v.id}</td>
+      <td style="padding:8px 12px;font-size:12px;">${fmtD(v.date)}</td>
+      <td style="padding:8px 12px;"><span style="background:${tc}1a;color:${tc};border:1px solid ${tc}33;border-radius:12px;padding:2px 9px;font-size:10px;font-weight:700;">${v.type}</span></td>
+      <td style="padding:8px 12px;font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${partyName(v)}</td>
+      <td style="padding:8px 12px;font-size:11px;color:#64748b;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${v.narration}</td>
+      <td style="padding:8px 12px;font-size:11px;color:#94a3b8;">${v.ref||'—'}</td>
+      <td style="padding:8px 12px;text-align:right;font-weight:700;font-size:13px;color:${tc};">₹${Number(amt).toLocaleString('en-IN',{maximumFractionDigits:2})}</td>
+      <td style="padding:6px 12px;white-space:nowrap;">
+        <button onclick="exportVoucherPDF('${v.id}')" style="padding:4px 9px;border-radius:6px;border:none;background:#f1f5f9;color:#475569;font-size:11px;cursor:pointer;margin-right:4px;" title="Export PDF">📄</button>
         <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button>
-        ${['Sales','Debit Note'].includes(v.type)?`<button class="btn btn-w btn-sm" onclick="printVoucher('${v.id}')">🖨</button>`:''}
-        <button class="btn btn-d btn-sm" onclick="delVoucher('${v.id}')">Del</button>
+        <button class="btn btn-d btn-sm" onclick="delVoucher('${v.id}')">✕</button>
       </td>
     </tr>`;
   }).join('');
 
-  const usedNums=new Set(state.vouchers.map(v=>parseInt(v.id.replace(/\D/g,''))||0));let nextNum=1;while(usedNums.has(nextNum))nextNum++;const nextId='V'+String(nextNum).padStart(3,'0');
-  const curType=eid('v-type')?.value||'Sales';
-  const partyList=(['Sales','Debit Note','Receipt'].includes(curType)?state.debtors:state.vendors);
-  const partyOpts=partyList.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-  const accOpts=state.accounts.map(a=>`<option value="${a.id}">${a.id} — ${a.name}</option>`).join('');
-  const itemOpts=(state.items||[]).map(i=>`<option value="${i.id}">${i.name} (${i.hsn||i.sac||'—'})</option>`).join('');
-
-  // ── Compute preview entries from item lines ──
-  const preview = computePreviewEntries(curType, vItemLines);
-  const totDr=preview.reduce((s,e)=>s+(e.dr||0),0);
-  const totCr=preview.reduce((s,e)=>s+(e.cr||0),0);
-  const bal=Math.abs(totDr-totCr)<0.01;
-
-  const previewRows = preview.map(e=>`
-    <tr style="font-size:11px;">
-      <td class="mono" style="color:#2563eb;padding:5px 8px;">${e.accId}</td>
-      <td style="padding:5px 8px;">${aN(e.accId)||e.accId}</td>
-      <td style="padding:5px 8px;"><span style="font-size:10px;background:#f1f5f9;border-radius:4px;padding:1px 6px;">${e.tag||''}</span></td>
-      <td class="tr" style="padding:5px 8px;color:#059669;font-weight:600;">${e.dr>0?fmt(e.dr):'—'}</td>
-      <td class="tr" style="padding:5px 8px;color:#dc2626;font-weight:600;">${e.cr>0?fmt(e.cr):'—'}</td>
-    </tr>`).join('');
-
+  // ── Item line rows ──
   const itemRows=vItemLines.map((ln,i)=>`
-    <tr id="irow-${i}" style="background:${i%2?'#fafafa':'#fff'};">
-      <td style="padding:4px 6px;min-width:180px;">
-        <select class="fc" style="padding:4px 6px;font-size:12px;" onchange="onItemSelect(${i},this.value)">
-          <option value="">— Select Item —</option>${itemOpts.replace(`value="${ln.itemId}"`,`value="${ln.itemId}" selected`)}
-        </select>
-      </td>
-      <td style="padding:4px 6px;min-width:150px;">
-        <input class="fc" style="padding:4px 6px;font-size:12px;" value="${ln.desc||''}" placeholder="Description" oninput="vItemLines[${i}].desc=this.value;refreshPreview()">
-      </td>
-      <td style="padding:4px 6px;min-width:100px;">
-        <input type="text" inputmode="decimal" class="fc tr" style="padding:6px 8px;font-size:12px;width:100%;min-width:90px;-moz-appearance:textfield;" value="${ln.qty||1}" placeholder="0.00" oninput="vItemLines[${i}].qty=parseFloat(this.value)||1;refreshPreview()">
-      </td>
-      <td style="padding:4px 6px;min-width:120px;">
-        <input type="text" inputmode="decimal" class="fc tr" style="padding:6px 8px;font-size:12px;width:100%;min-width:110px;" value="${ln.rate||''}" placeholder="0.00" oninput="vItemLines[${i}].rate=parseFloat(this.value)||0;refreshPreview()">
-      </td>
-      <td style="padding:4px 6px;min-width:90px;">
-        <input type="text" inputmode="decimal" class="fc tr" style="padding:6px 8px;font-size:12px;width:100%;min-width:80px;" value="${ln.disc||0}" placeholder="0" oninput="vItemLines[${i}].disc=parseFloat(this.value)||0;refreshPreview()">
-      </td>
-      <td style="padding:4px 6px;min-width:90px;">
-        <select class="fc" style="padding:6px 8px;font-size:12px;min-width:80px;" onchange="vItemLines[${i}].gstRate=parseFloat(this.value);refreshPreview()">
-          ${GST_RATES.map(r=>`<option value="${r}" ${ln.gstRate===r?'selected':''}>${r}%</option>`).join('')}
-        </select>
-      </td>
-      <td style="padding:4px 6px;min-width:170px;">
-        <select class="fc" style="padding:6px 8px;font-size:12px;min-width:160px;" onchange="vItemLines[${i}].gstType=this.value;refreshPreview()">
-          ${GST_TYPES.map(t=>`<option ${ln.gstType===t?'selected':''}>${t}</option>`).join('')}
-        </select>
-      </td>
-      <td class="tr" id="row-taxable-${i}" style="padding:4px 10px;font-size:12px;font-weight:600;white-space:nowrap;color:#1e293b;">
-        ${fmt(calcLineTaxable(ln))}
-      </td>
-      <td class="tr" id="row-total-${i}" style="padding:4px 10px;font-size:12px;font-weight:700;white-space:nowrap;color:#059669;">
-        ${fmt(calcLineTotal(ln))}
-      </td>
-      <td style="padding:4px 6px;text-align:center;">
-        ${vItemLines.length>1?`<button class="btn btn-d btn-sm" onclick="remItemRow(${i})">✕</button>`:''}
-      </td>
-    </tr>`).join('');
+    <div class="vf-item-row">
+      <div><select class="vf-small" onchange="onItemSelect(${i},this.value)">
+        <option value="">— Item —</option>${itemOpts.replace(`value="${ln.itemId}"`,`value="${ln.itemId}" selected`)}
+      </select></div>
+      <div><input class="vf-small" value="${ln.desc||''}" placeholder="Description" oninput="vItemLines[${i}].desc=this.value;refreshPreview()"></div>
+      <div><input class="vf-small" style="text-align:right;" type="number" value="${ln.qty||1}" min="0" oninput="vItemLines[${i}].qty=parseFloat(this.value)||1;refreshPreview()"></div>
+      <div><input class="vf-small" style="text-align:right;" type="number" value="${ln.rate||''}" placeholder="0.00" oninput="vItemLines[${i}].rate=parseFloat(this.value)||0;refreshPreview()"></div>
+      <div><input class="vf-small" style="text-align:right;" type="number" value="${ln.disc||0}" min="0" oninput="vItemLines[${i}].disc=parseFloat(this.value)||0;refreshPreview()"></div>
+      <div><select class="vf-small" onchange="vItemLines[${i}].gstRate=parseFloat(this.value);refreshPreview()">
+        ${GST_RATES.map(r=>`<option value="${r}" ${ln.gstRate===r?'selected':''}>${r}%</option>`).join('')}
+      </select></div>
+      <div><select class="vf-small" style="font-size:10.5px;" onchange="vItemLines[${i}].gstType=this.value;refreshPreview()">
+        ${GST_TYPES.map(t=>`<option ${ln.gstType===t?'selected':''}>${t}</option>`).join('')}
+      </select></div>
+      <div style="justify-content:flex-end;font-weight:700;font-size:12px;color:#059669;">₹${Number(calcLineTotal(ln)).toLocaleString('en-IN',{maximumFractionDigits:2})}</div>
+      <div style="justify-content:center;">${vItemLines.length>1?`<button onclick="remItemRow(${i})" style="background:#fef2f2;border:none;border-radius:5px;color:#dc2626;cursor:pointer;padding:4px 7px;font-size:12px;">✕</button>`:''}</div>
+    </div>`).join('');
 
-  const taxSummary=calcTaxSummary(vItemLines,curType);
+  // ── Manual entry rows ──
+  // PERF FIX 4: Build base account options ONCE outside the loop.
+  // Previously rebuilt N×M options per render (N rows × M accounts).
+  const _allAccBase=state.accounts.map(a=>`<option value="${a.id}">${a.id} — ${a.name}</option>`).join('');
+  const manualRows=vManualEntries.map((e,i)=>{
+    // Mark selected via simple string replace — O(1) per row instead of O(M)
+    const aOpts=e.accId ? _allAccBase.replace(`value="${e.accId}"`,`value="${e.accId}" selected`) : _allAccBase;
+    return`<tr class="m-acc-row" style="border-bottom:1px solid #1e293b;">
+      <td style="padding:6px 10px;"><select class="m-acc" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:5px 8px;font-size:11.5px;font-family:var(--font);outline:none;" onchange="vManualEntries[${i}].accId=this.value;refreshManualTotals()"><option value="">— Account —</option>${aOpts}</select></td>
+      <td style="padding:6px 8px;"><input class="m-dr" type="number" min="0" placeholder="0" value="${e.dr||''}" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:6px;color:#86efac;padding:5px 8px;font-size:12px;text-align:right;font-family:var(--font);outline:none;" oninput="vManualEntries[${i}].dr=parseFloat(this.value)||0;refreshManualTotals()"></td>
+      <td style="padding:6px 8px;"><input class="m-cr" type="number" min="0" placeholder="0" value="${e.cr||''}" style="width:100%;background:#1e293b;border:1px solid #334155;border-radius:6px;color:#fca5a5;padding:5px 8px;font-size:12px;text-align:right;font-family:var(--font);outline:none;" oninput="vManualEntries[${i}].cr=parseFloat(this.value)||0;refreshManualTotals()"></td>
+      <td style="padding:6px 6px;text-align:center;">${vManualEntries.length>2?`<button onclick="vManualEntries.splice(${i},1);renderVouchers()" style="background:#dc262620;border:none;border-radius:4px;color:#fca5a5;cursor:pointer;padding:3px 7px;">✕</button>`:''}</td>
+    </tr>`;
+  }).join('');
+
+  const mDr=vManualEntries.reduce((s,e)=>s+(e.dr||0),0);
+  const mCr=vManualEntries.reduce((s,e)=>s+(e.cr||0),0);
+  const mBal=Math.abs(mDr-mCr)<0.01&&mDr>0;
+
+  // ── Preview entries (for smart mode displayed in right panel) ──
+  const previewJERows=preview.filter(e=>!e._journalHint).map(e=>`
+    <div class="vf-je-row">
+      <div style="color:#60a5fa;font-family:monospace;font-size:10px;">${e.accId}</div>
+      <div style="color:#e2e8f0;font-size:11px;">${aN(e.accId)||e.accId}
+        ${e.tag?`<span style="font-size:9px;background:#1e3a6e;color:#93c5fd;border-radius:4px;padding:1px 5px;margin-left:4px;">${e.tag}</span>`:''}
+      </div>
+      <div style="text-align:right;color:#86efac;font-weight:700;">${e.dr>0?'₹'+Number(e.dr).toLocaleString('en-IN',{maximumFractionDigits:2}):'—'}</div>
+      <div style="text-align:right;color:#fca5a5;font-weight:700;">${e.cr>0?'₹'+Number(e.cr).toLocaleString('en-IN',{maximumFractionDigits:2}):'—'}</div>
+    </div>`).join('');
 
   eid('content').innerHTML=`
-  <div style="display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start;">
-    <!-- LEFT: VOUCHER FORM -->
-    <div>
-      <div style="font-weight:700;color:var(--tm);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
-        ${editVId?'✏ Edit Voucher: '+editVId:'🆕 New Voucher — Zoho Style'}
+  <!-- ── TOP BAR: filter tabs + upload button ── -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      ${VT.map(t=>`<button onclick="eid('v-type').value='${t}';onVTypeChange('${t}')" style="padding:6px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px solid ${t===curType?'#2563eb':'#e2e8f0'};background:${t===curType?'#2563eb':'#fff'};color:${t===curType?'#fff':'#64748b'};font-family:var(--font);transition:all .15s;">${t}</button>`).join('')}
+    </div>
+  </div>
+
+  <!-- ── NEW/EDIT VOUCHER FORM — Tally+Zoho Fusion ── -->
+  <div class="vf-wrap">
+    <!-- LEFT PANEL -->
+    <div class="vf-left">
+      <!-- Header -->
+      <div class="vf-header">
+        <div>
+          <div class="vf-title">${editVId?'✏ Edit Voucher — '+editVId:'➕ New Voucher Entry'}</div>
+          <div class="vf-subtitle">AS-1 Compliant · Double Entry · GST Auto-split</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          ${editVId?`<button onclick="cancelEdit()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font);">✕ Cancel</button>`:''}
+        </div>
       </div>
-      <div class="fp">
-        <!-- Header -->
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px;">
-          <div class="fgr"><label class="fl">Voucher No.</label><input class="fc" id="v-id" value="${editVId||nextId}"></div>
-          <div class="fgr"><label class="fl">Date *</label><input type="date" class="fc" id="v-date" value="${eid('v-date')?.value||today()}"></div>
-          <div class="fgr"><label class="fl">Type</label>
-            <select class="fc" id="v-type" onchange="onVTypeChange(this.value)">
-              ${VT.map(t=>`<option ${t===(eid('v-type')?.value||'Sales')?'selected':''}>${t}</option>`).join('')}
-            </select>
-          </div>
-          <div class="fgr"><label class="fl">Reference No.</label><input class="fc" id="v-ref" value="${eid('v-ref')?.value||''}" placeholder="INV / PO no."></div>
+
+      <!-- Voucher Type Tabs -->
+      <div class="vf-type-bar">
+        ${VT.map(t=>`<button class="vf-type-btn ${t===curType?'active':''}" onclick="eid('v-type').value='${t}';onVTypeChange('${t}')">${t}</button>`).join('')}
+      </div>
+
+      <!-- Meta fields -->
+      <div class="vf-meta">
+        <div>
+          <div class="vf-label">Voucher No.</div>
+          <input class="vf-inp" id="v-id" value="${_idv}">
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-          <div class="fgr"><label class="fl">Party</label>
-            <select class="fc" id="v-party" onchange="onPartyChange(this.value,'${curType}')">
-              <option value="">— No party —</option>${partyOpts}
-            </select>
-          </div>
-          <div class="fgr"><label class="fl">Narration *</label><input class="fc" id="v-nar" value="${eid('v-nar')?.value||''}" placeholder="Transaction description…"></div>
-          <div class="fgr"><label class="fl">Due Date</label><input type="date" class="fc" id="v-due" value="${eid('v-due')?.value||''}"></div>
-          <div class="fgr"><label class="fl">TDS Section</label>
-            <select class="fc" id="v-tds" onchange="refreshPreview()">
-              <option value="">— No TDS —</option>
-              ${TDS_SECTIONS.map(s=>`<option value="${s.code}" ${eid('v-tds')?.value===s.code?'selected':''}>${s.code} — ${s.desc} (${s.rate}%)</option>`).join('')}
-            </select>
-          </div>
+        <div>
+          <div class="vf-label">Date *</div>
+          <input type="date" class="vf-inp" id="v-date" value="${_dv}">
         </div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;">
-          <span style="font-size:11px;font-weight:700;color:var(--tm);">Mode:</span>
-          <div class="tg">
-            <button class="t ${vMode==='smart'?'act':''}" onclick="vMode='smart';renderVouchers()">📦 Smart (Items)</button>
-            <button class="t ${vMode==='manual'?'act':''}" onclick="vMode='manual';renderVouchers()">✏ Manual (Accounts)</button>
-          </div>
+        <div>
+          <div class="vf-label">Reference / Invoice No.</div>
+          <input class="vf-inp" id="v-ref" value="${_rv}" placeholder="INV-001 / PO-123">
         </div>
-        ${vMode==='smart'?`
-        <!-- ITEM LINES TABLE -->
-        <div style="overflow-x:auto;margin-bottom:8px;">
-          <table style="width:100%;border-collapse:collapse;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;">
-            <thead><tr style="background:#334155;color:#e2e8f0;">
-              <th style="padding:8px 8px;font-size:10px;text-align:left;min-width:180px;">Item / Product</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:left;min-width:150px;">Description</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:right;min-width:100px;">Qty</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:right;min-width:120px;">Rate (₹)</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:right;min-width:90px;">Disc%</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:center;min-width:90px;">GST%</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:center;min-width:170px;">GST Type</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:right;">Taxable</th>
-              <th style="padding:8px 8px;font-size:10px;text-align:right;">Total</th>
-              <th style="padding:8px 8px;font-size:10px;"></th>
-            </tr></thead>
-            <tbody>${itemRows}</tbody>
-          </table>
+        <div>
+          <div class="vf-label">Due Date</div>
+          <input type="date" class="vf-inp" id="v-due" value="${_duev}">
         </div>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <button class="btn btn-g btn-sm" onclick="addItemRow()">+ Add Line</button>
+      </div>
+      <input type="hidden" id="v-type" value="${curType}">
+      <div class="vf-meta-2">
+        <div>
+          <div class="vf-label">Party / Ledger</div>
+          <select class="vf-inp" id="v-party" onchange="onPartyChange(this.value,'${curType}')">
+            <option value="">— No party —</option>${partyOpts.replace(`value="${_pv}"`,`value="${_pv}" selected`)}
+          </select>
         </div>
-        <!-- Tax Summary -->
-        <div style="background:#f0fdf4;border:1px solid #a7f3d0;border-radius:10px;padding:12px 16px;margin-bottom:10px;">
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:12px;">
-            <div><span style="color:var(--tm);">Taxable Amt</span><div id="tax-taxable" style="font-weight:700;font-size:15px;">${fmt(taxSummary.taxable)}</div></div>
-            <div><span style="color:var(--tm);">CGST</span><div id="tax-cgst" style="font-weight:700;font-size:15px;color:#059669;">${fmt(taxSummary.cgst)}</div></div>
-            <div><span style="color:var(--tm);">SGST</span><div id="tax-sgst" style="font-weight:700;font-size:15px;color:#059669;">${fmt(taxSummary.sgst)}</div></div>
-            <div><span style="color:var(--tm);">IGST</span><div id="tax-igst" style="font-weight:700;font-size:15px;color:#7c3aed;">${fmt(taxSummary.igst)}</div></div>
-          </div>
-          ${taxSummary.tds>0?`<div style="margin-top:8px;padding-top:8px;border-top:1px dashed #a7f3d0;display:flex;justify-content:space-between;font-size:12px;"><span style="color:#dc2626;font-weight:600;">TDS Deducted (${eid('v-tds')?.options[eid('v-tds')?.selectedIndex]?.text?.split('—')[0]||''})</span><span style="font-weight:700;color:#dc2626;">−${fmt(taxSummary.tds)}</span></div>`:''}
-          <div style="margin-top:8px;padding-top:8px;border-top:1px solid #a7f3d0;display:flex;justify-content:space-between;font-size:14px;font-weight:700;"><span>Grand Total</span><span id="tax-grand" style="color:#059669;">${fmt(taxSummary.grand)}</span></div>
-        </div>`:`
-        <!-- MANUAL ENTRIES -->
-        <div id="manual-entries">
-          <table class="et" style="margin-bottom:8px;">
-            <thead><tr><th style="width:44%">Account</th><th class="tr" style="width:22%">Debit (Dr)</th><th class="tr" style="width:22%">Credit (Cr)</th><th style="width:12%"></th></tr></thead>
-            <tbody id="erows">
-              ${vManualEntries.map((e,i)=>{
-                const accOpts=state.accounts.map(a=>`<option value="${a.id}" ${a.id===e.accId?'selected':''}>${a.id} — ${a.name}</option>`).join('');
-                const totDrM=vManualEntries.reduce((s,x)=>s+(x.dr||0),0);
-                const totCrM=vManualEntries.reduce((s,x)=>s+(x.cr||0),0);
-                return`<tr class="m-acc-row">
-                  <td><select class="fc m-acc" style="padding:4px 7px;font-size:12px;" onchange="vManualEntries[${i}].accId=this.value;renderVouchers()"><option value="">— Account —</option>${accOpts}</select></td>
-                  <td><input type="number" class="fc tr m-dr" style="padding:4px 7px;font-size:12px;" value="${e.dr||''}" min="0" placeholder="0" oninput="vManualEntries[${i}].dr=parseFloat(this.value)||0;refreshManualTotals()"></td>
-                  <td><input type="number" class="fc tr m-cr" style="padding:4px 7px;font-size:12px;" value="${e.cr||''}" min="0" placeholder="0" oninput="vManualEntries[${i}].cr=parseFloat(this.value)||0;refreshManualTotals()"></td>
-                  <td class="tc">${vManualEntries.length>2?`<button class="btn btn-d btn-sm" onclick="vManualEntries.splice(${i},1);renderVouchers()">✕</button>`:''}</td>
-                </tr>`;
-              }).join('')}
-            </tbody>
-            <tfoot><tr style="${(()=>{const d=vManualEntries.reduce((s,e)=>s+(e.dr||0),0),c=vManualEntries.reduce((s,e)=>s+(e.cr||0),0);return Math.abs(d-c)<0.01&&d>0?'background:#ecfdf5':'background:#fef2f2';})()}">
-              <td style="padding:7px 10px;font-weight:700;font-size:12px;">TOTAL</td>
-              <td class="tr" style="padding:7px 10px;font-weight:700;color:#059669;">${fmt(vManualEntries.reduce((s,e)=>s+(e.dr||0),0))}</td>
-              <td class="tr" style="padding:7px 10px;font-weight:700;color:#dc2626;">${fmt(vManualEntries.reduce((s,e)=>s+(e.cr||0),0))}</td>
-              <td></td>
-            </tr></tfoot>
-          </table>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <button class="btn btn-g btn-sm" onclick="vManualEntries.push({accId:'',dr:0,cr:0});renderVouchers()">+ Add Row</button>
-            <span class="bal-hint" style="font-size:11px;color:var(--tm);">Debit must equal Credit</span>
-          </div>
+        <div>
+          <div class="vf-label">Narration *</div>
+          <input class="vf-inp" id="v-nar" value="${_nv}" placeholder="Transaction description…">
         </div>
-        <div style="display:flex;gap:8px;margin-top:12px;align-items:center;">
-          <button class="btn btn-p" onclick="showManualPreviewAndPost()" style="font-size:13px;padding:9px 18px;">👁 Preview &amp; Post Voucher</button>
-          ${editVId?`<button class="btn btn-g" onclick="cancelEdit()">✕ Cancel</button>`:''}
-          <span style="font-size:10px;color:var(--tm);">Manual · AS-1 Compliant</span>
-        </div>`}
-        ${vMode==='smart'?`
-        <div style="display:flex;gap:8px;margin-top:12px;align-items:center;">
-          <button class="btn btn-p" onclick="showEntryPreviewAndSave()" style="font-size:13px;padding:9px 18px;">👁 Preview &amp; Post Voucher</button>
-          ${editVId?`<button class="btn btn-g" onclick="cancelEdit()">✕ Cancel</button>`:''}
-          <span style="font-size:10px;color:var(--tm);">Auto GST · TDS · AS-1 Compliant</span>
-        </div>`:``}
+      </div>
+
+      <!-- Mode selector + TDS -->
+      <div class="vf-mode-bar">
+        <span style="font-size:11px;font-weight:700;color:#64748b;">Entry Mode:</span>
+        <button class="vf-mode-btn ${vMode==='smart'?'active':''}" onclick="vMode='smart';renderVouchers()">📦 Item Lines (Smart)</button>
+        <button class="vf-mode-btn ${vMode==='manual'?'active':''}" onclick="vMode='manual';renderVouchers()">✏ Manual Dr/Cr</button>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
+          <span style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;">TDS:</span>
+          <select id="v-tds" style="padding:4px 8px;border:1px solid #e2e8f0;border-radius:6px;font-size:11px;font-family:var(--font);outline:none;" onchange="refreshPreview()">
+            <option value="">None</option>
+            ${TDS_SECTIONS.map(s=>`<option value="${s.code}" ${_tdv===s.code?'selected':''}>${s.code} (${s.rate}%)</option>`).join('')}
+          </select>
+        </div>
+      </div>
+
+      ${vMode==='smart'?`
+      <!-- ITEM LINES -->
+      <div class="vf-items" style="min-height:120px;">
+        <div class="vf-item-hdr">
+          <div>Item</div><div>Description</div><div style="text-align:right;">Qty</div>
+          <div style="text-align:right;">Rate ₹</div><div style="text-align:right;">Disc%</div>
+          <div style="text-align:center;">GST%</div><div>GST Type</div>
+          <div style="text-align:right;">Total ₹</div><div></div>
+        </div>
+        ${itemRows}
+      </div>
+      <div style="padding:8px 14px;border-top:1px solid #f1f5f9;">
+        <button onclick="addItemRow()" style="background:#f0f9ff;border:1.5px dashed #2563eb;border-radius:7px;color:#2563eb;font-size:11px;font-weight:700;padding:6px 14px;cursor:pointer;font-family:var(--font);">+ Add Line</button>
+      </div>
+      <!-- Tax summary bar -->
+      <div class="vf-total-bar">
+        <div class="vf-total-item"><div class="vf-total-label">Taxable</div><div class="vf-total-val">₹${Number(taxSummary.taxable).toLocaleString('en-IN',{maximumFractionDigits:2})}</div></div>
+        <div class="vf-total-item"><div class="vf-total-label">CGST</div><div class="vf-total-val" style="color:#2563eb;">₹${Number(taxSummary.cgst).toLocaleString('en-IN',{maximumFractionDigits:2})}</div></div>
+        <div class="vf-total-item"><div class="vf-total-label">SGST</div><div class="vf-total-val" style="color:#2563eb;">₹${Number(taxSummary.sgst).toLocaleString('en-IN',{maximumFractionDigits:2})}</div></div>
+        <div class="vf-total-item"><div class="vf-total-label">IGST</div><div class="vf-total-val" style="color:#7c3aed;">₹${Number(taxSummary.igst).toLocaleString('en-IN',{maximumFractionDigits:2})}</div></div>
+        <div class="vf-total-item"><div class="vf-total-label">Grand Total</div><div class="vf-total-val" style="color:#065f46;font-size:17px;">₹${Number(taxSummary.grand).toLocaleString('en-IN',{maximumFractionDigits:2})}</div></div>
+      </div>`:`
+      <!-- MANUAL Dr/Cr TABLE (dark themed, Tally style) -->
+      <div id="manual-entries" style="flex:1;overflow-y:auto;background:#0f172a;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead><tr style="background:#1e293b;">
+            <th style="padding:8px 10px;font-size:10px;font-weight:700;color:#64748b;text-align:left;text-transform:uppercase;letter-spacing:.5px;">Account Ledger</th>
+            <th style="padding:8px 8px;font-size:10px;font-weight:700;color:#86efac;text-align:right;text-transform:uppercase;letter-spacing:.5px;">Dr ₹</th>
+            <th style="padding:8px 8px;font-size:10px;font-weight:700;color:#fca5a5;text-align:right;text-transform:uppercase;letter-spacing:.5px;">Cr ₹</th>
+            <th style="width:36px;"></th>
+          </tr></thead>
+          <tbody id="erows">${manualRows}</tbody>
+          <tfoot><tr style="background:${mBal?'#064e3b':'#450a0a'};">
+            <td style="padding:7px 10px;font-size:11px;font-weight:800;color:#e2e8f0;">TOTAL</td>
+            <td style="padding:7px 8px;text-align:right;font-weight:800;color:#86efac;font-size:12px;">₹${Number(mDr).toLocaleString('en-IN',{maximumFractionDigits:2})}</td>
+            <td style="padding:7px 8px;text-align:right;font-weight:800;color:#fca5a5;font-size:12px;">₹${Number(mCr).toLocaleString('en-IN',{maximumFractionDigits:2})}</td>
+            <td></td>
+          </tr></tfoot>
+        </table>
+        <div style="padding:8px 10px;border-top:1px solid #1e293b;">
+          <button onclick="vManualEntries.push({accId:'',dr:0,cr:0});renderVouchers()" style="background:#1e293b;border:1.5px dashed #334155;border-radius:6px;color:#64748b;font-size:11px;font-weight:700;padding:5px 13px;cursor:pointer;font-family:var(--font);">+ Add Row</button>
+          <span class="bal-hint" style="font-size:11px;color:${mBal?'#86efac':'#fca5a5'};margin-left:10px;">${mBal?'✓ Balanced':'Debit must equal Credit'}</span>
+        </div>
+      </div>`}
+
+      <!-- Footer: Post button -->
+      <div class="vf-footer">
+        <button class="vf-post-btn" onclick="${vMode==='smart'?'showEntryPreviewAndSave()':'showManualPreviewAndPost()'}">
+          ✅ Preview &amp; Post Voucher
+        </button>
+        ${editVId?`<button onclick="cancelEdit()" style="padding:9px 16px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:10px;color:#64748b;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);">✕ Cancel Edit</button>`:''}
+        <span style="font-size:10px;color:#94a3b8;margin-left:auto;">AS-1 · Double Entry · ${vMode==='smart'?'Auto GST/TDS':'Manual Mode'}</span>
       </div>
     </div>
 
-    <!-- RIGHT: LIVE JOURNAL PREVIEW PANEL -->
-    <div>
-      <div style="font-weight:700;color:var(--tm);font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">📒 Live Journal Entry Preview</div>
-      <div id="voucher-preview-wrap" style="background:#fff;border:1.5px solid #2563eb;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(37,99,235,.12);">
-        ${buildPreviewPanel(vMode,vManualEntries,preview,previewRows,bal,totDr,totCr,editVId)}
+    <!-- RIGHT PANEL: Live Journal Preview (dark) -->
+    <div class="vf-right">
+      <div class="vf-preview-hdr">
+        <div>
+          <div class="vf-preview-title">📒 Live Journal Preview</div>
+          <div style="font-size:10px;color:#475569;margin-top:2px;">AS-1 Double Entry</div>
+        </div>
+        <span id="preview-bal" style="background:${(vMode==='smart'?balP:mBal)?'#059669':'#dc2626'};color:#fff;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;">${(vMode==='smart'?balP:mBal)?'✓ Balanced':'✗ Unbalanced'}</span>
+      </div>
+      <div class="vf-preview-body" id="voucher-preview-wrap">
+        <div class="vf-je-row vf-je-hdr">
+          <div>Acc ID</div><div>Account Name</div><div style="text-align:right;">Dr ₹</div><div style="text-align:right;">Cr ₹</div>
+        </div>
+        ${vMode==='smart'
+          ?(previewJERows||'<div style="padding:20px;text-align:center;color:#334155;font-size:11px;">Fill item lines to see journal entries</div>')
+          :(vManualEntries.filter(e=>e.accId&&(e.dr>0||e.cr>0)).map(e=>`<div class="vf-je-row">
+              <div style="color:#60a5fa;font-family:monospace;font-size:10px;">${e.accId}</div>
+              <div style="color:#e2e8f0;font-size:11px;">${aN(e.accId)||e.accId}</div>
+              <div style="text-align:right;color:#86efac;font-weight:700;">${e.dr>0?'₹'+Number(e.dr).toLocaleString('en-IN',{maximumFractionDigits:2}):'—'}</div>
+              <div style="text-align:right;color:#fca5a5;font-weight:700;">${e.cr>0?'₹'+Number(e.cr).toLocaleString('en-IN',{maximumFractionDigits:2}):'—'}</div>
+            </div>`).join('')||'<div style="padding:20px;text-align:center;color:#334155;font-size:11px;">Fill accounts above to preview</div>')}
+      </div>
+      <div class="vf-preview-footer">
+        <div class="vf-totals-row">
+          <div style="background:#064e3b;border-radius:8px;padding:8px 12px;text-align:center;">
+            <div style="font-size:9px;color:#86efac;font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Total Dr</div>
+            <div style="font-size:14px;font-weight:800;color:#86efac;">₹${Number(vMode==='smart'?totDrP:mDr).toLocaleString('en-IN',{maximumFractionDigits:2})}</div>
+          </div>
+          <div style="background:#450a0a;border-radius:8px;padding:8px 12px;text-align:center;">
+            <div style="font-size:9px;color:#fca5a5;font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Total Cr</div>
+            <div style="font-size:14px;font-weight:800;color:#fca5a5;">₹${Number(vMode==='smart'?totCrP:mCr).toLocaleString('en-IN',{maximumFractionDigits:2})}</div>
+          </div>
+        </div>
+        <div style="background:${(vMode==='smart'?balP:mBal)?'#064e3b20':'#450a0a20'};border:1px solid ${(vMode==='smart'?balP:mBal)?'#065f46':'#7f1d1d'};border-radius:8px;padding:8px 12px;font-size:11px;font-weight:700;color:${(vMode==='smart'?balP:mBal)?'#86efac':'#fca5a5'};text-align:center;">
+          ${(vMode==='smart'?balP:mBal)?'✅ Entry balanced — ready to post':'⚠ Balance Debit = Credit to post'}
+        </div>
       </div>
     </div>
   </div>`;
-  // Always sync party dropdown to current voucher type after re-render
-  onVTypeChange(curType);
+
+  // CRITICAL FIX 1: Removed onVTypeChange(curType) call here — it was
+  // calling renderVouchers() AGAIN creating a double-render on every load.
+  // Party dropdown is already correctly populated above via partyOpts.
   if(editVId){ const v=state.vouchers.find(x=>x.id===editVId); if(v&&eid('v-party')) eid('v-party').value=v.partyId||''; }
 }
 
 
+// PERF FIX 7: refreshManualTotals only updates totals row — no full re-render
 function refreshManualTotals(){
-  // Read live values from DOM into vManualEntries
   document.querySelectorAll('.m-acc-row').forEach((row,i)=>{
     if(vManualEntries[i]){
       vManualEntries[i].dr = parseFloat(row.querySelector('.m-dr')?.value)||0;
@@ -2785,20 +3044,33 @@ function computePreviewEntries(vtype, lines){
   const creditorAcc=state.accounts.find(a=>a.group==='Sundry Creditors');
   const cashBankAcc=state.accounts.find(a=>a.group==='Cash & Bank'&&a.name.includes('Bank'))||state.accounts.find(a=>a.group==='Cash & Bank');
 
-  // Get party account if selected
+  // Get INDIVIDUAL party account if selected (look up by name match first, then fall back to group)
   const partyEl=eid('v-party');
   const partyId=partyEl?.value||'';
   let partyAccId='';
+  let partyAccName='';
   if(partyId){
     const debtor=state.debtors.find(d=>d.id===partyId);
     const vendor=state.vendors.find(v=>v.id===partyId);
-    if(debtor) partyAccId=debtorAcc?.id||'1003';
-    if(vendor) partyAccId=creditorAcc?.id||'2001';
+    if(debtor){
+      // Look for individual party account (created during wizard or manually)
+      const indAcc=state.accounts.find(a=>a.group==='Sundry Debtors'&&a.name.toLowerCase().trim()===debtor.name.toLowerCase().trim());
+      partyAccId=indAcc?.id||debtorAcc?.id||'1003';
+      partyAccName=debtor.name;
+    }
+    if(vendor){
+      const indAcc=state.accounts.find(a=>a.group==='Sundry Creditors'&&a.name.toLowerCase().trim()===vendor.name.toLowerCase().trim());
+      partyAccId=indAcc?.id||creditorAcc?.id||'2001';
+      partyAccName=vendor.name;
+    }
   }
 
   if(isSales){
-    // Debit: Accounts Receivable (or party) for grand total
-    entries.push({accId:partyAccId||debtorAcc?.id||'1003',dr:tax.grand,cr:0,tag:'Debtor Dr'});
+    // Debit: Accounts Receivable (party) for grand total (already net of TDS)
+    const grossInvoice=tax.taxable+tax.cgst+tax.sgst+tax.igst;
+    entries.push({accId:partyAccId||debtorAcc?.id||'1003',dr:grossInvoice-tax.tds,cr:0,tag:partyAccName?`Debtor Dr — ${partyAccName}`:'Debtor Dr'});
+    // Debit: TDS Receivable (asset — TDS withheld by customer) — BUG 4 fix
+    if(tax.tds>0) entries.push({accId:'1010',dr:tax.tds,cr:0,tag:'TDS Receivable'});
     // Credit: each item's income account for taxable amount
     const incGroups={};
     lines.forEach(ln=>{
@@ -2811,10 +3083,6 @@ function computePreviewEntries(vtype, lines){
     if(tax.cgst>0) entries.push({accId:'2002',dr:0,cr:tax.cgst,tag:'Output CGST'});
     if(tax.sgst>0) entries.push({accId:'2003',dr:0,cr:tax.sgst,tag:'Output SGST'});
     if(tax.igst>0) entries.push({accId:'2004',dr:0,cr:tax.igst,tag:'Output IGST'});
-    if(tax.tds>0){
-      entries.push({accId:'2005',dr:0,cr:tax.tds,tag:'TDS Payable Cr'});
-      entries[0].dr=Math.round((entries[0].dr-tax.tds)*100)/100;
-    }
   } else if(isPurchase){
     // Debit: each item's expense account for taxable
     const expGroups={};
@@ -2830,7 +3098,7 @@ function computePreviewEntries(vtype, lines){
     if(tax.igst>0) entries.push({accId:'1008',dr:tax.igst,cr:0,tag:'Input IGST'});
     // Credit: Accounts Payable for grand total - TDS
     const net=tax.grand;
-    entries.push({accId:partyAccId||creditorAcc?.id||'2001',dr:0,cr:net,tag:'Creditor Cr'});
+    entries.push({accId:partyAccId||creditorAcc?.id||'2001',dr:0,cr:net,tag:partyAccName?`Creditor Cr — ${partyAccName}`:'Creditor Cr'});
     if(tax.tds>0) entries.push({accId:'2005',dr:0,cr:tax.tds,tag:'TDS Payable'});
   } else if(isReceipt||isPayment){
     const line=lines[0];
@@ -2853,53 +3121,42 @@ function computePreviewEntries(vtype, lines){
   return entries.filter(e=>e.dr>0||e.cr>0);
 }
 
+// PERF FIX 2: Debounced wrapper — raw keystrokes no longer thrash the DOM
+let _rpTimer=null;
 function refreshPreview(){
+  clearTimeout(_rpTimer);
+  _rpTimer=setTimeout(_refreshPreviewNow, 80);
+}
+function _refreshPreviewNow(){
   const curType=eid('v-type')?.value||'Sales';
-
-  // ── Update each row's Taxable & Total cells in real time ──
-  vItemLines.forEach((ln,i)=>{
-    const taxCell=eid('row-taxable-'+i);
-    const totCell=eid('row-total-'+i);
-    if(taxCell) taxCell.textContent=fmt(calcLineTaxable(ln));
-    if(totCell) totCell.textContent=fmt(calcLineTotal(ln));
-  });
-
-  // ── Update tax summary box values ──
-  const tax=calcTaxSummary(vItemLines,curType);
-  const upd=(id,val)=>{const el=eid(id);if(el)el.textContent=fmt(val);};
-  upd('tax-taxable', tax.taxable);
-  upd('tax-cgst',    tax.cgst);
-  upd('tax-sgst',    tax.sgst);
-  upd('tax-igst',    tax.igst);
-  upd('tax-grand',   tax.grand);
-
-  // ── Update right-side journal preview ──
   const preview=computePreviewEntries(curType,vItemLines);
   const totDr=preview.reduce((s,e)=>s+(e.dr||0),0);
   const totCr=preview.reduce((s,e)=>s+(e.cr||0),0);
-  const bal=Math.abs(totDr-totCr)<0.01;
-  const tbody=eid('preview-tbody');
-  if(tbody){
-    tbody.innerHTML=preview.map(e=>`
-      <tr style="font-size:11px;">
-        <td class="mono" style="color:#2563eb;padding:5px 8px;">${e.accId}</td>
-        <td style="padding:5px 8px;">${aN(e.accId)||e.accId}</td>
-        <td style="padding:5px 8px;"><span style="font-size:10px;background:#f1f5f9;border-radius:4px;padding:1px 6px;">${e.tag||''}</span></td>
-        <td class="tr" style="padding:5px 8px;color:#059669;font-weight:600;">${e.dr>0?fmt(e.dr):'—'}</td>
-        <td class="tr" style="padding:5px 8px;color:#dc2626;font-weight:600;">${e.cr>0?fmt(e.cr):'—'}</td>
-      </tr>`).join('')||'<tr><td colspan="5" style="padding:12px;text-align:center;color:#94a3b8;">Enter line items to preview</td></tr>';
+  const bal=Math.abs(totDr-totCr)<0.01&&preview.length>0;
+  const wrap=eid('voucher-preview-wrap');
+  if(wrap){
+    const jeRows=preview.filter(e=>!e._journalHint).map(e=>`
+      <div class="vf-je-row">
+        <div style="color:#60a5fa;font-family:monospace;font-size:10px;">${e.accId}</div>
+        <div style="color:#e2e8f0;font-size:11px;">${aN(e.accId)||e.accId}
+          ${e.tag?`<span style="font-size:9px;background:#1e3a6e;color:#93c5fd;border-radius:4px;padding:1px 5px;margin-left:4px;">${e.tag}</span>`:''}
+        </div>
+        <div style="text-align:right;color:#86efac;font-weight:700;">${e.dr>0?'₹'+Number(e.dr).toLocaleString('en-IN',{maximumFractionDigits:2}):'—'}</div>
+        <div style="text-align:right;color:#fca5a5;font-weight:700;">${e.cr>0?'₹'+Number(e.cr).toLocaleString('en-IN',{maximumFractionDigits:2}):'—'}</div>
+      </div>`).join('');
+    const hdr=`<div class="vf-je-row vf-je-hdr"><div>Acc ID</div><div>Account Name</div><div style="text-align:right;">Dr ₹</div><div style="text-align:right;">Cr ₹</div></div>`;
+    wrap.innerHTML=hdr+(jeRows||'<div style="padding:20px;text-align:center;color:#334155;font-size:11px;">Fill item lines to see journal entries</div>');
   }
-  // Update balance badge
   const balBadge=eid('preview-bal');
-  if(balBadge){
-    const td2=preview.reduce((s,e)=>s+(e.dr||0),0),tc2=preview.reduce((s,e)=>s+(e.cr||0),0);
-    const b2=Math.abs(td2-tc2)<0.01&&preview.length>0;
-    balBadge.textContent=b2?'✓ Balanced':'✗ Not Balanced';
-    balBadge.style.background=b2?'#059669':'#dc2626';
-  }
-}
+  if(balBadge){balBadge.textContent=bal?'✓ Balanced':'✗ Unbalanced';balBadge.style.background=bal?'#059669':'#dc2626';}
+} // end _refreshPreviewNow
 
-function addItemRow(){vItemLines.push({itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'});renderVouchers();}
+function addItemRow(){
+  vItemLines.push({itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'});
+  // PERF FIX 10: Invalidate caches so new row gets correct data
+  if(renderVouchers._iCache) renderVouchers._iCache=null;
+  renderVouchers();
+}
 function remItemRow(i){vItemLines.splice(i,1);renderVouchers();}
 function onItemSelect(i,itemId){
   vItemLines[i].itemId=itemId;
@@ -2911,14 +3168,21 @@ function onItemSelect(i,itemId){
   }
   renderVouchers();
 }
-function onPartyChange(partyId,vtype){ refreshPreview(); }
+function onPartyChange(partyId,vtype){ _vParty=partyId; refreshPreview(); }
 function onVTypeChange(type){
-  const partyEl=eid('v-party');
-  if(partyEl){
-    const list=['Sales','Debit Note','Receipt'].includes(type)?state.debtors:state.vendors;
-    partyEl.innerHTML=`<option value="">— No party —</option>`+list.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
-  }
-  refreshPreview();
+  // Snapshot current field values so they survive the re-render
+  _vNar=eid('v-nar')?.value||_vNar;
+  _vRef=eid('v-ref')?.value||_vRef;
+  _vDate=eid('v-date')?.value||_vDate;
+  _vDue=eid('v-due')?.value||_vDue;
+  _vId=eid('v-id')?.value||_vId;
+  _vTds=eid('v-tds')?.value||_vTds;
+  // BUG 3 FIX: Don't blindly reset _vParty. The party list changes per type,
+  // so reset only if the type actually changed (user-initiated). If same type
+  // (e.g. called from editVoucher), preserve the party value.
+  if(type!==_curVType){ _vParty=''; } // only reset when type truly changes
+  _curVType=type;
+  renderVouchers();
 }
 
 function showEntryPreviewAndSave(){
@@ -2926,8 +3190,9 @@ function showEntryPreviewAndSave(){
   const nar=eid('v-nar')?.value.trim()||'', ref=eid('v-ref')?.value.trim()||'';
   const partyId=eid('v-party')?.value||'', due=eid('v-due')?.value||'';
   const tdsSection=eid('v-tds')?.value||'';
-  if(!nar)return showAlert('Narration is required');
-  if(!dt) return showAlert('Date is required');
+  if(!nar)return showAlert('Narration is required.');
+  if(!dt) return showAlert('Date is required.');
+  if(!partyId&&!['Journal','Contra'].includes(tp))return showAlert('Party / Ledger is required. Please select a party before saving.');
 
   const preview=computePreviewEntries(tp,vItemLines).filter(e=>!e._journalHint);
   if(['Journal','Contra'].includes(tp))return showAlert('Journal/Contra vouchers require Manual (Accounts) mode.\nPlease switch to Manual mode to enter your Dr/Cr entries.');
@@ -2995,41 +3260,59 @@ function showEntryPreviewAndSave(){
 
 function _commitZohoVoucher(id,dt,tp,narEnc,ref,partyId,due,tdsSection){
   const nar=decodeURIComponent(narEnc);
-  const entries=computePreviewEntries(tp,vItemLines);
+  const wasEdit=!!editVId; // capture BEFORE nulling (BUG 2 fix)
+  const rawEntries=computePreviewEntries(tp,vItemLines);
+  const entries=rawEntries.filter(e=>!e._journalHint); // BUG 3 fix: strip hint marker
   const tax=calcTaxSummary(vItemLines,tp);
   const items=vItemLines.filter(ln=>ln.rate>0).map(ln=>{
+    const it=(state.items||[]).find(i=>i.id===ln.itemId);
     const t=calcLineTaxable(ln),g=ln.gstRate||0;
     const igst=ln.gstType?.includes('IGST')?Math.round(t*g)/100:0;
     const cgst=igst===0?Math.round(t*(g/2))/100:0, sgst=igst===0?Math.round(t*(g/2))/100:0;
-    return{name:ln.desc||(state.items||[]).find(i=>i.id===ln.itemId)?.name||'Item',
-      hsn:(state.items||[]).find(i=>i.id===ln.itemId)?.hsn||'',
-      qty:ln.qty,rate:ln.rate,gstRate:g,taxableAmt:t,cgst,sgst,igst,total:calcLineTotal(ln)};
+    return{
+      itemId:ln.itemId||'',          // BUG 5 fix: preserve itemId for edit restore
+      name:ln.desc||it?.name||'Item',
+      hsn:it?.hsn||'',sac:it?.sac||'',
+      qty:ln.qty,rate:ln.rate,disc:ln.disc||0,
+      gstRate:g,gstType:ln.gstType||'CGST+SGST (Intra-state)',
+      taxableAmt:t,cgst,sgst,igst,total:calcLineTotal(ln)
+    };
   });
   const vobj={id,date:dt,type:tp,narration:nar,ref,partyId,dueDate:due,entries,
     gstType:vItemLines[0]?.gstType||'',tdsSection,items,
     totals:{taxable:tax.taxable,cgst:tax.cgst,sgst:tax.sgst,igst:tax.igst,tds:tax.tds,grand:tax.grand}};
-  if(editVId){
+  if(wasEdit){
     state.vouchers=state.vouchers.map(v=>v.id===editVId?vobj:v);editVId=null;
   }else{
+    editVId=null;
     if(state.vouchers.find(v=>v.id===id))return showAlert('Voucher ID already exists');
     state.vouchers.push(vobj);
   }
-  logAudit(editVId?'Voucher Edited':'Voucher Created', `${tp} ${id}: ${nar}`);
+  logAudit(wasEdit?'Voucher Edited':'Voucher Created', `${tp} ${id}: ${nar}`); // BUG 2 fix
   scheduleSave();
   showToast(`✅ ${tp} Voucher <strong>${id}</strong> posted successfully!`);
   vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];
+  _vNar='';_vRef='';_vId='';_vDate='';_vDue='';_vParty='';_vTds='';_curVType='Sales';
   renderVouchers();
 }
 
 
-function cancelEdit(){editVId=null;vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];renderVouchers();}
+function cancelEdit(){editVId=null;_curVType='Sales';_vNar='';_vRef='';_vId='';_vDate='';_vDue='';_vParty='';_vTds='';vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];renderVouchers();}
 
 function showManualPreviewAndPost(){
   const id=eid('v-id')?.value.trim(), dt=eid('v-date')?.value, tp=eid('v-type')?.value;
   const nar=eid('v-nar')?.value.trim()||'', ref=eid('v-ref')?.value.trim()||'';
   const partyId=eid('v-party')?.value||'', due=eid('v-due')?.value||'';
-  if(!nar) return showAlert('Narration is required');
-  if(!dt)  return showAlert('Date is required');
+  // BUG 6 fix: look up party name instead of showing raw ID
+  const _pName=(()=>{
+    if(!partyId) return '';
+    const d=state.debtors.find(x=>x.id===partyId);
+    const v2=state.vendors.find(x=>x.id===partyId);
+    return (d||v2)?.name||partyId;
+  })();
+  if(!nar) return showAlert('Narration is required.');
+  if(!dt)  return showAlert('Date is required.');
+  if(!partyId&&!['Journal','Contra'].includes(tp))return showAlert('Party / Ledger is required. Please select a party before saving.');
   // Read entries live from DOM
   const entries=[];
   document.querySelectorAll('.m-acc-row').forEach(row=>{
@@ -3102,7 +3385,7 @@ function showManualPreviewAndPost(){
   openModal('📒 Manual Journal Entry Preview — '+tp+' | '+id, `
     <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;">
       <strong>📋 Voucher:</strong> ${id} &nbsp;|&nbsp; <strong>Date:</strong> ${fmtD(dt)} &nbsp;|&nbsp; <strong>Type:</strong> ${tp} &nbsp;|&nbsp; <strong>Narration:</strong> ${nar}
-      ${partyId?`&nbsp;|&nbsp; <strong>Party:</strong> ${partyId}`:''}
+      ${_pName?`&nbsp;|&nbsp; <strong>Party:</strong> ${_pName}`:''}
     </div>
     <div style="margin-bottom:12px;">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:8px;">Double Entry (AS-1 Compliant)</div>
@@ -3151,6 +3434,7 @@ function _postManualVoucher(id,dt,tp,narEnc,ref,partyId,due){
   showToast('✅ '+tp+' Voucher <strong>'+id+'</strong> posted successfully!');
   vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];
   editVId=null;
+  _vNar='';_vRef='';_vId='';_vDate='';_vDue='';_vParty='';_vTds='';_curVType='Sales';
   renderVouchers();
 }
 
@@ -3233,7 +3517,7 @@ function pgRegister(type){
         <td class="tr mono" style="color:#7c3aed;">${fmt(t.igst||0)}</td>
         <td class="tr mono tr-">${t.tds>0?fmt(t.tds):'—'}</td>
         <td class="tr mono" style="font-weight:700;color:#059669;">${fmt(amt)}</td>
-        <td class="no-print"><button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
+        <td class="no-print"><button class="btn btn-w btn-sm" onclick="exportVoucherPDF('${v.id}')" title="Export PDF">📄</button> <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
       </tr>`;
     } else {
       // Journal / Debit Note / Credit Note — simpler view
@@ -3248,7 +3532,7 @@ function pgRegister(type){
         <td style="font-size:11px;color:#059669;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${drAcc}">${drAcc||'—'}</td>
         <td style="font-size:11px;color:#dc2626;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${crAcc}">${crAcc||'—'}</td>
         <td class="tr mono" style="font-weight:700;">${fmt(amt)}</td>
-        <td class="no-print"><button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
+        <td class="no-print"><button class="btn btn-w btn-sm" onclick="exportVoucherPDF('${v.id}')" title="Export PDF">📄</button> <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
       </tr>`;
     }
   }).join('');
@@ -3296,7 +3580,7 @@ function pgRegister(type){
         <th>Debit A/c</th>
         <th>Credit A/c</th>
         <th class="tr">Amount</th>`}
-        <th class="no-print">Actions</th>
+        <th class="no-print">PDF / Edit / Del</th>
       </tr></thead>
       <tbody>${rows||`<tr><td colspan="${isDetailed?13:9}" style="padding:28px;text-align:center;color:var(--tm);font-size:13px;">No ${type} entries found. <button class="btn btn-p btn-sm" onclick="navigate('vouchers')" style="margin-left:8px;">+ Create ${type}</button></td></tr>`}</tbody>
       ${vouchers.length>0&&isDetailed?`
@@ -3329,18 +3613,22 @@ function editVoucher(id){
   vMode=v.items&&v.items.length>0?'smart':'manual';
   if(vMode==='smart'){
     vItemLines=v.items&&v.items.length>0?v.items.map(it=>({
-      itemId:it.itemId||'',desc:it.name||'',qty:it.qty||1,
+      itemId:it.itemId||'',  // preserved from _commitZohoVoucher fix
+      desc:it.name||'',qty:it.qty||1,
       rate:it.rate||0,disc:it.disc||0,gstRate:it.gstRate||0,
       gstType:it.gstType||'CGST+SGST (Intra-state)'
     })):[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];
   } else {
     vManualEntries=v.entries.length>=2?v.entries.map(e=>({accId:e.accId,dr:e.dr||0,cr:e.cr||0})):[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];
   }
+  // Sync snapshot vars so re-renders don't lose loaded values
+  _curVType=v.type; _vNar=v.narration; _vRef=v.ref||''; _vId=v.id;
+  _vDate=v.date; _vDue=v.dueDate||''; _vParty=v.partyId||''; _vTds=v.tdsSection||'';
   navigate('vouchers');
   setTimeout(()=>{
     if(eid('v-id'))eid('v-id').value=v.id;
     if(eid('v-date'))eid('v-date').value=v.date;
-    if(eid('v-type')){eid('v-type').value=v.type;onVTypeChange(v.type);}
+    if(eid('v-type')){eid('v-type').value=v.type;} // BUG 4 FIX: _curVType already set; skip onVTypeChange to avoid _vParty reset
     if(eid('v-nar'))eid('v-nar').value=v.narration;
     if(eid('v-ref'))eid('v-ref').value=v.ref||'';
     if(eid('v-due'))eid('v-due').value=v.dueDate||'';
@@ -3452,7 +3740,7 @@ function printVoucher(id){
   const itemRows=(v.items||[]).length>0?v.items.map(it=>`<tr><td>${it.name}</td><td>${it.hsn||'—'}</td><td style="text-align:right">${it.qty}</td><td style="text-align:right">${fmt(it.rate)}</td><td style="text-align:right">${fmt(it.taxableAmt)}</td><td style="text-align:right">${fmt(it.cgst)}</td><td style="text-align:right">${fmt(it.sgst)}</td><td style="text-align:right">${fmt(it.igst)}</td><td style="text-align:right;font-weight:700;">${fmt(it.total)}</td></tr>`).join(''):'';
   const win=window.open('','_blank','width=900,height=750');
   win.document.write(`<!DOCTYPE html><html><head><title>${v.type} — ${v.id}</title>
-  <style>body{font-family:'Segoe UI',sans-serif;margin:0;padding:28px;color:#1e293b;font-size:13px;}
+  <style>body{font-family:'Segoe UI',sans-serif;margin:0;padding:28px;color:#1e293b;font-size:12px;}
   .inv-header{display:flex;justify-content:space-between;border-bottom:3px solid #2563eb;padding-bottom:16px;margin-bottom:16px;}
   .co-name{font-size:22px;font-weight:700;}.co-info{font-size:11px;color:#64748b;margin-top:3px;}
   .inv-title{font-size:26px;font-weight:700;color:#2563eb;text-align:right;}.inv-no{font-size:13px;color:#64748b;text-align:right;}
@@ -3816,36 +4104,84 @@ function pgPnL(){
   const aL=(t,g)=>state.accounts.filter(a=>a.type===t&&(g?a.group===g:true)).map(a=>({...a,...L[a.id]}));
   const sI=aL('Income','Sales Accounts'),dI=aL('Income','Direct Income'),svcI=aL('Income','Service Income'),inI=aL('Income','Indirect Income');
   const pE=aL('Expense','Purchase Accounts'),dE=aL('Expense','Direct Expenses'),cogsE=aL('Expense','COGS'),inE=aL('Expense','Indirect Expenses');
-  // Net approach: income accounts may have Dr balance (returns/refunds), expense may have Cr balance (rebates)
   const sC=arr=>arr.reduce((s,a)=>s+(a.closingCr||0)-(a.closingDr||0),0);
   const sD=arr=>arr.reduce((s,a)=>s+(a.closingDr||0)-(a.closingCr||0),0);
   const gI=sC(sI)+sC(dI)+sC(svcI),gE=sD(pE)+sD(dE)+sD(cogsE),gP=gI-gE,iI=sC(inI),iE=sD(inE),nP=gP+iI-iE;
-  const rows=(arr,t='cr')=>arr.length?arr.map(a=>`<div class="rr"><span class="rrl">${a.name}</span><span class="rrv">${fmt(t==='cr'?a.closingCr:a.closingDr)}</span></div>`).join(''):`<div class="rr"><span class="rrl tm-" style="font-style:italic;">No entries</span></div>`;
+
+  // Build row arrays for each section so we can pad both sides to equal length
+  const mkRows=(arr,valFn)=>arr.length
+    ?arr.map(a=>({label:a.name,val:valFn(a)}))
+    :[{label:'—',val:0,empty:true}];
+
+  const incomeRows=[
+    {label:'Sales / Service / Direct Income',header:true},
+    ...mkRows([...sI,...dI,...svcI],a=>sC([a])),
+    {label:'Gross Income',subtotal:true,val:gI,cls:'tg-'},
+    {label:'Indirect Income',header:true},
+    ...mkRows(inI,a=>sC([a])),
+    {label:'Total Income',subtotal:true,val:gI+iI,cls:'tg-'},
+  ];
+  const expRows=[
+    {label:'Purchase / Direct / COGS',header:true},
+    ...mkRows([...pE,...dE,...cogsE],a=>sD([a])),
+    {label:'Gross Expenses',subtotal:true,val:gE,cls:'tr-'},
+    {label:'Indirect Expenses',header:true},
+    ...mkRows(inE,a=>sD([a])),
+    {label:'Total Expenses',subtotal:true,val:gE+iE,cls:'tr-'},
+  ];
+
+  // Pad shorter side with blank rows
+  const maxLen=Math.max(incomeRows.length,expRows.length);
+  while(incomeRows.length<maxLen)incomeRows.splice(incomeRows.length-1,0,{label:'',blank:true});
+  while(expRows.length<maxLen)expRows.splice(expRows.length-1,0,{label:'',blank:true});
+
+  const renderCell=(r,side)=>{
+    if(r.header)return`<td colspan="2" style="background:#f1f5f9;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#64748b;padding:6px 12px;border-bottom:1px solid #e2e8f0;">${r.label}</td>`;
+    if(r.subtotal)return`<td style="padding:7px 12px;font-weight:700;font-size:12px;color:#0f172a;">${r.label}</td><td style="padding:7px 12px;text-align:right;font-family:var(--mono);font-weight:700;font-size:12px;" class="${r.cls||''}">${fmt(r.val)}</td>`;
+    if(r.blank)return`<td colspan="2" style="padding:6px 12px;">&nbsp;</td>`;
+    if(r.empty)return`<td style="padding:6px 12px;color:#94a3b8;font-style:italic;">No entries</td><td></td>`;
+    return`<td style="padding:6px 12px;font-size:12.5px;">${r.label}</td><td style="padding:6px 12px;text-align:right;font-family:var(--mono);font-size:12.5px;">${fmt(r.val)}</td>`;
+  };
+
+  const tableRows=incomeRows.map((lr,i)=>{
+    const er=expRows[i]||{blank:true};
+    return`<tr style="border-bottom:1px solid #f1f5f9;">${renderCell(lr,'l')}
+      <td style="width:1px;background:#e2e8f0;padding:0;"></td>
+      ${renderCell(er,'r')}</tr>`;
+  }).join('');
+
   eid('content').innerHTML=`
   <div class="page-full">
   <div class="tb no-print" style="margin-bottom:14px;">
     <div style="font-weight:700;font-size:14px;">Profit & Loss — FY ${state.fy}</div>
     <button class="btn btn-s" onclick="exportPnL()" style="margin-left:auto;">⬇ Excel</button>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
     <div class="sc ${gP>=0?'sc-g':'sc-r'}" style="border-radius:12px;"><div class="sl">Gross ${gP>=0?'Profit':'Loss'}</div><div class="sv">${fmt(Math.abs(gP))}</div></div>
     <div class="sc ${nP>=0?'sc-b':'sc-r'}" style="border-radius:12px;"><div class="sl">Net ${nP>=0?'Profit':'Loss'}</div><div class="sv">${fmt(Math.abs(nP))}</div></div>
     <div class="sc sc-p" style="border-radius:12px;"><div class="sl">Net Margin</div><div class="sv">${gI>0?((nP/gI)*100).toFixed(1):0}%</div></div>
   </div>
-  <div class="g2 pf-grid" style="align-items:stretch;">
-    <div class="rp"><div style="font-size:15px;font-weight:700;padding-bottom:11px;border-bottom:2px solid var(--bdr);margin-bottom:10px;">📈 Income</div>
-      <div class="rst" style="margin-top:0;">Sales / Service / Direct Income</div>${rows([...sI,...dI,...svcI])}
-      <div class="rtot rt-g"><span>Gross Income</span><span>${fmt(gI)}</span></div>
-      <div class="rst">Indirect Income</div>${rows(inI)}
-      <div class="rg"><span>TOTAL INCOME</span><span>${fmt(gI+iI)}</span></div>
-    </div>
-    <div class="rp"><div style="font-size:15px;font-weight:700;padding-bottom:11px;border-bottom:2px solid var(--bdr);margin-bottom:10px;">📉 Expenses</div>
-      <div class="rst" style="margin-top:0;">Purchase / Direct / COGS</div>${rows([...pE,...dE,...cogsE],'dr')}
-      <div class="rtot rt-r"><span>Gross Expenses</span><span>${fmt(gE)}</span></div>
-      <div class="rst">Indirect Expenses</div>${rows(inE,'dr')}
-      <div class="rtot rt-r" style="margin-top:8px;"><span>Total Expenses</span><span>${fmt(gE+iE)}</span></div>
-      <div class="rg" style="background:${nP>=0?'#1e3a6e':'#7f1d1d'};margin-top:10px;"><span>NET ${nP>=0?'PROFIT':'LOSS'}</span><span>${fmt(Math.abs(nP))}</span></div>
-    </div>
+  <div class="card pf-grid" style="overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+      <colgroup><col style="width:35%"><col style="width:15%"><col style="width:1px"><col style="width:35%"><col style="width:15%"></colgroup>
+      <thead>
+        <tr style="background:#0f172a;">
+          <th colspan="2" style="padding:11px 14px;text-align:left;color:#e2e8f0;font-size:12px;font-weight:700;letter-spacing:.3px;">📈 Income</th>
+          <th style="background:#1e293b;padding:0;"></th>
+          <th colspan="2" style="padding:11px 14px;text-align:left;color:#e2e8f0;font-size:12px;font-weight:700;letter-spacing:.3px;">📉 Expenses</th>
+        </tr>
+      </thead>
+      <tbody>${tableRows}</tbody>
+      <tfoot>
+        <tr style="background:#0f172a;">
+          <td style="padding:11px 14px;color:#fff;font-weight:800;font-size:13px;">TOTAL INCOME</td>
+          <td style="padding:11px 14px;text-align:right;color:#34d399;font-weight:800;font-size:13px;font-family:var(--mono);">${fmt(gI+iI)}</td>
+          <td style="background:#1e293b;padding:0;"></td>
+          <td style="padding:11px 14px;color:#fff;font-weight:800;font-size:13px;">NET ${nP>=0?'PROFIT':'LOSS'}</td>
+          <td style="padding:11px 14px;text-align:right;font-weight:800;font-size:13px;font-family:var(--mono);color:${nP>=0?'#34d399':'#f87171'};">${fmt(Math.abs(nP))}</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
   </div>`;
 }
@@ -3873,63 +4209,92 @@ function pgBalance(){
   const aL=t=>state.accounts.filter(a=>a.type===t).map(a=>({...a,...L[a.id]}));
   const cap=aL('Capital'),liab=aL('Liability'),assets=aL('Asset');
   const incR=aL('Income'),expR=aL('Expense');
-
-  // ── BUG FIX: use NET values so balance sheet always balances ──
-  // Old code used only closingDr/closingCr — ignoring accounts with reversed balances
-  // (e.g. TDS Payable with Dr balance = TDS Receivable; Fixed Assets with Cr balance = depreciation)
-  // Net approach: Asset(Dr−Cr) = Cap(Cr−Dr) + Liab(Cr−Dr) + Inc(Cr−Dr) + Exp(Cr−Dr) always holds
-  const netVal=a=>(a.closingDr||0)-(a.closingCr||0); // positive = Dr balance, negative = Cr balance
+  const netVal=a=>(a.closingDr||0)-(a.closingCr||0);
   const totCap=cap.reduce((s,a)=>s+(a.closingCr||0)-(a.closingDr||0),0);
   const totLiab=liab.reduce((s,a)=>s+(a.closingCr||0)-(a.closingDr||0),0);
   const totAssets=assets.reduce((s,a)=>s+(a.closingDr||0)-(a.closingCr||0),0);
-  // Net Profit: income Cr balance minus expense Dr balance (net each to handle contra entries)
   const nP=incR.reduce((s,a)=>s+(a.closingCr||0)-(a.closingDr||0),0)
            -expR.reduce((s,a)=>s+(a.closingDr||0)-(a.closingCr||0),0);
   const totSrc=totCap+nP+totLiab;
   const bal=Math.abs(totSrc-totAssets)<1;
+  const drBalLiab=liab.filter(a=>(a.closingDr||0)>(a.closingCr||0));
 
-  // Display helper: show net value for each account line
-  // If an asset has Cr balance (like depreciated fixed asset), show it as 0 (net offset in total)
-  // If a liability has Dr balance (like TDS Receivable), show it under a special section
-  const drBalLiab=liab.filter(a=>(a.closingDr||0)>(a.closingCr||0)); // Liab with Dr balance = hidden asset
-  const crBalAssets=assets.filter(a=>(a.closingCr||0)>(a.closingDr||0)); // Assets with Cr balance = contra
-  const rows=(arr,key,netFn)=>arr.map(a=>{
-    const v=netFn?netFn(a):(a[key]||0);
-    return`<div class="rr"><span class="rrl">${a.name}</span><span class="rrv">${fmt(Math.abs(v))}${v<0?' <span style="font-size:10px;color:#dc2626;">(Cr)</span>':''}</span></div>`;
+  // Build LEFT side rows (Sources: Capital + Liabilities)
+  const leftRows=[];
+  leftRows.push({header:true,label:'Capital & Reserves'});
+  cap.forEach(a=>{const v=(a.closingCr||0)-(a.closingDr||0);leftRows.push({label:a.name,val:v});});
+  leftRows.push({label:`Add: Net ${nP>=0?'Profit':'Loss'}`,val:nP,indent:true,cls:nP>=0?'tg-':'tr-'});
+  leftRows.push({subtotal:true,label:'Total Capital',val:totCap+nP,cls:'tb-'});
+  leftRows.push({header:true,label:'Liabilities'});
+  liab.filter(a=>{const net=(a.closingCr||0)-(a.closingDr||0);return net>0;}).forEach(a=>{
+    const net=(a.closingCr||0)-(a.closingDr||0);
+    leftRows.push({label:a.name,val:net});
+  });
+  leftRows.push({subtotal:true,label:'Total Liabilities',val:totLiab,cls:'tb-'});
+
+  // Build RIGHT side rows (Application: Assets grouped)
+  const rightRows=[];
+  const assetGroups=['Fixed Assets','Cash & Bank','Sundry Debtors','Stock-in-Hand','Loans & Advances','Current Assets'];
+  assetGroups.forEach(grp=>{
+    const items=assets.filter(a=>a.group===grp);
+    if(!items.length)return;
+    rightRows.push({header:true,label:grp});
+    items.forEach(a=>{
+      const net=(a.closingDr||0)-(a.closingCr||0);
+      rightRows.push({label:a.name+(net<0?' [Contra]':''),val:Math.abs(net),cls:net<0?'tr-':''});
+    });
+  });
+  if(drBalLiab.length){
+    rightRows.push({header:true,label:'Debit Balance Accounts',warn:true});
+    drBalLiab.forEach(a=>{const net=(a.closingDr||0)-(a.closingCr||0);rightRows.push({label:a.name,val:net,tag:'Dr Bal'});});
+  }
+
+  // Pad to equal length
+  const maxLen=Math.max(leftRows.length,rightRows.length);
+  while(leftRows.length<maxLen)leftRows.splice(leftRows.length,0,{blank:true});
+  while(rightRows.length<maxLen)rightRows.splice(rightRows.length,0,{blank:true});
+
+  const renderCell=r=>{
+    if(r.header)return`<td colspan="2" style="background:#f1f5f9;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:${r.warn?'#c2410c':'#64748b'};padding:6px 12px;border-bottom:1px solid #e2e8f0;">${r.label}</td>`;
+    if(r.subtotal)return`<td style="padding:7px 12px;font-weight:700;font-size:12px;color:#0f172a;${r.indent?'padding-left:22px;':''}">${r.label}</td><td style="padding:7px 12px;text-align:right;font-family:var(--mono);font-weight:700;font-size:12px;" class="${r.cls||''}">${fmt(r.val)}</td>`;
+    if(r.blank)return`<td colspan="2" style="padding:5px 12px;">&nbsp;</td>`;
+    return`<td style="padding:6px 12px;font-size:12.5px;${r.indent?'padding-left:22px;':''}">${r.label}${r.tag?` <span style="font-size:9px;background:#fff7ed;color:#c2410c;border-radius:3px;padding:1px 4px;">${r.tag}</span>`:''}</td><td style="padding:6px 12px;text-align:right;font-family:var(--mono);font-size:12.5px;" class="${r.cls||''}">${fmt(r.val)}</td>`;
+  };
+
+  const tableRows=leftRows.map((lr,i)=>{
+    const er=rightRows[i]||{blank:true};
+    return`<tr style="border-bottom:1px solid #f1f5f9;">${renderCell(lr)}<td style="width:1px;background:#e2e8f0;padding:0;"></td>${renderCell(er)}</tr>`;
   }).join('');
+
   eid('content').innerHTML=`
   <div class="page-full">
-  <div class="tb no-print">
+  <div class="tb no-print" style="margin-bottom:14px;">
     <div style="font-weight:700;font-size:14px;">Balance Sheet — FY ${state.fy}</div>
-    <div class="${bal?'al al-s':'al al-d'}" style="margin:0;padding:6px 12px;font-size:11px;">${bal?'✓ Balanced':'⚠ Diff: '+fmt(Math.abs(totSrc-totAssets))}</div>
-    ${!bal?`<button class="btn btn-d" onclick="diagUnbalancedVouchers()" style="font-size:11px;padding:5px 10px;">🔍 Find Unbalanced Vouchers</button>`:''}
+    <div class="${bal?'al al-s':'al al-d'}" style="margin:0;padding:5px 12px;font-size:11px;">${bal?'✓ Balanced':'⚠ Diff: '+fmt(Math.abs(totSrc-totAssets))}</div>
+    ${!bal?`<button class="btn btn-d" onclick="diagUnbalancedVouchers()" style="font-size:11px;padding:5px 10px;">🔍 Find Unbalanced</button>`:''}
     <button class="btn btn-s" onclick="exportBalance()" style="margin-left:auto;">⬇ Excel</button>
   </div>
-  <div class="g2 pf-grid" style="align-items:stretch;">
-    <div class="rp"><div style="font-size:15px;font-weight:700;padding-bottom:11px;border-bottom:2px solid var(--bdr);margin-bottom:10px;">💳 Sources of Funds</div>
-      <div class="rst" style="margin-top:0;">Capital & Reserves</div>${rows(cap)}
-      <div class="rr" style="padding-left:12px;"><span>Add: Net ${nP>=0?'Profit':'Loss'}</span><span class="rrv ${nP>=0?'tg-':'tr-'}">${fmt(Math.abs(nP))}</span></div>
-      <div class="rtot rt-b"><span>Total Capital</span><span>${fmt(totCap+nP)}</span></div>
-      <div class="rst">Liabilities</div>${liab.map(a=>{
-        const net=(a.closingCr||0)-(a.closingDr||0);
-        if(net<=0) return ''; // Dr-balance liabilities shown in Assets section
-        return`<div class="rr"><span class="rrl">${a.name}</span><span class="rrv">${fmt(net)}</span></div>`;
-      }).join('')}
-      <div class="rtot rt-b"><span>Total Liabilities</span><span>${fmt(totLiab)}</span></div>
-      <div class="rg"><span>TOTAL SOURCES</span><span>${fmt(totSrc)}</span></div>
-    </div>
-    <div class="rp"><div style="font-size:15px;font-weight:700;padding-bottom:11px;border-bottom:2px solid var(--bdr);margin-bottom:10px;">🏗 Application of Funds</div>
-      ${['Fixed Assets','Cash & Bank','Sundry Debtors','Stock-in-Hand','Loans & Advances','Current Assets'].map(grp=>{
-        const it=assets.filter(a=>a.group===grp);
-        return it.length?`<div class="rst">${grp}</div>${it.map(a=>{
-          const net=(a.closingDr||0)-(a.closingCr||0);
-          return`<div class="rr"><span class="rrl">${a.name}${net<0?' <span style="font-size:9px;color:#dc2626;">[Contra]</span>':''}</span><span class="rrv ${net<0?'tr-':''}">${fmt(Math.abs(net))}</span></div>`;
-        }).join('')}`:'';
-      }).join('')}
-      ${drBalLiab.length?`<div class="rst" style="color:#c2410c;">Debit Balance Accounts (receivables)</div>
-        ${drBalLiab.map(a=>{const net=(a.closingDr||0)-(a.closingCr||0);return`<div class="rr"><span class="rrl">${a.name} <span style="font-size:9px;background:#fff7ed;color:#c2410c;border-radius:3px;padding:1px 4px;">Dr Bal</span></span><span class="rrv">${fmt(net)}</span></div>`;}).join('')}`:''}
-      <div class="rg"><span>TOTAL ASSETS</span><span>${fmt(totAssets)}</span></div>
-    </div>
+  <div class="card pf-grid" style="overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;table-layout:fixed;">
+      <colgroup><col style="width:35%"><col style="width:15%"><col style="width:1px"><col style="width:35%"><col style="width:15%"></colgroup>
+      <thead>
+        <tr style="background:#0f172a;">
+          <th colspan="2" style="padding:11px 14px;text-align:left;color:#e2e8f0;font-size:12px;font-weight:700;letter-spacing:.3px;">💳 Sources of Funds</th>
+          <th style="background:#1e293b;padding:0;"></th>
+          <th colspan="2" style="padding:11px 14px;text-align:left;color:#e2e8f0;font-size:12px;font-weight:700;letter-spacing:.3px;">🏗 Application of Funds</th>
+        </tr>
+      </thead>
+      <tbody>${tableRows}</tbody>
+      <tfoot>
+        <tr style="background:#0f172a;">
+          <td style="padding:11px 14px;color:#fff;font-weight:800;font-size:13px;">TOTAL SOURCES</td>
+          <td style="padding:11px 14px;text-align:right;color:#93c5fd;font-weight:800;font-size:13px;font-family:var(--mono);">${fmt(totSrc)}</td>
+          <td style="background:#1e293b;padding:0;"></td>
+          <td style="padding:11px 14px;color:#fff;font-weight:800;font-size:13px;">TOTAL ASSETS</td>
+          <td style="padding:11px 14px;text-align:right;font-weight:800;font-size:13px;font-family:var(--mono);color:#93c5fd;">${fmt(totAssets)}</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
   </div>`;
 }
@@ -4636,6 +5001,39 @@ function export26ASRecon(){
   showToast('✅ 26AS Reconciliation exported!');
 }
 
+
+// SHARED GST UTILITY — single source of truth used by Dashboard AND GST Report
+function calcVoucherGST(vouchers, side) {
+  var taxable=0, cgst=0, sgst=0, igst=0;
+  vouchers.forEach(function(v) {
+    if(v.items && v.items.length > 0) {
+      v.items.forEach(function(it){ taxable+=it.taxable||0; cgst+=it.cgst||0; sgst+=it.sgst||0; igst+=it.igst||0; });
+    } else {
+      if(side === 'output') {
+        var ca = v.entries.filter(function(e){return e.accId==='2002';}).reduce(function(s,e){return s+(e.cr||0);},0);
+        var sa = v.entries.filter(function(e){return e.accId==='2003';}).reduce(function(s,e){return s+(e.cr||0);},0);
+        var ia = v.entries.filter(function(e){return e.accId==='2004';}).reduce(function(s,e){return s+(e.cr||0);},0);
+        taxable += v.entries.reduce(function(s,e){return s+(e.dr||0);},0) - ca - sa - ia;
+        cgst+=ca; sgst+=sa; igst+=ia;
+      } else {
+        var ca = v.entries.filter(function(e){return e.accId==='1006';}).reduce(function(s,e){return s+(e.dr||0);},0);
+        var sa = v.entries.filter(function(e){return e.accId==='1007';}).reduce(function(s,e){return s+(e.dr||0);},0);
+        var ia = v.entries.filter(function(e){return e.accId==='1008';}).reduce(function(s,e){return s+(e.dr||0);},0);
+        taxable += v.entries.reduce(function(s,e){return s+(e.dr||0);},0) - ca - sa - ia;
+        cgst+=ca; sgst+=sa; igst+=ia;
+      }
+    }
+  });
+  return { taxable: Math.round(taxable*100)/100, cgst: Math.round(cgst*100)/100, sgst: Math.round(sgst*100)/100, igst: Math.round(igst*100)/100 };
+}
+function calcNetGST(fyVouchers) {
+  var sV = fyVouchers.filter(function(v){ return ['Sales','Debit Note'].includes(v.type); });
+  var pV = fyVouchers.filter(function(v){ return ['Purchase','Credit Note'].includes(v.type); });
+  var sg = calcVoucherGST(sV, 'output');
+  var pg = calcVoucherGST(pV, 'input');
+  return { outputTax: sg.cgst+sg.sgst+sg.igst, inputCredit: pg.cgst+pg.sgst+pg.igst, netGST: (sg.cgst+sg.sgst+sg.igst)-(pg.cgst+pg.sgst+pg.igst) };
+}
+
 function pgGST(){renderGST('all');}
 function renderGST(filter){
   // Bug fix: include Debit Notes in output (sales-side) and Credit Notes in input (purchase-side)
@@ -4643,34 +5041,7 @@ function renderGST(filter){
   const sV=state.vouchers.filter(v=>['Sales','Debit Note'].includes(v.type)&&v.date>=state.fyStart&&v.date<=state.fyEnd);
   const pV=state.vouchers.filter(v=>['Purchase','Credit Note'].includes(v.type)&&v.date>=state.fyStart&&v.date<=state.fyEnd);
 
-  // Bug fix: use correct GST accounts per voucher side
-  // Sales/Debit Note: Output GST in 2002(CGST Cr), 2003(SGST Cr), 2004(IGST Cr)
-  // Purchase/Credit Note: Input GST in 1006(CGST Dr), 1007(SGST Dr), 1008(IGST Dr)
-  const calcVoucherGST=(vouchers, side='output')=>{
-    let taxable=0,cgst=0,sgst=0,igst=0;
-    vouchers.forEach(v=>{
-      if(v.items&&v.items.length>0){
-        v.items.forEach(it=>{taxable+=it.taxable||0;cgst+=it.cgst||0;sgst+=it.sgst||0;igst+=it.igst||0;});
-      } else {
-        if(side==='output'){
-          // Read Output GST from liability accounts (Cr side)
-          const cgstAmt=v.entries.filter(e=>e.accId==='2002').reduce((s,e)=>s+(e.cr||0),0);
-          const sgstAmt=v.entries.filter(e=>e.accId==='2003').reduce((s,e)=>s+(e.cr||0),0);
-          const igstAmt=v.entries.filter(e=>e.accId==='2004').reduce((s,e)=>s+(e.cr||0),0);
-          const gross=v.entries.reduce((s,e)=>s+(e.dr||0),0);
-          taxable+=gross-cgstAmt-sgstAmt-igstAmt;cgst+=cgstAmt;sgst+=sgstAmt;igst+=igstAmt;
-        } else {
-          // Read Input GST from asset accounts (Dr side)
-          const cgstAmt=v.entries.filter(e=>e.accId==='1006').reduce((s,e)=>s+(e.dr||0),0);
-          const sgstAmt=v.entries.filter(e=>e.accId==='1007').reduce((s,e)=>s+(e.dr||0),0);
-          const igstAmt=v.entries.filter(e=>e.accId==='1008').reduce((s,e)=>s+(e.dr||0),0);
-          const gross=v.entries.reduce((s,e)=>s+(e.dr||0),0);
-          taxable+=gross-cgstAmt-sgstAmt-igstAmt;cgst+=cgstAmt;sgst+=sgstAmt;igst+=igstAmt;
-        }
-      }
-    });
-    return{taxable:Math.round(taxable*100)/100,cgst:Math.round(cgst*100)/100,sgst:Math.round(sgst*100)/100,igst:Math.round(igst*100)/100};
-  };
+  // Uses shared top-level calcVoucherGST()
 
   const salesGST=calcVoucherGST(sV,'output');
   const purchGST=calcVoucherGST(pV,'input');
@@ -4723,23 +5094,30 @@ function renderGST(filter){
     </div>
   </div>
 
-  <div class="g2 pf-grid" style="gap:14px;align-items:stretch;">
-    <div>
-      <div style="font-weight:700;color:#1d4ed8;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;">GSTR-1: Sales Register (Output Tax)</div>
-      <div class="card"><table class="tbl">
-        <thead><tr><th>Date</th><th>Voucher</th><th>Narration</th><th class="tr">Taxable</th><th class="tr">CGST</th><th class="tr">SGST</th><th class="tr">IGST</th><th class="tr">Total</th></tr></thead>
-        <tbody>${sRows||'<tr><td colspan="8" style="padding:14px;text-align:center;color:var(--tm)">No sales</td></tr>'}</tbody>
-      </table></div>
-    </div>
-    <div>
-      <div style="font-weight:700;color:#c2410c;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;">GSTR-2: Purchase Register (Input Tax Credit)</div>
-      <div class="card"><table class="tbl">
-        <thead><tr><th>Date</th><th>Voucher</th><th>Narration</th><th class="tr">Taxable</th><th class="tr">CGST</th><th class="tr">SGST</th><th class="tr">IGST</th><th class="tr">Total</th></tr></thead>
-        <tbody>${pRows||'<tr><td colspan="8" style="padding:14px;text-align:center;color:var(--tm)">No purchases</td></tr>'}</tbody>
-      </table></div>
-    </div>
+  <div style="display:flex;gap:6px;margin-bottom:8px;" id="gst-tab-bar">
+    <button onclick="gstTab('s')" id="gtab-s" style="padding:5px 14px;border-radius:6px;border:none;background:#1d4ed8;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font);">🔵 GSTR-1: Sales Output Tax</button>
+    <button onclick="gstTab('p')" id="gtab-p" style="padding:5px 14px;border-radius:6px;border:1px solid #e2e8f0;background:#fff;color:#64748b;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font);">🟠 GSTR-2: Purchase Input Credit</button>
+  </div>
+  <div id="gst-panel-s" class="card pf-grid" style="overflow-x:auto;">
+    <table class="tbl" style="min-width:600px;">
+      <thead><tr><th>Date</th><th>Voucher</th><th>Narration</th><th class="tr">Taxable</th><th class="tr">CGST</th><th class="tr">SGST</th><th class="tr">IGST</th><th class="tr">Total</th></tr></thead>
+      <tbody>${sRows||'<tr><td colspan="8" style="padding:14px;text-align:center;color:var(--tm)">No sales</td></tr>'}</tbody>
+    </table>
+  </div>
+  <div id="gst-panel-p" class="card pf-grid" style="overflow-x:auto;display:none;">
+    <table class="tbl" style="min-width:600px;">
+      <thead><tr><th>Date</th><th>Voucher</th><th>Narration</th><th class="tr">Taxable</th><th class="tr">CGST</th><th class="tr">SGST</th><th class="tr">IGST</th><th class="tr">Total</th></tr></thead>
+      <tbody>${pRows||'<tr><td colspan="8" style="padding:14px;text-align:center;color:var(--tm)">No purchases</td></tr>'}</tbody>
+    </table>
   </div>
   </div>`;
+}
+function gstTab(t){
+  document.getElementById('gst-panel-s').style.display=t==='s'?'block':'none';
+  document.getElementById('gst-panel-p').style.display=t==='p'?'block':'none';
+  const s=document.getElementById('gtab-s'),p=document.getElementById('gtab-p');
+  if(t==='s'){s.style.background='#1d4ed8';s.style.color='#fff';s.style.border='none';p.style.background='#fff';p.style.color='#64748b';p.style.border='1px solid #e2e8f0';}
+  else{p.style.background='#c2410c';p.style.color='#fff';p.style.border='none';s.style.background='#fff';s.style.color='#64748b';s.style.border='1px solid #e2e8f0';}
 }
 function exportGSTReport(){
   const sV=state.vouchers.filter(v=>v.type==='Sales'),pV=state.vouchers.filter(v=>v.type==='Purchase');
@@ -5352,338 +5730,6 @@ function resetAllData(){
   scheduleSave();
   showToast('🗑 All transaction data cleared. Company settings retained.','#dc2626');
   navigate('dashboard');
-}
-
-// ══════════════════════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════════════════
-//  PAGE: GST INVOICE GENERATOR
-// ══════════════════════════════════════════════════════════════════
-let invFilter='all';
-function pgInvoice(){
-  if(!state.invoices)state.invoices=[];
-  const list=state.invoices.filter(inv=>invFilter==='all'||inv.status===invFilter);
-  const rows=list.sort((a,b)=>b.date.localeCompare(a.date)).map((inv,i)=>{
-    const total=inv.items.reduce((s,it)=>s+(it.qty*it.rate*(1+(it.gst||0)/100)),0);
-
-    return `<tr class="${i%2?'alt':''}">
-      <td class="mono tb-">${inv.id}</td>
-      <td>${fmtD(inv.date)}</td>
-      <td>${inv.customer||'—'}</td>
-      <td class="tr mono">${fmt(total)}</td>
-      <td><span class="badge ${inv.status==='paid'?'bg-':inv.status==='cancelled'?'br':'by'}">${inv.status||'draft'}</span></td>
-      <td>
-        <button class="btn btn-g btn-sm" onclick="viewInvoice('${inv.id}')">👁 View</button>
-        <button class="btn btn-p btn-sm" onclick="printInvoice('${inv.id}')">🖨 Print</button>
-        ${inv.status!=='paid'?`<button class="btn btn-s btn-sm" onclick="markInvPaid('${inv.id}')">✅ Paid</button>`:''}
-        <button class="btn btn-d btn-sm" onclick="deleteInvoice('${inv.id}')">🗑</button>
-      </td>
-    </tr>`;
-  }).join('');
-
-  const totalInv=state.invoices.reduce((s,inv)=>s+inv.items.reduce((ss,it)=>ss+(it.qty*it.rate*(1+(it.gst||0)/100)),0),0);
-  const paidInv=state.invoices.filter(i=>i.status==='paid').reduce((s,inv)=>s+inv.items.reduce((ss,it)=>ss+(it.qty*it.rate*(1+(it.gst||0)/100)),0),0);
-  const pendingInv=totalInv-paidInv;
-
-  eid('content').innerHTML=`
-  <div class="sg" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
-    <div class="sc sc-b"><div class="sl">Total Invoices</div><div class="sv">${state.invoices.length}</div><div class="ss">All time</div></div>
-    <div class="sc sc-g"><div class="sl">Total Billed</div><div class="sv">${fmt(totalInv)}</div><div class="ss">Incl. GST</div></div>
-    <div class="sc sc-p"><div class="sl">Paid</div><div class="sv">${fmt(paidInv)}</div><div class="ss">${state.invoices.filter(i=>i.status==='paid').length} invoices</div></div>
-    <div class="sc sc-o"><div class="sl">Pending</div><div class="sv">${fmt(pendingInv)}</div><div class="ss">${state.invoices.filter(i=>i.status!=='paid'&&i.status!=='cancelled').length} invoices</div></div>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-    <div class="tg">
-      <button class="t ${invFilter==='all'?'act':''}" onclick="invFilter='all';pgInvoice()">All</button>
-      <button class="t ${invFilter==='draft'?'act':''}" onclick="invFilter='draft';pgInvoice()">Draft</button>
-      <button class="t ${invFilter==='paid'?'act':''}" onclick="invFilter='paid';pgInvoice()">Paid</button>
-    </div>
-    <button class="btn btn-p" onclick="openNewInvoice()">➕ New GST Invoice</button>
-  </div>
-  <div class="card">
-    <table class="tbl">
-      <thead><tr><th>Invoice No</th><th>Date</th><th>Customer</th><th class="tr">Amount</th><th>Status</th><th>Actions</th></tr></thead>
-      <tbody>${rows||'<tr><td colspan="6" class="tc tm-" style="padding:20px;">No invoices yet. Click "New GST Invoice" to create one.</td></tr>'}</tbody>
-    </table>
-  </div>`;
-}
-
-function openNewInvoice(){
-  const invNo='INV-'+String(Date.now()).slice(-6);
-  const custOpts=state.debtors.map(d=>`<option value="${d.name}">${d.name}</option>`).join('');
-  const itemOpts=state.items.map(it=>`<option value="${it.name}" data-rate="${it.sellingPrice||0}" data-hsn="${it.hsn||''}" data-gst="${it.gst||18}">${it.name}</option>`).join('');
-  openModal('🧾 New GST Invoice',`
-    <div class="fg" style="margin-bottom:14px;">
-      <div class="fgr"><label class="fl">Invoice No</label><input class="fc" id="inv-no" value="${invNo}" readonly></div>
-      <div class="fgr"><label class="fl">Date</label><input class="fc" id="inv-date" type="date" value="${today()}"></div>
-      <div class="fgr"><label class="fl">Customer Name</label>
-        <input class="fc" id="inv-cust" list="inv-cust-list" placeholder="Customer name">
-        <datalist id="inv-cust-list">${custOpts}</datalist>
-      </div>
-      <div class="fgr"><label class="fl">Customer GSTIN</label><input class="fc" id="inv-cgstin" placeholder="Customer GSTIN (optional)"></div>
-    </div>
-    <div class="fgr" style="margin-bottom:10px;"><label class="fl">Customer Address</label><textarea class="fc" id="inv-caddr" rows="2" placeholder="Billing address"></textarea></div>
-    <div style="font-weight:700;font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Invoice Items</div>
-    <table class="et" id="inv-items-tbl" style="margin-bottom:10px;">
-      <thead><tr><th>#</th><th>Item / Description</th><th>HSN/SAC</th><th>Qty</th><th>Rate (₹)</th><th>GST%</th><th>Amount</th><th></th></tr></thead>
-      <tbody id="inv-items-body">
-        <tr id="inv-row-1">
-          <td>1</td>
-          <td><input class="fc" style="min-width:140px;" id="inv-item-1" list="inv-item-list-1" oninput="autoFillItem(1)" placeholder="Item name">
-          <datalist id="inv-item-list-1">${itemOpts}</datalist></td>
-          <td><input class="fc" style="width:80px;" id="inv-hsn-1" placeholder="HSN"></td>
-          <td><input class="fc" style="width:60px;" id="inv-qty-1" type="number" value="1" oninput="calcInvRow(1)"></td>
-          <td><input class="fc" style="width:90px;" id="inv-rate-1" type="number" value="0" oninput="calcInvRow(1)"></td>
-          <td><select class="fc" style="width:70px;" id="inv-gst-1" onchange="calcInvRow(1)"><option>0</option><option>5</option><option selected>18</option><option>12</option><option>28</option></select></td>
-          <td id="inv-amt-1" class="mono" style="text-align:right;">0.00</td>
-          <td></td>
-        </tr>
-      </tbody>
-      <tfoot><tr><td colspan="6" style="text-align:right;font-weight:700;padding:8px;">Total</td><td id="inv-total" class="mono" style="text-align:right;font-weight:700;padding:8px;">0.00</td><td></td></tr></tfoot>
-    </table>
-    <button class="btn btn-g btn-sm" onclick="addInvRow()">➕ Add Row</button>
-    <div class="fg" style="margin-top:14px;">
-      <div class="fgr"><label class="fl">Payment Terms</label>
-        <select class="fc" id="inv-terms"><option>Due on Receipt</option><option>Net 7</option><option>Net 15</option><option>Net 30</option><option>Net 45</option><option>Net 60</option></select>
-      </div>
-      <div class="fgr"><label class="fl">Notes</label><input class="fc" id="inv-notes" placeholder="Thank you for your business!"></div>
-    </div>
-    <div style="margin-top:16px;display:flex;gap:8px;">
-      <button class="btn btn-p" onclick="saveInvoice('draft')">💾 Save Draft</button>
-      <button class="btn btn-s" onclick="saveInvoice('sent')">📤 Save & Print</button>
-      <button class="btn btn-g" onclick="closeModal()">Cancel</button>
-    </div>
-  `);
-  window._invRowCount=1;
-}
-
-let _invRowCount=1;
-function addInvRow(){
-  _invRowCount++;
-  const n=_invRowCount;
-  const itemOpts=state.items.map(it=>`<option value="${it.name}" data-rate="${it.sellingPrice||0}" data-hsn="${it.hsn||''}" data-gst="${it.gst||18}">${it.name}</option>`).join('');
-  const tbody=document.getElementById('inv-items-body');
-  const tr=document.createElement('tr');
-  tr.id='inv-row-'+n;
-  tr.innerHTML=`<td>${n}</td>
-    <td><input class="fc" style="min-width:140px;" id="inv-item-${n}" list="inv-item-list-${n}" oninput="autoFillItem(${n})" placeholder="Item name">
-    <datalist id="inv-item-list-${n}">${itemOpts}</datalist></td>
-    <td><input class="fc" style="width:80px;" id="inv-hsn-${n}" placeholder="HSN"></td>
-    <td><input class="fc" style="width:60px;" id="inv-qty-${n}" type="number" value="1" oninput="calcInvRow(${n})"></td>
-    <td><input class="fc" style="width:90px;" id="inv-rate-${n}" type="number" value="0" oninput="calcInvRow(${n})"></td>
-    <td><select class="fc" style="width:70px;" id="inv-gst-${n}" onchange="calcInvRow(${n})"><option>0</option><option>5</option><option>12</option><option selected>18</option><option>28</option></select></td>
-    <td id="inv-amt-${n}" class="mono" style="text-align:right;">0.00</td>
-    <td><button class="btn btn-d btn-sm" onclick="document.getElementById('inv-row-${n}').remove();calcInvTotal()">✕</button></td>`;
-  tbody.appendChild(tr);
-}
-
-function autoFillItem(n){
-  const name=document.getElementById('inv-item-'+n)?.value;
-  const it=state.items.find(i=>i.name===name);
-  if(!it)return;
-  if(document.getElementById('inv-hsn-'+n)) document.getElementById('inv-hsn-'+n).value=it.hsn||'';
-  if(document.getElementById('inv-rate-'+n)) document.getElementById('inv-rate-'+n).value=it.sellingPrice||0;
-  const gstSel=document.getElementById('inv-gst-'+n);
-  if(gstSel){[...gstSel.options].forEach(o=>{if(Number(o.value)===Number(it.gst||18))o.selected=true;});}
-  calcInvRow(n);
-}
-
-function calcInvRow(n){
-  const qty=parseFloat(document.getElementById('inv-qty-'+n)?.value||0);
-  const rate=parseFloat(document.getElementById('inv-rate-'+n)?.value||0);
-  const gst=parseFloat(document.getElementById('inv-gst-'+n)?.value||0);
-  const amt=qty*rate*(1+gst/100);
-  const el=document.getElementById('inv-amt-'+n);
-  if(el)el.textContent=amt.toFixed(2);
-  calcInvTotal();
-}
-
-function calcInvTotal(){
-  let total=0;
-  const tbody=document.getElementById('inv-items-body');
-  if(!tbody)return;
-  [...tbody.rows].forEach(tr=>{
-    const id=tr.id?.replace('inv-row-','');
-    if(!id)return;
-    const el=document.getElementById('inv-amt-'+id);
-    total+=parseFloat(el?.textContent||0);
-  });
-  const tel=document.getElementById('inv-total');
-  if(tel)tel.textContent=total.toFixed(2);
-}
-
-function saveInvoice(status){
-  const no=document.getElementById('inv-no')?.value;
-  const date=document.getElementById('inv-date')?.value;
-  const cust=document.getElementById('inv-cust')?.value;
-  if(!cust){showAlert('Please enter customer name.');return;}
-  const items=[];
-  const tbody=document.getElementById('inv-items-body');
-  [...tbody.rows].forEach(tr=>{
-    const id=tr.id?.replace('inv-row-','');
-    if(!id)return;
-    const name=document.getElementById('inv-item-'+id)?.value||'';
-    if(!name)return;
-    items.push({
-      name,
-      hsn:document.getElementById('inv-hsn-'+id)?.value||'',
-      qty:parseFloat(document.getElementById('inv-qty-'+id)?.value||1),
-      rate:parseFloat(document.getElementById('inv-rate-'+id)?.value||0),
-      gst:parseFloat(document.getElementById('inv-gst-'+id)?.value||0),
-    });
-  });
-  if(!items.length){showAlert('Add at least one item.');return;}
-  const inv={
-    id:no, date, customer:cust,
-    customerGstin:document.getElementById('inv-cgstin')?.value||'',
-    customerAddr:document.getElementById('inv-caddr')?.value||'',
-    terms:document.getElementById('inv-terms')?.value||'Due on Receipt',
-    notes:document.getElementById('inv-notes')?.value||'',
-    items, status,
-    createdBy:currentUser?.username||'admin',
-    createdAt:new Date().toISOString(),
-  };
-  if(!state.invoices)state.invoices=[];
-  state.invoices.push(inv);
-  logAudit('Invoice Created', `Invoice ${inv.id} for ${inv.customer}`);
-  scheduleSave();
-  closeModal();
-  showToast('✅ Invoice saved!','#059669');
-  if(status==='sent')printInvoice(no);
-  pgInvoice();
-}
-
-function markInvPaid(id){
-  const inv=state.invoices.find(i=>i.id===id);
-  if(!inv)return;
-  inv.status='paid';
-  scheduleSave();
-  showToast('✅ Invoice marked as paid!','#059669');
-  pgInvoice();
-}
-
-function deleteInvoice(id){
-  if(!confirm('Delete this invoice?'))return;
-  const _delInv=state.invoices.find(i=>i.id===id);
-  state.invoices=state.invoices.filter(i=>i.id!==id);
-  logAudit('Invoice Deleted', `Invoice ${id} customer: ${_delInv?.customer||'?'}`);
-  scheduleSave();
-  pgInvoice();
-}
-
-function viewInvoice(id){
-  const inv=state.invoices.find(i=>i.id===id);
-  if(!inv)return;
-  const html=buildInvoiceHTML(inv);
-  openModal('Invoice Preview - '+id,`<div>${html}</div><div style="margin-top:14px;display:flex;gap:8px;"><button class="btn btn-p" onclick="printInvoice('${id}')">🖨 Print</button><button class="btn btn-g" onclick="closeModal()">Close</button></div>`);
-}
-
-function printInvoice(id){
-  const inv=state.invoices.find(i=>i.id===id);
-  if(!inv){showToast('Invoice not found','#dc2626');return;}
-  const html=buildInvoiceHTML(inv);
-  const w=window.open('','_blank','width=900,height=700');
-  w.document.write(`<!DOCTYPE html><html><head><title>Invoice ${inv.id}</title>
-  <style>
-    body{font-family:Arial,sans-serif;font-size:13px;color:#111;margin:0;padding:0;}
-    .inv-wrap{max-width:800px;margin:0 auto;padding:30px;}
-    .inv-header{display:flex;justify-content:space-between;border-bottom:3px solid #1d4ed8;padding-bottom:14px;margin-bottom:14px;}
-    .company-name{font-size:22px;font-weight:800;color:#1d4ed8;}
-    .inv-title{font-size:28px;font-weight:800;color:#1d4ed8;text-align:right;}
-    .inv-meta{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px;}
-    .inv-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;}
-    .inv-box-title{font-size:10px;font-weight:700;text-transform:uppercase;color:#64748b;margin-bottom:6px;}
-    table{width:100%;border-collapse:collapse;margin-bottom:16px;}
-    th{background:#1d4ed8;color:#fff;padding:8px 10px;text-align:left;font-size:11px;}
-    td{padding:7px 10px;border-bottom:1px solid #e2e8f0;}
-    .tr{text-align:right;}.tc{text-align:center;}
-    .totals-box{margin-left:auto;width:300px;}
-    .tot-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #e2e8f0;}
-    .tot-final{display:flex;justify-content:space-between;padding:8px;background:#1d4ed8;color:#fff;font-weight:800;border-radius:6px;margin-top:6px;}
-    .footer{margin-top:30px;border-top:1px solid #e2e8f0;padding-top:12px;font-size:11px;color:#64748b;}
-    @media print{body{margin:0;}.no-print{display:none;}}
-  </style></head><body>${html}</body></html>`);
-  w.document.close();
-  setTimeout(()=>w.print(),600);
-}
-
-function buildInvoiceHTML(inv){
-  const subtotal=inv.items.reduce((s,it)=>s+(it.qty*it.rate),0);
-  let cgst=0,sgst=0,igst=0;
-  const isIntra=(inv.customerState===state.companyState||!inv.customerState);
-  inv.items.forEach(it=>{
-    const taxAmt=it.qty*it.rate*(it.gst/100);
-    if(isIntra){cgst+=taxAmt/2;sgst+=taxAmt/2;}else{igst+=taxAmt;}
-  });
-  const total=subtotal+cgst+sgst+igst;
-  const itemRows=inv.items.map((it,i)=>{
-    const taxable=it.qty*it.rate;
-    const taxAmt=taxable*(it.gst/100);
-    return `<tr>
-      <td class="tc">${i+1}</td>
-      <td>${it.name}</td>
-      <td class="tc">${it.hsn||'—'}</td>
-      <td class="tc">${it.qty}</td>
-      <td class="tr">₹${fmtN(it.rate)}</td>
-      <td class="tr">₹${fmtN(taxable)}</td>
-      <td class="tc">${it.gst}%</td>
-      <td class="tr">₹${fmtN(taxAmt)}</td>
-      <td class="tr">₹${fmtN(taxable+taxAmt)}</td>
-    </tr>`;
-  }).join('');
-
-  return `<div class="inv-wrap">
-    <div class="inv-header">
-      <div>
-        <div class="company-name">${state.company}</div>
-        ${state.gstin?`<div style="font-size:12px;color:#475569;margin-top:4px;">GSTIN: ${state.gstin}</div>`:''}
-        ${state.address?`<div style="font-size:12px;color:#475569;">${state.address}</div>`:''}
-        ${state.phone?`<div style="font-size:12px;color:#475569;">📞 ${state.phone}</div>`:''}
-      </div>
-      <div style="text-align:right;">
-        <div class="inv-title">TAX INVOICE</div>
-        <div style="font-size:13px;margin-top:4px;"><strong>#${inv.id}</strong></div>
-        <div style="font-size:12px;color:#475569;">Date: ${fmtD(inv.date)}</div>
-        <div style="font-size:12px;color:#475569;">Terms: ${inv.terms||'Due on Receipt'}</div>
-      </div>
-    </div>
-    <div class="inv-meta">
-      <div class="inv-box">
-        <div class="inv-box-title">Bill To</div>
-        <div style="font-weight:700;font-size:14px;">${inv.customer}</div>
-        ${inv.customerGstin?`<div style="font-size:12px;color:#475569;">GSTIN: ${inv.customerGstin}</div>`:''}
-        ${inv.customerAddr?`<div style="font-size:12px;color:#475569;">${inv.customerAddr}</div>`:''}
-      </div>
-      <div class="inv-box">
-        <div class="inv-box-title">Invoice Details</div>
-        <div><strong>Invoice No:</strong> ${inv.id}</div>
-        <div><strong>Date:</strong> ${fmtD(inv.date)}</div>
-        <div><strong>Financial Year:</strong> ${state.fy}</div>
-        <div><strong>Status:</strong> <span style="color:${inv.status==='paid'?'#059669':'#d97706'};font-weight:700;">${(inv.status||'draft').toUpperCase()}</span></div>
-      </div>
-    </div>
-    <table>
-      <thead><tr><th class="tc">#</th><th>Item / Description</th><th class="tc">HSN/SAC</th><th class="tc">Qty</th><th class="tr">Rate</th><th class="tr">Taxable</th><th class="tc">GST%</th><th class="tr">Tax Amt</th><th class="tr">Total</th></tr></thead>
-      <tbody>${itemRows}</tbody>
-    </table>
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px;">
-      <div style="flex:1;">
-        ${inv.notes?`<div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px;font-size:12px;"><strong>Notes:</strong> ${inv.notes}</div>`:''}
-        ${state.gstin?`<div style="margin-top:10px;font-size:11px;color:#64748b;">Subject to ${state.companyState||'Maharashtra'} Jurisdiction</div>`:''}
-      </div>
-      <div class="totals-box">
-        <div class="tot-row"><span>Subtotal (Taxable)</span><span>₹${fmtN(subtotal)}</span></div>
-        ${cgst>0?`<div class="tot-row"><span>CGST</span><span>₹${fmtN(cgst)}</span></div><div class="tot-row"><span>SGST</span><span>₹${fmtN(sgst)}</span></div>`:''}
-        ${igst>0?`<div class="tot-row"><span>IGST</span><span>₹${fmtN(igst)}</span></div>`:''}
-        <div class="tot-final"><span>Grand Total</span><span>₹${fmtN(total)}</span></div>
-      </div>
-    </div>
-    <div class="footer">
-      <div style="display:flex;justify-content:space-between;">
-        <div>This is a computer-generated invoice.</div>
-        <div style="text-align:right;margin-top:40px;border-top:1px solid #e2e8f0;padding-top:6px;">Authorised Signatory<br><strong>${state.company}</strong></div>
-      </div>
-    </div>
-  </div>`;
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -6856,10 +6902,10 @@ function pgGSTR1(){
   const totTax=salesV.reduce((s,v)=>{const g=calcGST(v);return s+g.cgst+g.sgst+g.igst;},0);
 
   eid('content').innerHTML=`
-  <div style="max-width:1100px;">
+  <div style="max-width:100%;">
     <div class="tb no-print" style="margin-bottom:16px;flex-wrap:wrap;gap:8px;">
       <div>
-        <div style="font-size:15px;font-weight:700;">GSTR-1 — Statement of Outward Supplies</div>
+        <div style="font-size:13px;font-weight:700;">GSTR-1 — Statement of Outward Supplies</div>
         <div style="font-size:11px;color:var(--tm);">GSTIN: <strong>${state.gstin||'Not Set'}</strong> &nbsp;|&nbsp; FY: <strong>${state.fy}</strong> &nbsp;|&nbsp; Legal Name: <strong>${state.company}</strong></div>
       </div>
       <div style="display:flex;gap:8px;margin-left:auto;">
@@ -7162,7 +7208,7 @@ function pgEInvoice(){
         <div style="font-size:15px;font-weight:700;">E-Invoice (IRN) Generator</div>
         <div style="font-size:11px;color:var(--tm);">Seller GSTIN: <strong>${state.gstin||'⚠️ Not Set — Add in Settings'}</strong></div>
       </div>
-      <button class="btn btn-p" onclick="navigate('invoice')" style="margin-left:auto;">➕ Create New Invoice</button>
+      <button class="btn btn-p" onclick="navigate('vouchers')" style="margin-left:auto;">➕ New Sales Voucher</button>
     </div>
 
     <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;margin-bottom:16px;font-size:12px;">
@@ -7453,11 +7499,18 @@ async function init(){
     const savedCompanyId=sessionStorage.getItem('companyId');
 
     if(session && savedUsername && savedCompanyId){
+      // LOGIN FIX 3: Re-apply session to Supabase client so RLS is active
+      try{ await getSupa().auth.setSession(session); }catch(_){}
       let userRow=null;
       try{
         const {data,error}=await getSupa().from('app_users')
           .select('*').eq('username',savedUsername).maybeSingle();
-        if(!error) userRow=data;
+        if(!error && data) userRow=data;
+        // Fallback: query by user_id if username lookup failed
+        else if(session.user?.id){
+          const {data:d2}=await getSupa().from('app_users').select('*').eq('user_id',session.user.id).maybeSingle();
+          if(d2) userRow=d2;
+        }
       }catch(_){}
 
       if(userRow && userRow.company_id===savedCompanyId){
@@ -7502,6 +7555,29 @@ async function init(){
 // Close modal on overlay click
 document.getElementById('modal').addEventListener('click',function(e){
   if(e.target===this)closeModal();
+});
+
+
+// ── KEYBOARD SHORTCUTS (Alt+Key) — Tally-style navigation ──
+const _KSC_MAP = {
+  'd':'dashboard','a':'accounts','i':'items','v':'vendors','u':'debtors',
+  'e':'vouchers','p':'advances','y':'daybook','k':'cashbook',
+  'l':'ledger','b':'bankrecon','t':'trial','f':'pnl','s':'balance','w':'cashflow',
+  'r':'gst','x':'tds','o':'outstanding','n':'einvoice','z':'audittrail',
+  'm':'employees','j':'payroll','q':'import','c':'settings','h':'usermgmt',
+  '1':'gstr1','3':'gstr3b',
+  '4':'reg-sales','5':'reg-purchase','6':'reg-debit','7':'reg-credit','8':'reg-journal'
+};
+document.addEventListener('keydown',function(e){
+  // Only fire when app is visible (not on login/company select screens)
+  if(document.getElementById('app')?.classList.contains('hidden')) return;
+  // Skip if user is typing in an input/textarea/select
+  const tag=(e.target.tagName||'').toLowerCase();
+  if(tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable) return;
+  if(!e.altKey) return;
+  const key=e.key.toLowerCase();
+  const page=_KSC_MAP[key];
+  if(page){ e.preventDefault(); navigate(page); }
 });
 
 init();
@@ -7919,6 +7995,122 @@ function applyDateRange(){
   pgDashboard();
 }
 
+
+// ═══════════════════════════════════════════════════════════════
+// 📄 VOUCHER PDF EXPORT
+// ═══════════════════════════════════════════════════════════════
+function exportVoucherPDF(vId){
+  const v=state.vouchers.find(x=>x.id===vId);
+  if(!v){showToast('Voucher not found','#dc2626');return;}
+  const amt=v.entries.reduce((s,e)=>s+(e.dr||0),0);
+  const pName=partyName(v);
+  const t=v.totals||{};
+  const typeColors={Sales:'#059669',Purchase:'#2563eb',Receipt:'#059669',Payment:'#dc2626',Journal:'#7c3aed',Contra:'#64748b','Debit Note':'#d97706','Credit Note':'#db2777'};
+  const tc=typeColors[v.type]||'#2563eb';
+
+  const itemsHtml=(v.items&&v.items.length>0)?`
+    <table style="width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;">
+      <thead><tr style="background:#f8fafc;">
+        <th style="padding:7px 10px;text-align:left;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Description</th>
+        <th style="padding:7px 10px;text-align:center;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">HSN/SAC</th>
+        <th style="padding:7px 10px;text-align:right;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Qty</th>
+        <th style="padding:7px 10px;text-align:right;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Rate</th>
+        <th style="padding:7px 10px;text-align:right;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">GST%</th>
+        <th style="padding:7px 10px;text-align:right;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Total</th>
+      </tr></thead>
+      <tbody>${v.items.map(it=>{
+        const master=(state.items||[]).find(x=>x.id===it.itemId);
+        return`<tr>
+          <td style="padding:7px 10px;border:1px solid #e2e8f0;">${it.name||it.description||'—'}</td>
+          <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:center;font-family:monospace;font-size:11px;">${master?.hsn||master?.sac||'—'}</td>
+          <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:right;">${it.qty}</td>
+          <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:right;">₹${Number(it.rate||0).toLocaleString('en-IN',{maximumFractionDigits:2})}</td>
+          <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:center;">${it.gstRate||0}%</td>
+          <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:right;font-weight:700;">₹${Number(it.total||0).toLocaleString('en-IN',{maximumFractionDigits:2})}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:6px;">
+      <div style="min-width:260px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 16px;">
+        ${t.taxable>0?`<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px dashed #e2e8f0;"><span style="color:#64748b;">Taxable Amount</span><span>₹${Number(t.taxable).toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>`:''}
+        ${t.cgst>0?`<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px dashed #e2e8f0;"><span style="color:#64748b;">CGST</span><span>₹${Number(t.cgst).toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>`:''}
+        ${t.sgst>0?`<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px dashed #e2e8f0;"><span style="color:#64748b;">SGST</span><span>₹${Number(t.sgst).toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>`:''}
+        ${t.igst>0?`<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px dashed #e2e8f0;"><span style="color:#64748b;">IGST</span><span>₹${Number(t.igst).toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>`:''}
+        ${t.tds>0?`<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px dashed #e2e8f0;"><span style="color:#dc2626;font-weight:600;">TDS (${v.tdsSection||''})</span><span style="color:#dc2626;">−₹${Number(t.tds).toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>`:''}
+        <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:800;padding:6px 0 0;border-top:2px solid #e2e8f0;margin-top:4px;"><span>Grand Total</span><span style="color:#059669;">₹${Number(amt).toLocaleString('en-IN',{minimumFractionDigits:2})}</span></div>
+      </div>
+    </div>
+  `:`
+    <table style="width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;">
+      <thead><tr style="background:#f8fafc;">
+        <th style="padding:7px 10px;text-align:left;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#64748b;">Account</th>
+        <th style="padding:7px 10px;text-align:right;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#059669;">Dr ₹</th>
+        <th style="padding:7px 10px;text-align:right;border:1px solid #e2e8f0;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#dc2626;">Cr ₹</th>
+      </tr></thead>
+      <tbody>${v.entries.map(e=>`<tr>
+        <td style="padding:7px 10px;border:1px solid #e2e8f0;font-family:monospace;">${aN(e.accId)||e.accId}</td>
+        <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:right;font-weight:700;color:#059669;">${e.dr>0?'₹'+Number(e.dr).toLocaleString('en-IN',{minimumFractionDigits:2}):'—'}</td>
+        <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:right;font-weight:700;color:#dc2626;">${e.cr>0?'₹'+Number(e.cr).toLocaleString('en-IN',{minimumFractionDigits:2}):'—'}</td>
+      </tr>`).join('')}
+      <tr style="background:#f8fafc;font-weight:800;">
+        <td style="padding:7px 10px;border:1px solid #e2e8f0;">TOTAL</td>
+        <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:right;color:#059669;">₹${Number(v.entries.reduce((s,e)=>s+(e.dr||0),0)).toLocaleString('en-IN',{minimumFractionDigits:2})}</td>
+        <td style="padding:7px 10px;border:1px solid #e2e8f0;text-align:right;color:#dc2626;">₹${Number(v.entries.reduce((s,e)=>s+(e.cr||0),0)).toLocaleString('en-IN',{minimumFractionDigits:2})}</td>
+      </tr></tbody>
+    </table>`;
+
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Voucher ${v.id}</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Segoe UI',Arial,sans-serif;color:#1e293b;background:#fff;padding:32px;}
+    @media print{body{padding:16px;}@page{margin:16mm;}}
+  </style></head><body>
+  <!-- Header -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;border-bottom:3px solid ${tc};margin-bottom:20px;">
+    <div>
+      <div style="font-size:22px;font-weight:900;color:${tc};">${v.type.toUpperCase()} VOUCHER</div>
+      <div style="font-size:13px;color:#64748b;margin-top:4px;">${state.company||'Company Name'}</div>
+      ${state.gstin?`<div style="font-size:11px;color:#94a3b8;margin-top:2px;">GSTIN: ${state.gstin}</div>`:''}
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:24px;font-weight:900;color:#1e293b;font-family:monospace;">${v.id}</div>
+      <div style="font-size:12px;color:#64748b;margin-top:4px;">Date: <strong>${fmtD(v.date)}</strong></div>
+      ${v.ref?`<div style="font-size:11px;color:#94a3b8;margin-top:2px;">Ref: ${v.ref}</div>`:''}
+      ${v.dueDate?`<div style="font-size:11px;color:#dc2626;margin-top:2px;">Due: ${fmtD(v.dueDate)}</div>`:''}
+    </div>
+  </div>
+  <!-- Party info -->
+  ${pName&&pName!=='—'?`<div style="background:#f8fafc;border-left:4px solid ${tc};padding:10px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;">
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;font-weight:700;margin-bottom:3px;">${['Sales','Debit Note'].includes(v.type)?'Bill To':'Supplier'}</div>
+    <div style="font-size:14px;font-weight:700;color:#1e293b;">${pName}</div>
+    ${(()=>{const party=['Sales','Debit Note','Receipt'].includes(v.type)?state.debtors.find(d=>d.id===v.partyId):state.vendors.find(x=>x.id===v.partyId);return party?.gstin?`<div style="font-size:11px;color:#64748b;margin-top:2px;font-family:monospace;">GSTIN: ${party.gstin}</div>`:'';})()} 
+  </div>`:''}
+  <!-- Narration -->
+  <div style="margin-bottom:16px;">
+    <span style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;font-weight:700;">Narration: </span>
+    <span style="font-size:13px;color:#475569;">${v.narration}</span>
+  </div>
+  ${itemsHtml}
+  <!-- Grand total banner -->
+  <div style="background:${tc};color:#fff;border-radius:10px;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:16px;">
+    <div style="font-size:13px;font-weight:700;opacity:.85;">Amount (${v.type})</div>
+    <div style="font-size:22px;font-weight:900;">₹${Number(amt).toLocaleString('en-IN',{minimumFractionDigits:2})}</div>
+  </div>
+  <!-- Footer -->
+  <div style="display:flex;justify-content:space-between;margin-top:32px;padding-top:16px;border-top:1px solid #e2e8f0;font-size:11px;color:#94a3b8;">
+    <div>Generated by AccounTally Pro · ${new Date().toLocaleDateString('en-IN')}</div>
+    <div style="text-align:right;">
+      <div style="margin-bottom:20px;">Authorised Signatory</div>
+      <div style="border-top:1px solid #94a3b8;padding-top:4px;width:120px;text-align:center;">Signature</div>
+    </div>
+  </div>
+  <script>window.onload=()=>{window.print();}<\/script>
+  </body></html>`;
+
+  const win=window.open('','_blank','width=860,height=700');
+  if(win){win.document.write(html);win.document.close();}
+  else showToast('⚠ Please allow popups for PDF export','#d97706');
+}
 </script>
 </body>
 </html>
