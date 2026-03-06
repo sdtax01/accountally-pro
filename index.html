@@ -450,9 +450,27 @@ async function getSupa() {
         document.head.appendChild(s);
       });
     }
-    window._supa = window.supabase.createClient(SU, SK);
+    window._supa = window.supabase.createClient(SU, SK, {
+      auth: { autoRefreshToken: true, persistSession: true }
+    });
   }
   return window._supa;
+}
+
+// Raw fetch test to diagnose 401
+async function diagnoseFetch() {
+  try {
+    const r = await fetch(SU + '/rest/v1/companies_registry?select=company_id&limit=1', {
+      headers: {
+        'apikey': SK,
+        'Authorization': 'Bearer ' + SK,
+        'Content-Type': 'application/json'
+      }
+    });
+    return { status: r.status, ok: r.ok, text: await r.text() };
+  } catch(e) {
+    return { status: 'network error', ok: false, text: e.message };
+  }
 }
 
 // ── Panel switching ──
@@ -605,6 +623,17 @@ async function doRegister() {
   const fy    = document.getElementById('r-fy').value;
 
   try {
+    // Step 0: Raw connection diagnostic
+    const diag = await diagnoseFetch();
+    if (!diag.ok) {
+      if (diag.status === 401) {
+        throw new Error('Connection test failed (401). In Supabase → Authentication → URL Configuration → add "https://sdtax01.github.io" to Allowed Origins. Then retry.');
+      }
+      if (diag.status === 0 || diag.status === 'network error') {
+        throw new Error('Network error — cannot reach Supabase. Check internet connection.');
+      }
+    }
+
     const db = await getSupa();
     const companyId = genCompanyId();
 
@@ -620,14 +649,17 @@ async function doRegister() {
         }
       }
     });
-    if (authErr) throw new Error('Auth error: ' + authErr.message + ' | Status: ' + (authErr.status||'?') + ' | Code: ' + (authErr.code||'?'));
+    if (authErr) {
+      const hint = authErr.status === 401
+        ? ' — Go to Supabase Auth → Settings → make sure "Enable Email Signups" is ON'
+        : authErr.message.includes('already registered')
+        ? ' — This email is already registered. Click Sign In.'
+        : '';
+      throw new Error('Auth error (' + authErr.status + '): ' + authErr.message + hint);
+    }
 
     const authUserId = authData.user?.id;
-    // Supabase returns user even if email confirmation pending
-    if (!authUserId) {
-      // Could be duplicate email
-      throw new Error('Could not create user — email may already be registered. Try signing in instead.');
-    }
+    if (!authUserId) throw new Error('Failed to create auth user. Try again.');
 
     // 2. Insert company into companies_registry
     const { error: coErr } = await db.from('companies_registry').insert({
@@ -640,7 +672,7 @@ async function doRegister() {
       created_by: authUserId,
       created_at: new Date().toISOString()
     });
-    if (coErr) throw new Error('Company DB error: ' + coErr.message + ' | Code: ' + (coErr.code||'?') + ' | Details: ' + (coErr.details||'none'));
+    if (coErr) throw new Error('Company setup failed: ' + coErr.message);
 
     // 3. Insert into app_users
     const { error: usrErr } = await db.from('app_users').insert({
@@ -654,7 +686,7 @@ async function doRegister() {
       is_active: true,
       created_at: new Date().toISOString()
     });
-    if (usrErr) throw new Error('User DB error: ' + usrErr.message + ' | Code: ' + (usrErr.code||'?') + ' | Details: ' + (usrErr.details||'none'));
+    if (usrErr) throw new Error('User profile setup failed: ' + usrErr.message);
 
     // 4. Auto sign in
     const { data: signinData, error: signinErr } = await db.auth.signInWithPassword({
