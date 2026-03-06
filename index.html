@@ -3535,7 +3535,7 @@ function renderVouchers(){
       <td style="padding:8px 12px;font-size:11px;color:#94a3b8;">${v.ref||'—'}</td>
       <td style="padding:8px 12px;text-align:right;font-weight:700;font-size:13px;color:${tc};">₹${Number(amt).toLocaleString('en-IN',{maximumFractionDigits:2})}</td>
       <td style="padding:6px 12px;white-space:nowrap;">
-        <button onclick="exportVoucherPDF('${v.id}')" style="padding:4px 9px;border-radius:6px;border:none;background:#f1f5f9;color:#475569;font-size:11px;cursor:pointer;margin-right:4px;" title="Export PDF">📄</button>
+        <button onclick="printVoucher('${v.id}')" style="padding:4px 9px;border-radius:6px;border:none;background:#f1f5f9;color:#475569;font-size:11px;cursor:pointer;margin-right:4px;" title="Export PDF">📄</button>
         <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button>
         <button class="btn btn-d btn-sm" onclick="delVoucher('${v.id}')">✕</button>
       </td>
@@ -4447,7 +4447,7 @@ function pgRegister(type){
         <td class="tr mono" style="color:#7c3aed;">${fmt(t.igst||0)}</td>
         <td class="tr mono tr-">${t.tds>0?fmt(t.tds):'—'}</td>
         <td class="tr mono" style="font-weight:700;color:#059669;">${fmt(amt)}</td>
-        <td class="no-print"><button class="btn btn-w btn-sm" onclick="exportVoucherPDF('${v.id}')" title="Export PDF">📄</button> <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
+        <td class="no-print"><button class="btn btn-w btn-sm" onclick="printVoucher('${v.id}')" title="Export PDF">📄</button> <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
       </tr>`;
     } else {
       // Journal / Debit Note / Credit Note — simpler view
@@ -4462,7 +4462,7 @@ function pgRegister(type){
         <td style="font-size:11px;color:#059669;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${drAcc}">${drAcc||'—'}</td>
         <td style="font-size:11px;color:#dc2626;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${crAcc}">${crAcc||'—'}</td>
         <td class="tr mono" style="font-weight:700;">${fmt(amt)}</td>
-        <td class="no-print"><button class="btn btn-w btn-sm" onclick="exportVoucherPDF('${v.id}')" title="Export PDF">📄</button> <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
+        <td class="no-print"><button class="btn btn-w btn-sm" onclick="printVoucher('${v.id}')" title="Export PDF">📄</button> <button class="btn btn-g btn-sm" onclick="editVoucher('${v.id}')">✏</button> <button class="btn btn-d btn-sm" onclick="delVoucherReg('${v.id}','${type}')">✕</button></td>
       </tr>`;
     }
   }).join('');
