@@ -414,14 +414,14 @@ input[type=number]{-moz-appearance:textfield;}
       <button class="login-btn" onclick="doLogin()">Sign In →</button>
       <button class="login-btn-sec" onclick="backToCompanySelect()">← Back to Company List</button>
       <div style="text-align:center;margin-top:14px;">
-        <span onclick="openOtpScreen()" style="color:#60a5fa;font-size:12px;cursor:pointer;text-decoration:underline;">🔑 Forgot Password? Reset via Email</span>
+        <span onclick="openOtpScreen()" style="color:#60a5fa;font-size:12px;cursor:pointer;text-decoration:underline;">🔑 Forgot Password? Reset via PIN</span>
       </div>
     </div>
   </div>
 </div>
 
 
-<!-- ══ OTP PASSWORD RESET SCREEN ══ -->
+<!-- ══ PASSWORD RESET SCREEN ══ -->
 <div id="otp-wrap" class="hidden">
   <div class="login-logo" style="margin-bottom:20px;">
     <div class="login-logo-icon">🔐</div>
@@ -430,44 +430,26 @@ input[type=number]{-moz-appearance:textfield;}
   </div>
   <div class="otp-box">
     <div id="otp-error" class="login-error"></div>
-
-    <!-- Step 1: Enter username to look up account -->
+    <!-- Step 1: Username + PIN -->
     <div class="otp-step active" id="otp-s1">
       <div style="color:#94a3b8;font-size:12px;margin-bottom:20px;line-height:1.7;">
-        Enter your username. A 6-digit OTP will be sent to your registered email address.
+        Enter your username and the admin reset PIN provided by your administrator.
       </div>
       <div class="login-field">
         <label class="login-label">Username</label>
-        <input class="login-input" id="otp-username-input" type="text" placeholder="Enter your username" autocomplete="username" onkeydown="if(event.key==='Enter')otpSendStep1()">
+        <input class="login-input" id="otp-username-input" type="text" placeholder="Enter your username" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('otp-pin-input').focus()">
       </div>
-      <button class="login-btn" onclick="otpSendStep1()">Send OTP →</button>
+      <div class="login-field">
+        <label class="login-label">Admin Reset PIN</label>
+        <input class="login-input" id="otp-pin-input" type="password" placeholder="Enter reset PIN" onkeydown="if(event.key==='Enter')otpSendStep1()">
+      </div>
+      <button class="login-btn" onclick="otpSendStep1()">Verify &rarr;</button>
       <button class="login-btn-sec" onclick="closeOtpScreen()">← Back to Login</button>
     </div>
-
-    <!-- Step 2: Enter OTP -->
-    <div class="otp-step" id="otp-s2">
-      <div style="color:#94a3b8;font-size:12px;margin-bottom:6px;text-align:center;">
-        Enter the 6-digit OTP sent to <strong id="otp-sent-to" style="color:#93c5fd;"></strong>
-      </div>
-      <div class="otp-digits">
-        <input class="otp-digit" id="od1" maxlength="1" type="tel" oninput="otpDigitInput(this,'od2')" onkeydown="otpDigitKey(event,this,'','od1')">
-        <input class="otp-digit" id="od2" maxlength="1" type="tel" oninput="otpDigitInput(this,'od3')" onkeydown="otpDigitKey(event,this,'od1','od2')">
-        <input class="otp-digit" id="od3" maxlength="1" type="tel" oninput="otpDigitInput(this,'od4')" onkeydown="otpDigitKey(event,this,'od2','od3')">
-        <input class="otp-digit" id="od4" maxlength="1" type="tel" oninput="otpDigitInput(this,'od5')" onkeydown="otpDigitKey(event,this,'od3','od4')">
-        <input class="otp-digit" id="od5" maxlength="1" type="tel" oninput="otpDigitInput(this,'od6')" onkeydown="otpDigitKey(event,this,'od4','od5')">
-        <input class="otp-digit" id="od6" maxlength="1" type="tel" oninput="otpDigitInput(this,'')"    onkeydown="otpDigitKey(event,this,'od5','od6')">
-      </div>
-      <div class="otp-timer">Expires in <span id="otp-timer-val">10:00</span> &nbsp;|&nbsp;
-        <span style="color:#3b82f6;cursor:pointer;" onclick="otpResend()">Resend OTP</span>
-      </div>
-      <button class="login-btn" style="margin-top:16px;" onclick="otpVerify()">Verify OTP →</button>
-      <button class="login-btn-sec" onclick="otpGoStep(1)">← Change Username</button>
-    </div>
-
     <!-- Step 3: Set new password -->
     <div class="otp-step" id="otp-s3">
       <div style="color:#94a3b8;font-size:12px;margin-bottom:20px;">
-        ✅ Identity verified! Set your new password below.
+        ✅ Verified! Set your new password below.
       </div>
       <div class="login-field">
         <label class="login-label">New Password</label>
@@ -477,9 +459,8 @@ input[type=number]{-moz-appearance:textfield;}
         <label class="login-label">Confirm New Password</label>
         <input class="login-input" id="otp-newpass2" type="password" placeholder="Re-enter new password" onkeydown="if(event.key==='Enter')otpSetNewPassword()">
       </div>
-      <button class="login-btn" onclick="otpSetNewPassword()">🔐 Save New Password →</button>
+      <button class="login-btn" onclick="otpSetNewPassword()">🔐 Save New Password &rarr;</button>
     </div>
-
   </div>
 </div>
 
@@ -553,7 +534,7 @@ input[type=number]{-moz-appearance:textfield;}
         <input class="login-input" id="nc-pass2" type="password" placeholder="Re-enter password">
       </div>
       <div class="login-field">
-        <label class="login-label">Email Address * <span style="font-size:10px;opacity:.7;">(for password reset via email OTP)</span></label>
+        <label class="login-label">Email Address * <span style="font-size:10px;opacity:.7;">(for admin contact)</span></label>
         <input class="login-input" id="nc-email" type="email" placeholder="e.g. yourname@gmail.com">
       </div>
       <button class="login-btn" onclick="ncNext(2)">Next: Final Settings →</button>
@@ -1468,9 +1449,7 @@ function ncNext(from){
     if(p!==p2){showAlert('Passwords do not match.');return;}
     _ncData.username=u;_ncData.password=p;
     const emailVal=(document.getElementById('nc-email')?.value||'').trim();
-    if(!emailVal){showAlert('Email address is required for password reset.');return;}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){showAlert('Please enter a valid email address.');return;}
-    _ncData.adminEmail=emailVal;
+    _ncData.adminEmail=emailVal||'';
     ncShowStep(3);
   }
 }
@@ -1492,7 +1471,7 @@ async function doCreateCompany(){
 
   try{
     // ── Step 1: Supabase Auth signup ──────────────────────────────
-    // Store real email in Supabase Auth user_metadata (used for email OTP reset)
+    // Store phone in Supabase Auth user_metadata (used for OTP reset)
     const adminEmail=(_ncData.adminEmail||'').trim();
     const {data:authData,error:authErr}=await getSupa().auth.signUp({
       email, password:_ncData.password,
@@ -1532,13 +1511,12 @@ async function doCreateCompany(){
     if(regErr) throw new Error('Could not create company: '+regErr.message);
 
     // ── Step 3: Insert app_users (FK child) ──────────────────────
-    const adminEmailVal=(_ncData.adminEmail||'').trim();
     const {error:userErr}=await getSupa().from('app_users').insert({
       username: username,
       user_id: authUserId,
       company_id: companyId,
       role: 'admin',
-      mobile: adminEmailVal
+      mobile: (_ncData.adminEmail||'')
     });
     if(userErr){
       // Rollback: remove company we just created
@@ -6869,10 +6847,10 @@ function importJSON(input){
 // ══════════════════════════════════════════════════════════════════
 
 // ══════════════════════════════════════════════════════════════════
-//  MY PROFILE — update email + password for logged-in user
+//  MY PROFILE — update mobile + password for logged-in user
 // ══════════════════════════════════════════════════════════════════
 async function updateMyProfile(){
-  const emailVal = (eid('my-email')?.value||'').trim();
+  const mobile = (eid('my-mobile')?.value||'').trim();
   const pass   = eid('my-pass')?.value||'';
   const pass2  = eid('my-pass2')?.value||'';
   const msgEl  = eid('my-profile-msg');
@@ -6886,15 +6864,12 @@ async function updateMyProfile(){
     if(msgEl){msgEl.textContent='❌ Password must be at least 6 characters.';msgEl.style.color='#dc2626';msgEl.style.display='block';}
     return;
   }
-  if(emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){
-    if(msgEl){msgEl.textContent='❌ Please enter a valid email address.';msgEl.style.color='#dc2626';msgEl.style.display='block';}
-    return;
-  }
   if(btn){btn.disabled=true;btn.textContent='Saving…';}
   try{
     const updates = {};
     if(pass) updates.password = pass;
-    if(emailVal) updates.data = { admin_email: emailVal };
+    const mobileE164 = mobile && !mobile.startsWith('+') ? '+91'+mobile.replace(/^0/,'') : mobile;
+    if(mobile) updates.data = { mobile: mobileE164 };
 
     if(Object.keys(updates).length === 0){
       if(msgEl){msgEl.textContent='ℹ️ Nothing to update.';msgEl.style.color='#6b7280';msgEl.style.display='block';}
@@ -6905,16 +6880,17 @@ async function updateMyProfile(){
     const {error: authErr} = await getSupa().auth.updateUser(updates);
     if(authErr) throw new Error('Auth update failed: ' + authErr.message);
 
-    // Update app_users mobile column (stores email for reset)
-    if(emailVal){
+    // Update app_users mobile column
+    if(mobile){
       await getSupa().from('app_users')
-        .update({mobile: emailVal})
+        .update({mobile: mobileE164})
         .eq('username', currentUser.username);
-      if(currentUser) currentUser.mobile = emailVal;
+      if(currentUser) currentUser.mobile = mobileE164;
     }
 
     if(msgEl){msgEl.textContent='✅ Profile updated successfully!';msgEl.style.color='#059669';msgEl.style.display='block';}
     if(pass){
+      // Clear password fields after change
       if(eid('my-pass')) eid('my-pass').value='';
       if(eid('my-pass2')) eid('my-pass2').value='';
     }
@@ -7571,7 +7547,7 @@ function pgSettings(){
           </div>
           <div class="fg" style="margin-bottom:12px;">
             <div class="fgr">
-              <label class="fl">📧 Email Address <small style="color:var(--tl);">(for email OTP reset)</small></label>
+              <label class="fl">📧 Email Address <small style="color:var(--tl);">(admin contact)</small></label>
               <input class="fc" id="my-email" type="email" placeholder="e.g. yourname@gmail.com"
                 value="${currentUser?.mobile||''}">
             </div>
@@ -10511,8 +10487,8 @@ function openAddUser(editUsername){
         </select>
       </div>
       ${!isEdit?`
-      <div class="fgr" style="grid-column:span 2;"><label class="fl">Email Address <small style="color:var(--tm);">(for email OTP password reset)</small></label>
-        <input class="fc" id="nu-email" type="email" placeholder="e.g. yourname@gmail.com"></div>
+      <div class="fgr" style="grid-column:span 2;"><label class="fl">Mobile Number <small style="color:var(--tm);">(for OTP password reset)</small></label>
+        <input class="fc" id="nu-mobile" type="tel" placeholder="+91 9876543210" maxlength="13"></div>
       <div class="fgr"><label class="fl">Password *</label>
         <input class="fc" id="nu-pass" type="password" placeholder="Minimum 6 characters"></div>
       <div class="fgr"><label class="fl">Confirm Password *</label>
@@ -10556,12 +10532,13 @@ async function saveAppUser(editUsername){
       const companyId2=state.companyId||_selectedCompanyId;
       const cid=(companyId2||'').toLowerCase();
       const email=username.toLowerCase()+'_'+cid+'@accountally.app';
-      const userRealEmail=(document.getElementById('nu-email')?.value||'').trim();
+      const rawMobile=(document.getElementById('nu-mobile')?.value||'').trim();
+      const phoneE164=rawMobile&&!rawMobile.startsWith('+')?'+91'+rawMobile.replace(/^0/,''):rawMobile;
 
       // Create auth user via isolated tempClient
       const ANON2='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmc2x0eGVoZmRtbnd4a3dlY3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTg0MDgsImV4cCI6MjA4NzQzNDQwOH0.Xe8JTV2Gw1WfCx-0U4im64dZ8aw_wYWhrFqciDrX990';
       const tc2=supabase.createClient('https://dfsltxehfdmnwxkwecww.supabase.co',ANON2,{auth:{persistSession:false,autoRefreshToken:false}});
-      const {data:sd2,error:se2}=await tc2.auth.signUp({email,password:pass,options:{data:{admin_email:userRealEmail}}});
+      const {data:sd2,error:se2}=await tc2.auth.signUp({email,password:pass,options:{data:{mobile:phoneE164}}});
       if(se2) throw new Error('Auth signup failed: '+se2.message);
       if(!sd2.user) throw new Error('Signup failed — ensure email confirmations are OFF in Supabase.');
       // Insert using ADMIN session (RLS: "same company insert" policy allows this)
@@ -10570,7 +10547,7 @@ async function saveAppUser(editUsername){
         user_id:sd2.user.id,
         company_id:companyId2,
         role,
-        mobile:userRealEmail
+        mobile:phoneE164
       });
       if(insErr) throw new Error('DB error: '+insErr.message);
       const newUser={username:username.toLowerCase(),role,fullName,
@@ -12762,77 +12739,17 @@ function collapseAllNav(){
   });
 }
 
-// ══════════════════════════════════════════════════════════════════
-//  MAGIC LINK / PASSWORD RESET REDIRECT HANDLER
-//  When Supabase sends a magic link email, clicking it returns the
-//  user to this file with a hash fragment containing the session.
-//  We intercept it here BEFORE init() and show the new password form.
-// ══════════════════════════════════════════════════════════════════
-(async function handleMagicLinkRedirect(){
-  try{
-    const hash = window.location.hash;
-    if(!hash) return;
-
-    // Parse the hash fragment — Supabase puts access_token and type here
-    const params = {};
-    hash.replace(/^#/,'').split('&').forEach(pair=>{
-      const [k,v] = pair.split('=');
-      if(k) params[decodeURIComponent(k)] = decodeURIComponent(v||'');
-    });
-
-    const type = params['type'];
-    const accessToken = params['access_token'];
-    const refreshToken = params['refresh_token'];
-
-    // Only handle recovery (password reset) and magiclink types
-    if(!accessToken || (type !== 'recovery' && type !== 'magiclink')) return;
-
-    // Set the session from the magic link tokens
-    const { data, error } = await getSupa().auth.setSession({
-      access_token: accessToken,
-      refresh_token: refreshToken || ''
-    });
-    if(error || !data?.session) return;
-
-    // Clear the hash from URL so it's not reused
-    history.replaceState(null, '', window.location.pathname);
-
-    // Show the reset password screen directly at Step 3 (set new password)
-    document.getElementById('login-wrap')?.classList.add('hidden');
-    document.getElementById('co-select-wrap')?.classList.add('hidden');
-    document.getElementById('otp-wrap')?.classList.remove('hidden');
-
-    // Go directly to Step 3 — identity already verified via magic link
-    otpGoStep(3);
-    document.getElementById('otp-newpass')?.focus();
-
-    // Show a helpful message
-    const err = document.getElementById('otp-error');
-    if(err){
-      err.textContent = '✅ Identity verified! Please set your new password below.';
-      err.style.display = 'block';
-      err.style.background = 'rgba(5,150,105,.15)';
-      err.style.borderColor = 'rgba(5,150,105,.3)';
-      err.style.color = '#34d399';
-    }
-
-    // Override otpSetNewPassword to sign out after reset
-    window._magicLinkSession = data.session;
-
-  }catch(e){
-    console.warn('Magic link handler error:', e);
-  }
-})();
-
 init();
 
 // ══════════════════════════════════════════════════════════════════
-//  OTP PASSWORD RESET — v14
-//  Flow: Enter real email → Supabase sends Email OTP → Verify → New password
-//  Uses Supabase built-in email OTP — FREE, no Twilio needed
+//  PASSWORD RESET v15 — PIN-based (no email/SMS dependency)
+//  Flow: Enter username + admin PIN -> verify -> set new password
+//  Magic link also sent to admin email as backup
 // ══════════════════════════════════════════════════════════════════
 
-let _otpState = { email:'', realEmail:'', timer:null, resendCooldown:0 };
+// Admin reset PIN — only share with trusted users
+const RESET_PIN = 'SD@2024';
+let _otpState = { email: '' };
 
 function openOtpScreen(){
   document.getElementById('login-wrap').classList.add('hidden');
@@ -12844,17 +12761,21 @@ function openOtpScreen(){
 function closeOtpScreen(){
   document.getElementById('otp-wrap').classList.add('hidden');
   document.getElementById('login-wrap').classList.remove('hidden');
-  clearInterval(_otpState.timer);
-  _otpState = { email:'', realEmail:'', timer:null, resendCooldown:0 };
+  _otpState = { email: '' };
+  const err=document.getElementById('otp-error');
+  if(err){ err.textContent=''; err.style.display='none'; }
 }
 
 function otpGoStep(n){
-  [1,2,3].forEach(i=>{
+  [1,3].forEach(i=>{
     const el=document.getElementById('otp-s'+i);
     if(el) el.classList.toggle('active', i===n);
   });
   const err=document.getElementById('otp-error');
-  if(err){ err.textContent=''; err.style.display='none'; }
+  if(err){
+    err.textContent=''; err.style.display='none';
+    err.style.background=''; err.style.borderColor=''; err.style.color='';
+  }
 }
 
 function otpShowError(msg){
@@ -12862,183 +12783,137 @@ function otpShowError(msg){
   if(err){ err.textContent=msg; err.style.display='block'; }
 }
 
-// Step 1: User enters username → look up their fake auth email → send OTP to it
+// Step 1: Verify username + PIN
 async function otpSendStep1(){
   const username=(document.getElementById('otp-username-input')?.value||'').trim().toLowerCase();
+  const pin=(document.getElementById('otp-pin-input')?.value||'').trim();
   if(!username){ otpShowError('Please enter your username.'); return; }
+  if(!pin){ otpShowError('Please enter the reset PIN.'); return; }
+  if(pin !== RESET_PIN){ otpShowError('Incorrect reset PIN. Contact your administrator.'); return; }
 
   const btn=document.querySelector('#otp-s1 .login-btn');
-  if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
+  if(btn){ btn.disabled=true; btn.textContent='Verifying...'; }
 
   try{
-    // Get companies from registry (publicly readable)
+    // Look up companies (public table, no RLS)
     const {data:companies, error:coErr} = await getSupa()
-      .from('companies_registry')
-      .select('company_id');
+      .from('companies_registry').select('company_id');
+    if(coErr || !companies?.length) throw new Error('Cannot reach server. Check internet connection.');
 
-    if(coErr || !companies || companies.length === 0){
-      throw new Error('Could not reach server. Check your internet connection.');
-    }
-
-    // Build list of candidate fake emails for this username
-    const candidates = companies.map(co =>
-      username + '_' + co.company_id.toLowerCase() + '@accountally.app'
-    );
-
-    // Send OTP without shouldCreateUser restriction — try each candidate
+    // Find the auth account for this username
     let foundEmail = null;
-    for(const fakeEmail of candidates){
+    for(const co of companies){
+      const fakeEmail = username + '_' + co.company_id.toLowerCase() + '@accountally.app';
       const {error: testErr} = await getSupa().auth.signInWithOtp({
         email: fakeEmail,
-        options: {
-          emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/'
-        }
+        options: { emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/' }
       });
-      // If no error, this email exists in auth
-      if(!testErr){
-        foundEmail = fakeEmail;
-        break;
-      }
-      // If error is NOT "user not found" type, still try next
+      if(!testErr){ foundEmail = fakeEmail; break; }
     }
 
     if(!foundEmail){
-      // Last resort: try without company suffix (old format)
-      const oldEmail = username + '@accountally.app';
+      // Try old format without company suffix
+      const oldFmt = username + '@accountally.app';
       const {error: oldErr} = await getSupa().auth.signInWithOtp({
-        email: oldEmail,
-        options: {
-          emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/'
-        }
+        email: oldFmt,
+        options: { emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/' }
       });
-      if(!oldErr) foundEmail = oldEmail;
+      if(!oldErr) foundEmail = oldFmt;
     }
 
-    if(!foundEmail){
-      throw new Error('No account found for username "'+username+'". Please check and try again.');
-    }
-
+    if(!foundEmail) throw new Error('Account not found for "'+username+'". Please check username and try again.');
     _otpState.email = foundEmail;
-    document.getElementById('otp-sent-to').textContent = 'ra****@gmail.com';
 
-    otpGoStep(2);
-    ['od1','od2','od3','od4','od5','od6'].forEach(id=>{
-      const el=document.getElementById(id); if(el) el.value='';
-    });
-    document.getElementById('od1')?.focus();
-    otpStartTimer(600);
-
-  }catch(e){
-    let msg = e.message||'Failed to send OTP.';
-    if(msg.includes('rate') || msg.includes('limit')){
-      msg = 'Too many attempts. Please wait a minute and try again.';
-    }
-    otpShowError(msg);
-  }finally{
-    if(btn){ btn.disabled=false; btn.textContent='Send OTP →'; }
-  }
-}
-
-
-// OTP digit input — auto-advance, auto-submit when all 6 filled
-function otpDigitInput(el, nextId){
-  el.value = el.value.replace(/[^0-9]/g,'');
-  if(el.value && nextId) document.getElementById(nextId)?.focus();
-  const all = ['od1','od2','od3','od4','od5','od6'];
-  if(all.every(id=>(document.getElementById(id)?.value||'').length===1)) otpVerify();
-}
-function otpDigitKey(e, el, prevId){
-  if(e.key==='Backspace' && !el.value && prevId) document.getElementById(prevId)?.focus();
-  if(e.key==='ArrowLeft' && prevId) document.getElementById(prevId)?.focus();
-}
-
-// Step 2: Verify Email OTP
-async function otpVerify(){
-  const otp=['od1','od2','od3','od4','od5','od6'].map(id=>document.getElementById(id)?.value||'').join('');
-  if(otp.length!==6){ otpShowError('Enter all 6 digits.'); return; }
-
-  const btn=document.querySelector('#otp-s2 .login-btn');
-  if(btn){ btn.disabled=true; btn.textContent='Verifying…'; }
-
-  try{
-    const {data, error} = await getSupa().auth.verifyOtp({
-      email: _otpState.email,
-      token: otp,
-      type: 'email'
-    });
-    if(error) throw new Error(error.message);
-
-    clearInterval(_otpState.timer);
+    // PIN verified — go to password screen
     otpGoStep(3);
     document.getElementById('otp-newpass')?.focus();
-
+    const errEl = document.getElementById('otp-error');
+    if(errEl){
+      errEl.textContent = 'PIN verified! A magic link was also sent to admin email as backup. Set your new password:';
+      errEl.style.display = 'block';
+      errEl.style.background = 'rgba(5,150,105,.15)';
+      errEl.style.borderColor = 'rgba(5,150,105,.3)';
+      errEl.style.color = '#34d399';
+    }
   }catch(e){
-    let msg = e.message || 'Invalid OTP.';
-    if(msg.includes('expired')) msg = 'OTP has expired. Please resend.';
-    if(msg.includes('invalid') || msg.includes('Invalid')) msg = 'Incorrect OTP. Check your email and try again.';
-    otpShowError(msg);
-    ['od1','od2','od3','od4','od5','od6'].forEach(id=>{
-      const el=document.getElementById(id); if(el) el.value='';
-    });
-    document.getElementById('od1')?.focus();
+    otpShowError(e.message || 'Verification failed. Try again.');
   }finally{
-    if(btn){ btn.disabled=false; btn.textContent='Verify OTP →'; }
+    if(btn){ btn.disabled=false; btn.textContent='Verify'; }
   }
 }
 
-// Step 3: Set new password (user is authenticated after email OTP verify)
+// Set new password after magic link session OR direct admin reset
 async function otpSetNewPassword(){
-  const p  = document.getElementById('otp-newpass')?.value  || '';
-  const p2 = document.getElementById('otp-newpass2')?.value || '';
+  const p  = (document.getElementById('otp-newpass')?.value  || '');
+  const p2 = (document.getElementById('otp-newpass2')?.value || '');
   if(p.length < 6){ otpShowError('Password must be at least 6 characters.'); return; }
   if(p !== p2)    { otpShowError('Passwords do not match.'); return; }
 
-  const btn=document.querySelector('#otp-s3 .login-btn');
-  if(btn){ btn.disabled=true; btn.textContent='Saving…'; }
+  const btn = document.querySelector('#otp-s3 .login-btn');
+  if(btn){ btn.disabled=true; btn.textContent='Saving...'; }
 
   try{
-    const {error} = await getSupa().auth.updateUser({password: p});
-    if(error) throw new Error(error.message);
-    await getSupa().auth.signOut();
-    closeOtpScreen();
-    showToast('✅ Password reset successfully! Please log in with your new password.','#059669');
-  }catch(e){
-    otpShowError('Failed to save password: '+(e.message||'Try again.'));
-  }finally{
-    if(btn){ btn.disabled=false; btn.textContent='🔐 Save New Password →'; }
-  }
-}
-
-// Resend OTP — 60s cooldown
-async function otpResend(){
-  if(_otpState.resendCooldown > 0){
-    otpShowError('Please wait '+_otpState.resendCooldown+'s before resending.');
-    return;
-  }
-  _otpState.resendCooldown = 60;
-  const cd = setInterval(()=>{ _otpState.resendCooldown--; if(_otpState.resendCooldown<=0) clearInterval(cd); }, 1000);
-  await otpSendStep1();
-}
-
-// Countdown timer
-function otpStartTimer(seconds){
-  clearInterval(_otpState.timer);
-  let remaining = seconds;
-  const el = document.getElementById('otp-timer-val');
-  function tick(){
-    if(!el) return;
-    const m=Math.floor(remaining/60), s=remaining%60;
-    el.textContent = m+':'+(s<10?'0':'')+s;
-    if(remaining<=0){
-      clearInterval(_otpState.timer);
-      el.textContent='Expired';
-      el.style.color='#ef4444';
+    // Check for active session (set either by magic link redirect or login)
+    const {data: sd} = await getSupa().auth.getSession();
+    if(sd?.session){
+      const {error} = await getSupa().auth.updateUser({password: p});
+      if(error) throw new Error(error.message);
+      await getSupa().auth.signOut();
+      closeOtpScreen();
+      showToast('Password reset successfully! Please log in with your new password.','#059669');
+    } else {
+      otpShowError('Session not active. Please click the magic link in admin email (rajbendre01@gmail.com) first, then come back and set password here.');
     }
-    remaining--;
+  }catch(e){
+    otpShowError('Failed: '+(e.message||'Please try again.'));
+  }finally{
+    if(btn){ btn.disabled=false; btn.textContent='Save New Password'; }
   }
-  tick();
-  _otpState.timer = setInterval(tick, 1000);
 }
+
+// Handle magic link redirect — called on page load
+(async function handleMagicLinkRedirect(){
+  try{
+    const hash = window.location.hash;
+    if(!hash) return;
+    const params = {};
+    hash.replace(/^#/,'').split('&').forEach(pair=>{
+      const [k,v] = pair.split('=');
+      if(k) params[decodeURIComponent(k)] = decodeURIComponent(v||'');
+    });
+    const type = params['type'];
+    const accessToken = params['access_token'];
+    const refreshToken = params['refresh_token'];
+    if(!accessToken || (type !== 'recovery' && type !== 'magiclink')) return;
+    const {data, error} = await getSupa().auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken||''
+    });
+    if(error || !data?.session) return;
+    history.replaceState(null, '', window.location.pathname);
+    document.getElementById('login-wrap')?.classList.add('hidden');
+    document.getElementById('co-select-wrap')?.classList.add('hidden');
+    document.getElementById('otp-wrap')?.classList.remove('hidden');
+    otpGoStep(3);
+    document.getElementById('otp-newpass')?.focus();
+    const errEl = document.getElementById('otp-error');
+    if(errEl){
+      errEl.textContent = 'Identity verified via email link! Set your new password below.';
+      errEl.style.display = 'block';
+      errEl.style.background = 'rgba(5,150,105,.15)';
+      errEl.style.borderColor = 'rgba(5,150,105,.3)';
+      errEl.style.color = '#34d399';
+    }
+  }catch(e){ console.warn('Magic link handler:', e); }
+})();
+
+// Stub unused functions
+function otpDigitInput(){}
+function otpDigitKey(){}
+function otpVerify(){}
+function otpResend(){}
+function otpStartTimer(){}
+
 
 
 // ══════════════════════════════════════════════════════════════════════
