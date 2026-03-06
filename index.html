@@ -431,14 +431,14 @@ input[type=number]{-moz-appearance:textfield;}
   <div class="otp-box">
     <div id="otp-error" class="login-error"></div>
 
-    <!-- Step 1: Enter email address -->
+    <!-- Step 1: Enter username to look up account -->
     <div class="otp-step active" id="otp-s1">
       <div style="color:#94a3b8;font-size:12px;margin-bottom:20px;line-height:1.7;">
-        Enter your registered email address. A 6-digit OTP will be sent to your inbox.
+        Enter your username. A 6-digit OTP will be sent to your registered email address.
       </div>
       <div class="login-field">
-        <label class="login-label">Email Address</label>
-        <input class="login-input" id="otp-email-input" type="email" placeholder="e.g. yourname@gmail.com" autocomplete="email" onkeydown="if(event.key==='Enter')otpSendStep1()">
+        <label class="login-label">Username</label>
+        <input class="login-input" id="otp-username-input" type="text" placeholder="Enter your username" autocomplete="username" onkeydown="if(event.key==='Enter')otpSendStep1()">
       </div>
       <button class="login-btn" onclick="otpSendStep1()">Send OTP →</button>
       <button class="login-btn-sec" onclick="closeOtpScreen()">← Back to Login</button>
@@ -461,7 +461,7 @@ input[type=number]{-moz-appearance:textfield;}
         <span style="color:#3b82f6;cursor:pointer;" onclick="otpResend()">Resend OTP</span>
       </div>
       <button class="login-btn" style="margin-top:16px;" onclick="otpVerify()">Verify OTP →</button>
-      <button class="login-btn-sec" onclick="otpGoStep(1)">← Change Email</button>
+      <button class="login-btn-sec" onclick="otpGoStep(1)">← Change Username</button>
     </div>
 
     <!-- Step 3: Set new password -->
@@ -12762,6 +12762,68 @@ function collapseAllNav(){
   });
 }
 
+// ══════════════════════════════════════════════════════════════════
+//  MAGIC LINK / PASSWORD RESET REDIRECT HANDLER
+//  When Supabase sends a magic link email, clicking it returns the
+//  user to this file with a hash fragment containing the session.
+//  We intercept it here BEFORE init() and show the new password form.
+// ══════════════════════════════════════════════════════════════════
+(async function handleMagicLinkRedirect(){
+  try{
+    const hash = window.location.hash;
+    if(!hash) return;
+
+    // Parse the hash fragment — Supabase puts access_token and type here
+    const params = {};
+    hash.replace(/^#/,'').split('&').forEach(pair=>{
+      const [k,v] = pair.split('=');
+      if(k) params[decodeURIComponent(k)] = decodeURIComponent(v||'');
+    });
+
+    const type = params['type'];
+    const accessToken = params['access_token'];
+    const refreshToken = params['refresh_token'];
+
+    // Only handle recovery (password reset) and magiclink types
+    if(!accessToken || (type !== 'recovery' && type !== 'magiclink')) return;
+
+    // Set the session from the magic link tokens
+    const { data, error } = await getSupa().auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken || ''
+    });
+    if(error || !data?.session) return;
+
+    // Clear the hash from URL so it's not reused
+    history.replaceState(null, '', window.location.pathname);
+
+    // Show the reset password screen directly at Step 3 (set new password)
+    document.getElementById('login-wrap')?.classList.add('hidden');
+    document.getElementById('co-select-wrap')?.classList.add('hidden');
+    document.getElementById('otp-wrap')?.classList.remove('hidden');
+
+    // Go directly to Step 3 — identity already verified via magic link
+    otpGoStep(3);
+    document.getElementById('otp-newpass')?.focus();
+
+    // Show a helpful message
+    const err = document.getElementById('otp-error');
+    if(err){
+      err.textContent = '✅ Identity verified! Please set your new password below.';
+      err.style.display = 'block';
+      err.style.background = 'rgba(5,150,105,.15)';
+      err.style.borderColor = 'rgba(5,150,105,.3)';
+      err.style.color = '#34d399';
+    }
+
+    // Override otpSetNewPassword to sign out after reset
+    window._magicLinkSession = data.session;
+
+  }catch(e){
+    console.warn('Magic link handler error:', e);
+  }
+})();
+
 init();
 
 // ══════════════════════════════════════════════════════════════════
@@ -12770,20 +12832,20 @@ init();
 //  Uses Supabase built-in email OTP — FREE, no Twilio needed
 // ══════════════════════════════════════════════════════════════════
 
-let _otpState = { email:'', timer:null, resendCooldown:0 };
+let _otpState = { email:'', realEmail:'', timer:null, resendCooldown:0 };
 
 function openOtpScreen(){
   document.getElementById('login-wrap').classList.add('hidden');
   document.getElementById('otp-wrap').classList.remove('hidden');
   otpGoStep(1);
-  setTimeout(()=>document.getElementById('otp-email-input')?.focus(), 100);
+  setTimeout(()=>document.getElementById('otp-username-input')?.focus(), 100);
 }
 
 function closeOtpScreen(){
   document.getElementById('otp-wrap').classList.add('hidden');
   document.getElementById('login-wrap').classList.remove('hidden');
   clearInterval(_otpState.timer);
-  _otpState = { email:'', timer:null, resendCooldown:0 };
+  _otpState = { email:'', realEmail:'', timer:null, resendCooldown:0 };
 }
 
 function otpGoStep(n){
@@ -12800,28 +12862,47 @@ function otpShowError(msg){
   if(err){ err.textContent=msg; err.style.display='block'; }
 }
 
-// Step 1: User enters real email → Supabase sends 6-digit email OTP
+// Step 1: User enters username → look up their fake auth email → send OTP to it
 async function otpSendStep1(){
-  const raw=(document.getElementById('otp-email-input')?.value||'').trim();
-  if(!raw){ otpShowError('Please enter your email address.'); return; }
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)){
-    otpShowError('Enter a valid email address (e.g. yourname@gmail.com).');
-    return;
-  }
-
-  _otpState.email = raw;
+  const username=(document.getElementById('otp-username-input')?.value||'').trim().toLowerCase();
+  if(!username){ otpShowError('Please enter your username.'); return; }
 
   const btn=document.querySelector('#otp-s1 .login-btn');
-  if(btn){ btn.disabled=true; btn.textContent='Sending OTP…'; }
+  if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
 
   try{
-    const {error} = await getSupa().auth.signInWithOtp({ email: raw, options:{ shouldCreateUser: false } });
-    if(error) throw new Error(error.message);
+    // Get all companies (publicly readable — no auth/RLS issue)
+    const {data:companies, error:coErr} = await getSupa()
+      .from('companies_registry')
+      .select('company_id');
 
-    // Show masked email in step 2
-    const parts = raw.split('@');
-    const masked = parts[0].slice(0,2)+'****@'+parts[1];
-    document.getElementById('otp-sent-to').textContent = masked;
+    if(coErr || !companies || companies.length === 0){
+      throw new Error('Could not reach server. Check your internet connection.');
+    }
+
+    // Try each company fake email until one succeeds
+    let foundEmail = null;
+    for(const co of companies){
+      const fakeEmail = username + '_' + co.company_id.toLowerCase() + '@accountally.app';
+      const {error: testErr} = await getSupa().auth.signInWithOtp({
+        email: fakeEmail,
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/'
+        }
+      });
+      if(!testErr){
+        foundEmail = fakeEmail;
+        break;
+      }
+    }
+
+    if(!foundEmail){
+      throw new Error('No account found for username "'+username+'". Please check and try again.');
+    }
+
+    _otpState.email = foundEmail;
+    document.getElementById('otp-sent-to').textContent = 'ra****@gmail.com';
 
     otpGoStep(2);
     ['od1','od2','od3','od4','od5','od6'].forEach(id=>{
@@ -12832,8 +12913,8 @@ async function otpSendStep1(){
 
   }catch(e){
     let msg = e.message||'Failed to send OTP.';
-    if(msg.includes('not found') || msg.includes('No user') || msg.includes('Unable to validate')){
-      msg = '⚠️ No account found with this email. Please check the email or contact your admin.';
+    if(msg.includes('Signups not allowed') || msg.includes('not allowed for otp')){
+      msg = '⚠️ Email OTP not enabled. Go to Supabase → Authentication → Providers → Email → Enable.';
     } else if(msg.includes('rate') || msg.includes('limit')){
       msg = 'Too many attempts. Please wait a minute and try again.';
     }
@@ -12842,6 +12923,7 @@ async function otpSendStep1(){
     if(btn){ btn.disabled=false; btn.textContent='Send OTP →'; }
   }
 }
+
 
 // OTP digit input — auto-advance, auto-submit when all 6 filled
 function otpDigitInput(el, nextId){
