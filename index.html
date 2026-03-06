@@ -414,7 +414,7 @@ input[type=number]{-moz-appearance:textfield;}
       <button class="login-btn" onclick="doLogin()">Sign In →</button>
       <button class="login-btn-sec" onclick="backToCompanySelect()">← Back to Company List</button>
       <div style="text-align:center;margin-top:14px;">
-        <span onclick="openOtpScreen()" style="color:#60a5fa;font-size:12px;cursor:pointer;text-decoration:underline;">🔑 Forgot Password? Reset via OTP</span>
+        <span onclick="openOtpScreen()" style="color:#60a5fa;font-size:12px;cursor:pointer;text-decoration:underline;">🔑 Forgot Password? Reset via Email</span>
       </div>
     </div>
   </div>
@@ -431,14 +431,14 @@ input[type=number]{-moz-appearance:textfield;}
   <div class="otp-box">
     <div id="otp-error" class="login-error"></div>
 
-    <!-- Step 1: Enter mobile number directly -->
+    <!-- Step 1: Enter email address -->
     <div class="otp-step active" id="otp-s1">
       <div style="color:#94a3b8;font-size:12px;margin-bottom:20px;line-height:1.7;">
-        Enter your registered mobile number. A 6-digit OTP will be sent via SMS.
+        Enter your registered email address. A 6-digit OTP will be sent to your inbox.
       </div>
       <div class="login-field">
-        <label class="login-label">Mobile Number</label>
-        <input class="login-input" id="otp-mobile-input" type="tel" placeholder="+91 9876543210" maxlength="13" autocomplete="tel" onkeydown="if(event.key==='Enter')otpSendStep1()">
+        <label class="login-label">Email Address</label>
+        <input class="login-input" id="otp-email-input" type="email" placeholder="e.g. yourname@gmail.com" autocomplete="email" onkeydown="if(event.key==='Enter')otpSendStep1()">
       </div>
       <button class="login-btn" onclick="otpSendStep1()">Send OTP →</button>
       <button class="login-btn-sec" onclick="closeOtpScreen()">← Back to Login</button>
@@ -461,7 +461,7 @@ input[type=number]{-moz-appearance:textfield;}
         <span style="color:#3b82f6;cursor:pointer;" onclick="otpResend()">Resend OTP</span>
       </div>
       <button class="login-btn" style="margin-top:16px;" onclick="otpVerify()">Verify OTP →</button>
-      <button class="login-btn-sec" onclick="otpGoStep(1)">← Change Number</button>
+      <button class="login-btn-sec" onclick="otpGoStep(1)">← Change Email</button>
     </div>
 
     <!-- Step 3: Set new password -->
@@ -553,8 +553,8 @@ input[type=number]{-moz-appearance:textfield;}
         <input class="login-input" id="nc-pass2" type="password" placeholder="Re-enter password">
       </div>
       <div class="login-field">
-        <label class="login-label">Mobile Number * <span style="font-size:10px;opacity:.7;">(for OTP password reset)</span></label>
-        <input class="login-input" id="nc-mobile" type="tel" placeholder="+91 9876543210" maxlength="13">
+        <label class="login-label">Email Address * <span style="font-size:10px;opacity:.7;">(for password reset via email OTP)</span></label>
+        <input class="login-input" id="nc-email" type="email" placeholder="e.g. yourname@gmail.com">
       </div>
       <button class="login-btn" onclick="ncNext(2)">Next: Final Settings →</button>
       <button class="login-btn-sec" onclick="ncBack(2)">← Back</button>
@@ -1467,9 +1467,10 @@ function ncNext(from){
     if(!p||p.length<6){showAlert('Password must be at least 6 characters.');return;}
     if(p!==p2){showAlert('Passwords do not match.');return;}
     _ncData.username=u;_ncData.password=p;
-    const mob=(document.getElementById('nc-mobile')?.value||'').trim();
-    if(!mob){showAlert('Mobile number is required for OTP password reset.');return;}
-    _ncData.mobile=mob;
+    const emailVal=(document.getElementById('nc-email')?.value||'').trim();
+    if(!emailVal){showAlert('Email address is required for password reset.');return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){showAlert('Please enter a valid email address.');return;}
+    _ncData.adminEmail=emailVal;
     ncShowStep(3);
   }
 }
@@ -1491,12 +1492,11 @@ async function doCreateCompany(){
 
   try{
     // ── Step 1: Supabase Auth signup ──────────────────────────────
-    // Store phone in Supabase Auth user_metadata (used for OTP reset)
-    const rawMobile=(_ncData.mobile||'').trim();
-    const phoneE164=rawMobile&&!rawMobile.startsWith('+')?'+91'+rawMobile.replace(/^0/,''):rawMobile;
+    // Store real email in Supabase Auth user_metadata (used for email OTP reset)
+    const adminEmail=(_ncData.adminEmail||'').trim();
     const {data:authData,error:authErr}=await getSupa().auth.signUp({
       email, password:_ncData.password,
-      options:{ data:{ mobile: phoneE164 } }
+      options:{ data:{ admin_email: adminEmail } }
     });
 
     if(authErr){
@@ -1532,13 +1532,13 @@ async function doCreateCompany(){
     if(regErr) throw new Error('Could not create company: '+regErr.message);
 
     // ── Step 3: Insert app_users (FK child) ──────────────────────
-    const mobile=(_ncData.mobile||'').trim();
+    const adminEmailVal=(_ncData.adminEmail||'').trim();
     const {error:userErr}=await getSupa().from('app_users').insert({
       username: username,
       user_id: authUserId,
       company_id: companyId,
       role: 'admin',
-      mobile: mobile
+      mobile: adminEmailVal
     });
     if(userErr){
       // Rollback: remove company we just created
@@ -6869,10 +6869,10 @@ function importJSON(input){
 // ══════════════════════════════════════════════════════════════════
 
 // ══════════════════════════════════════════════════════════════════
-//  MY PROFILE — update mobile + password for logged-in user
+//  MY PROFILE — update email + password for logged-in user
 // ══════════════════════════════════════════════════════════════════
 async function updateMyProfile(){
-  const mobile = (eid('my-mobile')?.value||'').trim();
+  const emailVal = (eid('my-email')?.value||'').trim();
   const pass   = eid('my-pass')?.value||'';
   const pass2  = eid('my-pass2')?.value||'';
   const msgEl  = eid('my-profile-msg');
@@ -6886,12 +6886,15 @@ async function updateMyProfile(){
     if(msgEl){msgEl.textContent='❌ Password must be at least 6 characters.';msgEl.style.color='#dc2626';msgEl.style.display='block';}
     return;
   }
+  if(emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)){
+    if(msgEl){msgEl.textContent='❌ Please enter a valid email address.';msgEl.style.color='#dc2626';msgEl.style.display='block';}
+    return;
+  }
   if(btn){btn.disabled=true;btn.textContent='Saving…';}
   try{
     const updates = {};
     if(pass) updates.password = pass;
-    const mobileE164 = mobile && !mobile.startsWith('+') ? '+91'+mobile.replace(/^0/,'') : mobile;
-    if(mobile) updates.data = { mobile: mobileE164 };
+    if(emailVal) updates.data = { admin_email: emailVal };
 
     if(Object.keys(updates).length === 0){
       if(msgEl){msgEl.textContent='ℹ️ Nothing to update.';msgEl.style.color='#6b7280';msgEl.style.display='block';}
@@ -6902,17 +6905,16 @@ async function updateMyProfile(){
     const {error: authErr} = await getSupa().auth.updateUser(updates);
     if(authErr) throw new Error('Auth update failed: ' + authErr.message);
 
-    // Update app_users mobile column
-    if(mobile){
+    // Update app_users mobile column (stores email for reset)
+    if(emailVal){
       await getSupa().from('app_users')
-        .update({mobile: mobileE164})
+        .update({mobile: emailVal})
         .eq('username', currentUser.username);
-      if(currentUser) currentUser.mobile = mobileE164;
+      if(currentUser) currentUser.mobile = emailVal;
     }
 
     if(msgEl){msgEl.textContent='✅ Profile updated successfully!';msgEl.style.color='#059669';msgEl.style.display='block';}
     if(pass){
-      // Clear password fields after change
       if(eid('my-pass')) eid('my-pass').value='';
       if(eid('my-pass2')) eid('my-pass2').value='';
     }
@@ -7569,9 +7571,9 @@ function pgSettings(){
           </div>
           <div class="fg" style="margin-bottom:12px;">
             <div class="fgr">
-              <label class="fl">📱 Mobile Number <small style="color:var(--tl);">(OTP reset)</small></label>
-              <input class="fc" id="my-mobile" type="tel" placeholder="+91 9876543210"
-                maxlength="13" value="${currentUser?.mobile||''}">
+              <label class="fl">📧 Email Address <small style="color:var(--tl);">(for email OTP reset)</small></label>
+              <input class="fc" id="my-email" type="email" placeholder="e.g. yourname@gmail.com"
+                value="${currentUser?.mobile||''}">
             </div>
             <div class="fgr">
               <!-- spacer -->
@@ -10509,8 +10511,8 @@ function openAddUser(editUsername){
         </select>
       </div>
       ${!isEdit?`
-      <div class="fgr" style="grid-column:span 2;"><label class="fl">Mobile Number <small style="color:var(--tm);">(for OTP password reset)</small></label>
-        <input class="fc" id="nu-mobile" type="tel" placeholder="+91 9876543210" maxlength="13"></div>
+      <div class="fgr" style="grid-column:span 2;"><label class="fl">Email Address <small style="color:var(--tm);">(for email OTP password reset)</small></label>
+        <input class="fc" id="nu-email" type="email" placeholder="e.g. yourname@gmail.com"></div>
       <div class="fgr"><label class="fl">Password *</label>
         <input class="fc" id="nu-pass" type="password" placeholder="Minimum 6 characters"></div>
       <div class="fgr"><label class="fl">Confirm Password *</label>
@@ -10554,13 +10556,12 @@ async function saveAppUser(editUsername){
       const companyId2=state.companyId||_selectedCompanyId;
       const cid=(companyId2||'').toLowerCase();
       const email=username.toLowerCase()+'_'+cid+'@accountally.app';
-      const rawMobile=(document.getElementById('nu-mobile')?.value||'').trim();
-      const phoneE164=rawMobile&&!rawMobile.startsWith('+')?'+91'+rawMobile.replace(/^0/,''):rawMobile;
+      const userRealEmail=(document.getElementById('nu-email')?.value||'').trim();
 
       // Create auth user via isolated tempClient
       const ANON2='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmc2x0eGVoZmRtbnd4a3dlY3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTg0MDgsImV4cCI6MjA4NzQzNDQwOH0.Xe8JTV2Gw1WfCx-0U4im64dZ8aw_wYWhrFqciDrX990';
       const tc2=supabase.createClient('https://dfsltxehfdmnwxkwecww.supabase.co',ANON2,{auth:{persistSession:false,autoRefreshToken:false}});
-      const {data:sd2,error:se2}=await tc2.auth.signUp({email,password:pass,options:{data:{mobile:phoneE164}}});
+      const {data:sd2,error:se2}=await tc2.auth.signUp({email,password:pass,options:{data:{admin_email:userRealEmail}}});
       if(se2) throw new Error('Auth signup failed: '+se2.message);
       if(!sd2.user) throw new Error('Signup failed — ensure email confirmations are OFF in Supabase.');
       // Insert using ADMIN session (RLS: "same company insert" policy allows this)
@@ -10569,7 +10570,7 @@ async function saveAppUser(editUsername){
         user_id:sd2.user.id,
         company_id:companyId2,
         role,
-        mobile:phoneE164
+        mobile:userRealEmail
       });
       if(insErr) throw new Error('DB error: '+insErr.message);
       const newUser={username:username.toLowerCase(),role,fullName,
@@ -12764,25 +12765,25 @@ function collapseAllNav(){
 init();
 
 // ══════════════════════════════════════════════════════════════════
-//  OTP PASSWORD RESET — v13
-//  Flow: Enter mobile → Supabase sends SMS OTP → Verify → New password
-//  Requires: Twilio configured in Supabase → Authentication → Settings
+//  OTP PASSWORD RESET — v14
+//  Flow: Enter real email → Supabase sends Email OTP → Verify → New password
+//  Uses Supabase built-in email OTP — FREE, no Twilio needed
 // ══════════════════════════════════════════════════════════════════
 
-let _otpState = { mobile:'', phoneE164:'', timer:null, resendCooldown:0 };
+let _otpState = { email:'', timer:null, resendCooldown:0 };
 
 function openOtpScreen(){
   document.getElementById('login-wrap').classList.add('hidden');
   document.getElementById('otp-wrap').classList.remove('hidden');
   otpGoStep(1);
-  setTimeout(()=>document.getElementById('otp-mobile-input')?.focus(), 100);
+  setTimeout(()=>document.getElementById('otp-email-input')?.focus(), 100);
 }
 
 function closeOtpScreen(){
   document.getElementById('otp-wrap').classList.add('hidden');
   document.getElementById('login-wrap').classList.remove('hidden');
   clearInterval(_otpState.timer);
-  _otpState = { mobile:'', phoneE164:'', timer:null, resendCooldown:0 };
+  _otpState = { email:'', timer:null, resendCooldown:0 };
 }
 
 function otpGoStep(n){
@@ -12799,31 +12800,27 @@ function otpShowError(msg){
   if(err){ err.textContent=msg; err.style.display='block'; }
 }
 
-// Step 1: User enters mobile number → send OTP
+// Step 1: User enters real email → Supabase sends 6-digit email OTP
 async function otpSendStep1(){
-  const raw=(document.getElementById('otp-mobile-input')?.value||'').trim();
-  if(!raw){ otpShowError('Please enter your mobile number.'); return; }
-
-  // Normalise to E.164 — prefix +91 for 10-digit Indian numbers
-  let phone = raw.replace(/\s|-/g,'');
-  if(!phone.startsWith('+')){ phone = '+91'+phone.replace(/^0/,''); }
-  if(!/^\+\d{10,15}$/.test(phone)){
-    otpShowError('Enter a valid mobile number (10 digits, e.g. 9876543210).');
+  const raw=(document.getElementById('otp-email-input')?.value||'').trim();
+  if(!raw){ otpShowError('Please enter your email address.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(raw)){
+    otpShowError('Enter a valid email address (e.g. yourname@gmail.com).');
     return;
   }
 
-  _otpState.mobile  = raw;
-  _otpState.phoneE164 = phone;
+  _otpState.email = raw;
 
   const btn=document.querySelector('#otp-s1 .login-btn');
   if(btn){ btn.disabled=true; btn.textContent='Sending OTP…'; }
 
   try{
-    const {error} = await getSupa().auth.signInWithOtp({ phone });
+    const {error} = await getSupa().auth.signInWithOtp({ email: raw, options:{ shouldCreateUser: false } });
     if(error) throw new Error(error.message);
 
-    // Show masked number in step 2
-    const masked = phone.slice(0,-4).replace(/\d/g,'*') + phone.slice(-4);
+    // Show masked email in step 2
+    const parts = raw.split('@');
+    const masked = parts[0].slice(0,2)+'****@'+parts[1];
     document.getElementById('otp-sent-to').textContent = masked;
 
     otpGoStep(2);
@@ -12835,8 +12832,8 @@ async function otpSendStep1(){
 
   }catch(e){
     let msg = e.message||'Failed to send OTP.';
-    if(msg.includes('SMS') || msg.includes('provider') || msg.includes('Twilio')){
-      msg = '⚠️ SMS service not configured yet. Ask your admin to set up Twilio in Supabase → Authentication → Settings → SMS Provider.';
+    if(msg.includes('not found') || msg.includes('No user') || msg.includes('Unable to validate')){
+      msg = '⚠️ No account found with this email. Please check the email or contact your admin.';
     } else if(msg.includes('rate') || msg.includes('limit')){
       msg = 'Too many attempts. Please wait a minute and try again.';
     }
@@ -12858,7 +12855,7 @@ function otpDigitKey(e, el, prevId){
   if(e.key==='ArrowLeft' && prevId) document.getElementById(prevId)?.focus();
 }
 
-// Step 2: Verify OTP
+// Step 2: Verify Email OTP
 async function otpVerify(){
   const otp=['od1','od2','od3','od4','od5','od6'].map(id=>document.getElementById(id)?.value||'').join('');
   if(otp.length!==6){ otpShowError('Enter all 6 digits.'); return; }
@@ -12868,9 +12865,9 @@ async function otpVerify(){
 
   try{
     const {data, error} = await getSupa().auth.verifyOtp({
-      phone: _otpState.phoneE164,
+      email: _otpState.email,
       token: otp,
-      type: 'sms'
+      type: 'email'
     });
     if(error) throw new Error(error.message);
 
@@ -12881,7 +12878,7 @@ async function otpVerify(){
   }catch(e){
     let msg = e.message || 'Invalid OTP.';
     if(msg.includes('expired')) msg = 'OTP has expired. Please resend.';
-    if(msg.includes('invalid') || msg.includes('Invalid')) msg = 'Incorrect OTP. Check the SMS and try again.';
+    if(msg.includes('invalid') || msg.includes('Invalid')) msg = 'Incorrect OTP. Check your email and try again.';
     otpShowError(msg);
     ['od1','od2','od3','od4','od5','od6'].forEach(id=>{
       const el=document.getElementById(id); if(el) el.value='';
@@ -12892,7 +12889,7 @@ async function otpVerify(){
   }
 }
 
-// Step 3: Set new password (user is authenticated after OTP verify)
+// Step 3: Set new password (user is authenticated after email OTP verify)
 async function otpSetNewPassword(){
   const p  = document.getElementById('otp-newpass')?.value  || '';
   const p2 = document.getElementById('otp-newpass2')?.value || '';
