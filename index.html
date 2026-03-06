@@ -437,7 +437,7 @@ select.finp{cursor:pointer;appearance:none;background-image:url("data:image/svg+
 <script>
 const APP = 'https://sdtax01.github.io/accountally-pro/app.html';
 const SU  = 'https://dfsltxehfdmnwxkwecww.supabase.co';
-const SK  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmc2x0eGVoZmRtbnd4a3dlY3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA2NTI0OTEsImV4cCI6MjA1NjIyODQ5MX0.yBtMLJvtGBf1WF6hNTFe0wj0BSUVT_BSIG36c7Rk4Bk';
+const SK  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmc2x0eGVoZmRtbnd4a3dlY3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTg0MDgsImV4cCI6MjA4NzQzNDQwOH0.Xe8JTV2Gw1WfCx-0U4im64dZ8aw_wYWhrFqciDrX990';
 
 // ── Supabase loader ──
 async function getSupa() {
@@ -664,13 +664,9 @@ async function doRegister() {
     // 2. Insert company into companies_registry
     const { error: coErr } = await db.from('companies_registry').insert({
       company_id: companyId,
-      company_name: cname,
+      name: cname,
       gstin: gstin || null,
-      state: state,
-      business_type: btype,
-      financial_year: fy,
-      created_by: authUserId,
-      created_at: new Date().toISOString()
+      fy: fy
     });
     if (coErr) throw new Error('Company setup failed: ' + coErr.message);
 
@@ -678,13 +674,9 @@ async function doRegister() {
     const { error: usrErr } = await db.from('app_users').insert({
       user_id: authUserId,
       username: user,
-      full_name: fname + ' ' + lname,
-      email: email,
-      mobile: email,
       role: 'admin',
       company_id: companyId,
-      is_active: true,
-      created_at: new Date().toISOString()
+      mobile: email
     });
     if (usrErr) throw new Error('User profile setup failed: ' + usrErr.message);
 
