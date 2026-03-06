@@ -12871,7 +12871,7 @@ async function otpSendStep1(){
   if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
 
   try{
-    // Get all companies (publicly readable — no auth/RLS issue)
+    // Get companies from registry (publicly readable)
     const {data:companies, error:coErr} = await getSupa()
       .from('companies_registry')
       .select('company_id');
@@ -12880,21 +12880,38 @@ async function otpSendStep1(){
       throw new Error('Could not reach server. Check your internet connection.');
     }
 
-    // Try each company fake email until one succeeds
+    // Build list of candidate fake emails for this username
+    const candidates = companies.map(co =>
+      username + '_' + co.company_id.toLowerCase() + '@accountally.app'
+    );
+
+    // Send OTP without shouldCreateUser restriction — try each candidate
     let foundEmail = null;
-    for(const co of companies){
-      const fakeEmail = username + '_' + co.company_id.toLowerCase() + '@accountally.app';
+    for(const fakeEmail of candidates){
       const {error: testErr} = await getSupa().auth.signInWithOtp({
         email: fakeEmail,
         options: {
-          shouldCreateUser: false,
           emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/'
         }
       });
+      // If no error, this email exists in auth
       if(!testErr){
         foundEmail = fakeEmail;
         break;
       }
+      // If error is NOT "user not found" type, still try next
+    }
+
+    if(!foundEmail){
+      // Last resort: try without company suffix (old format)
+      const oldEmail = username + '@accountally.app';
+      const {error: oldErr} = await getSupa().auth.signInWithOtp({
+        email: oldEmail,
+        options: {
+          emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/'
+        }
+      });
+      if(!oldErr) foundEmail = oldEmail;
     }
 
     if(!foundEmail){
@@ -12913,9 +12930,7 @@ async function otpSendStep1(){
 
   }catch(e){
     let msg = e.message||'Failed to send OTP.';
-    if(msg.includes('Signups not allowed') || msg.includes('not allowed for otp')){
-      msg = '⚠️ Email OTP not enabled. Go to Supabase → Authentication → Providers → Email → Enable.';
-    } else if(msg.includes('rate') || msg.includes('limit')){
+    if(msg.includes('rate') || msg.includes('limit')){
       msg = 'Too many attempts. Please wait a minute and try again.';
     }
     otpShowError(msg);
