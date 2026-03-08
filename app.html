@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AccounTally Pro</title>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
@@ -17,12 +20,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);height:100vh;
 .hidden{display:none!important;}
 
 /* ── LOGIN & COMPANY SELECT ── */
-#co-select-wrap,#login-wrap{position:fixed;inset:0;background:linear-gradient(135deg,#1c1a3a 0%,#2e2b5e 40%,#3b3480 70%,#1c1a3a 100%);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:0;overflow:hidden;}
-#co-select-wrap::before{content:'$€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽';position:absolute;left:0;top:-100%;width:50%;height:300%;font-size:120px;font-weight:900;background:linear-gradient(180deg,rgba(99,102,241,.28) 0%,rgba(129,143,248,.22) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3;white-space:pre;z-index:0;pointer-events:none;animation:stripeSlideDown 25s linear infinite;letter-spacing:30px;filter:drop-shadow(0 0 15px rgba(99,102,241,.35));}
-#co-select-wrap::after{content:'₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$';position:absolute;right:0;top:100%;width:50%;height:300%;font-size:120px;font-weight:900;background:linear-gradient(180deg,rgba(168,85,247,.28) 0%,rgba(129,143,248,.22) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3;white-space:pre;z-index:0;pointer-events:none;animation:stripeSlideUp 25s linear infinite;letter-spacing:30px;filter:drop-shadow(0 0 15px rgba(168,85,247,.35));}
-#login-wrap::before{content:'₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$\A ₽₹¥£€$';position:absolute;left:0;top:100%;width:50%;height:300%;font-size:120px;font-weight:900;background:linear-gradient(180deg,rgba(99,102,241,.28) 0%,rgba(168,85,247,.25) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3;white-space:pre;z-index:0;pointer-events:none;animation:stripeSlideUp 25s linear infinite;letter-spacing:30px;filter:drop-shadow(0 0 15px rgba(99,102,241,.35));}
-#login-wrap::after{content:'$€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽\A $€£¥₹₽';position:absolute;right:0;top:-100%;width:50%;height:300%;font-size:120px;font-weight:900;background:linear-gradient(180deg,rgba(168,85,247,.28) 0%,rgba(99,102,241,.25) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3;white-space:pre;z-index:0;pointer-events:none;animation:stripeSlideDown 25s linear infinite;letter-spacing:30px;filter:drop-shadow(0 0 15px rgba(168,85,247,.35));}
-#co-select-wrap > *,#login-wrap > *{position:relative;z-index:1;}
+#co-select-wrap,#login-wrap{position:fixed;inset:0;background:linear-gradient(135deg,#1c1a3a 0%,#2e2b5e 40%,#3b3480 70%,#1c1a3a 100%);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:0;}
 .login-box{background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.18);border-radius:24px;padding:44px 40px;width:400px;max-width:95vw;backdrop-filter:blur(12px);box-shadow:0 24px 64px rgba(0,0,0,.35);}
 .login-logo{text-align:center;margin-bottom:28px;}
 .login-logo-icon{font-size:42px;}
@@ -231,17 +229,6 @@ input[type=number]{-moz-appearance:textfield;}
 @keyframes fadeInUp{
   from{opacity:0;transform:translateY(16px);}
   to{opacity:1;transform:translateY(0);}
-}
-
-/* ── CURRENCY STRIPE ANIMATION ── */
-.currency-stripe{display:none;}
-@keyframes stripeSlideDown{
-  0%{transform:translateY(-100%);}
-  100%{transform:translateY(100%);}
-}
-@keyframes stripeSlideUp{
-  0%{transform:translateY(100%);}
-  100%{transform:translateY(-100%);}
 }
 
 /* ── DUE DATE COLORS ── */
@@ -504,7 +491,7 @@ input[type=number]{-moz-appearance:textfield;}
   <div style="background:#0f172a;border:1.5px solid rgba(255,255,255,.15);border-radius:20px;padding:36px 32px;width:420px;max-width:95vw;max-height:92vh;overflow-y:auto;">
     <div style="text-align:center;margin-bottom:18px;">
       <div style="font-size:32px;">🏢</div>
-      <div style="font-size:18px;font-weight:700;color:#fff;margin-top:6px;">Create New Company</div>
+      <div style="font-size:18px;font-weight:700;color:#fff;margin-top:6px;" id="nc-wizard-title">Create New Company</div>
       <div style="font-size:11px;color:#64748b;margin-top:3px;">Fill in company details — you can update these later in Settings</div>
     </div>
     <div class="step-dots">
@@ -550,7 +537,7 @@ input[type=number]{-moz-appearance:textfield;}
         <label class="login-label">TAN (optional)</label>
         <input class="login-input" id="nc-tan" placeholder="e.g. MUMT12345G" maxlength="10" style="text-transform:uppercase;">
       </div>
-      <button class="login-btn" onclick="ncNext(1)">Next: Admin Account →</button>
+      <button class="login-btn" id="nc-step1-next" onclick="ncNext(1)">Next: Admin Account →</button>
       <button class="login-btn-sec" onclick="closeNewCoWizard()">Cancel</button>
     </div>
     <!-- Step 2: Admin Account -->
@@ -1250,6 +1237,9 @@ let _selectedCompanyId=null;
 // ══════════════════════════════════════════════════════════════════
 async function getCompanyRegistry(){
   try{
+    // Verify active session before querying — RLS then auto-filters to own companies only
+    const { data: { session } } = await getSupa().auth.getSession();
+    if(!session) return [];
     const {data,error}=await getSupa().from('companies_registry').select('company_id,name,gstin,fy');
     if(error) throw error;
     return (data||[]).map(r=>({companyId:r.company_id,name:r.name,gstin:r.gstin||'',fy:r.fy||'2025-26'}));
@@ -1275,10 +1265,13 @@ async function showCompanySelectScreen(){
   document.getElementById('app').classList.add('hidden');
   const grid=document.getElementById('co-grid');
   const loading=document.getElementById('co-loading');
-  // Show ➕ immediately — user is never stuck even if network is slow
+  // Show ➕ immediately so user is never stuck while loading
   if(grid){grid.style.display='grid';grid.innerHTML=buildNewCoCard();}
   if(loading){loading.textContent='⏳ Loading companies…';loading.style.display='block';}
   try{
+    // Anon-read policy on companies_registry allows this query without a session.
+    // Only company_id + name are readable — sensitive accounting data remains
+    // fully protected by RLS on app_data and app_users.
     const {data,error}=await Promise.race([
       getSupa().from('companies_registry').select('company_id,name,gstin,fy'),
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000))
@@ -1390,17 +1383,11 @@ async function doLogin(){
       showLoginErr(errMsg);
       return;
     }
-    // Step 3: Confirm correct company selected
+    // Step 3: Confirm correct company selected — never reveal cross-company information
     if(userRow.company_id!==_selectedCompanyId){
       await getSupa().auth.signOut();
       recordFailedLogin(u);
-      // LOGIN FIX 2: Helpful error — auto-switch to the correct company
-      showLoginErr('⚠️ Wrong company selected. Switching you to the correct company…');
-      setTimeout(()=>{
-        _selectedCompanyId=userRow.company_id;
-        // Re-attempt login with corrected company
-        doLogin();
-      }, 1500);
+      showLoginErr('Invalid username or password for this company.');
       return;
     }
     clearFailedLogins(u);
@@ -1471,10 +1458,28 @@ function canEdit(){
 //  NEW COMPANY WIZARD (3-Step)
 // ══════════════════════════════════════════════════════════════════
 let _ncData={};
+let _wizardMode='new'; // 'new' = fresh client registration | 'add' = existing client adding a company
 function openNewCoWizard(){
   const ovl=document.getElementById('new-co-overlay');
   ovl.classList.remove('hidden');
   ovl.style.display='flex';
+
+  // 'add' mode = client already logged in, just adding another company (no new auth needed)
+  // 'new' mode = fresh client registering for the first time
+  _wizardMode = currentUser ? 'add' : 'new';
+
+  // Show/hide Step 2 (credentials) and its dot based on mode
+  const step2=document.getElementById('nc-step-2');
+  const sdot2=document.getElementById('sdot-2');
+  if(step2) step2.style.display=_wizardMode==='add'?'none':'';
+  if(sdot2) sdot2.style.display=_wizardMode==='add'?'none':'';
+
+  // Update the wizard title and step 1 next button
+  const titleEl=document.getElementById('nc-wizard-title');
+  if(titleEl) titleEl.textContent=_wizardMode==='add'?'Add New Company':'Create New Company';
+  const nextBtn=document.getElementById('nc-step1-next');
+  if(nextBtn) nextBtn.textContent=_wizardMode==='add'?'Next: Settings →':'Next: Admin Account →';
+
   const fyList=generateFYList();
   const now=new Date();
   const fyDefault=now.getMonth()>=3?`${now.getFullYear()}-${String(now.getFullYear()+1).slice(2)}`:`${now.getFullYear()-1}-${String(now.getFullYear()).slice(2)}`;
@@ -1501,11 +1506,18 @@ function ncNext(from){
     const name=(document.getElementById('nc-name')?.value||'').trim();
     if(!name){showAlert('Company name is required.');return;}
     _ncData.name=name;
-    _ncData.gstin=(document.getElementById('nc-gstin')?.value||'').toUpperCase().trim();
+    const rawGstin=(document.getElementById('nc-gstin')?.value||'').toUpperCase().trim();
+    if(rawGstin && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(rawGstin)){
+      showAlert('GSTIN format is invalid. It must be 15 characters — example: 27AAPFU0939F1ZV');
+      return;
+    }
+    _ncData.gstin=rawGstin;
     _ncData.state=document.getElementById('nc-state')?.value||'Maharashtra';
     _ncData.fy=document.getElementById('nc-fy')?.value||'2025-26';
     _ncData.tan=(document.getElementById('nc-tan')?.value||'').toUpperCase().trim();
-    ncShowStep(2);
+    // Existing client: skip credentials step entirely
+    if(_wizardMode==='add') ncShowStep(3);
+    else ncShowStep(2);
   } else if(from===2){
     const u=(document.getElementById('nc-user')?.value||'').trim();
     const p=document.getElementById('nc-pass')?.value||'';
@@ -1521,7 +1533,11 @@ function ncNext(from){
     ncShowStep(3);
   }
 }
-function ncBack(from){ncShowStep(from-1);}
+function ncBack(from){
+  // In 'add' mode step 2 is hidden — go straight back to step 1 from step 3
+  if(from===3 && _wizardMode==='add') ncShowStep(1);
+  else ncShowStep(from-1);
+}
 
 async function doCreateCompany(){
   const method=document.getElementById('nc-method')?.value||'mercantile';
@@ -1533,53 +1549,65 @@ async function doCreateCompany(){
   if(errEl)errEl.style.display='none';
 
   const companyId='C'+Date.now().toString(36).toUpperCase().slice(-6);
-  const username=_ncData.username.toLowerCase();
-  const email=username+'_'+companyId.toLowerCase()+'@accountally.app';
   let authUserId=null;
+  let username='';
+  let adminEmailVal='';
 
   try{
-    // ── Step 1: Supabase Auth signup ──────────────────────────────
-    // Store real email in Supabase Auth user_metadata (used for email OTP reset)
-    const adminEmail=(_ncData.adminEmail||'').trim();
-    const {data:authData,error:authErr}=await getSupa().auth.signUp({
-      email, password:_ncData.password,
-      options:{ data:{ admin_email: adminEmail } }
-    });
 
-    if(authErr){
-      // If email already registered — sign in to get existing user_id
-      // (happens when a previous creation attempt partially failed)
-      if(authErr.message.includes('already registered') || authErr.message.includes('already been registered')){
-        const {data:signinData,error:signinErr}=await getSupa().auth.signInWithPassword({email,password:_ncData.password});
-        if(signinErr) throw new Error('Username already exists and password is wrong. Use a different username or the correct password.');
-        authUserId=signinData.user.id;
-        // Check if this user already has a company
-        const {data:existingUser}=await getSupa().from('app_users').select('company_id').eq('user_id',authUserId).maybeSingle();
-        if(existingUser) throw new Error('Username "'+username+'" already exists with another company. Please use a different username.');
-      } else {
-        throw new Error('Auth signup failed: '+authErr.message);
-      }
+    if(_wizardMode==='add'){
+      // ── PATH A: Existing logged-in client adding a new company ──────────
+      // No new auth signup needed — reuse their existing Supabase Auth user_id
+      const {data:{session}}=await getSupa().auth.getSession();
+      if(!session) throw new Error('Your session expired. Please log in again and retry.');
+      authUserId=session.user.id;
+      username=currentUser.username;
+      // Carry existing email forward so OTP reset still works for this company too
+      const {data:existingRow}=await getSupa().from('app_users')
+        .select('mobile').eq('user_id',authUserId).maybeSingle();
+      adminEmailVal=existingRow?.mobile||'';
+
     } else {
-      if(!authData.user) throw new Error('Signup failed — go to Supabase → Auth → Settings → Email and turn OFF "Enable email confirmations".');
-      authUserId=authData.user.id;
-      // Set session immediately so RLS passes on next inserts
-      if(authData.session){
-        await getSupa().auth.setSession(authData.session);
+      // ── PATH B: New client registering for the first time ───────────────
+      username=_ncData.username.toLowerCase();
+      adminEmailVal=(_ncData.adminEmail||'').trim();
+      const email=username+'_'+companyId.toLowerCase()+'@accountally.app';
+
+      const {data:authData,error:authErr}=await getSupa().auth.signUp({
+        email, password:_ncData.password,
+        options:{ data:{ admin_email: adminEmailVal } }
+      });
+
+      if(authErr){
+        if(authErr.message.includes('already registered')||authErr.message.includes('already been registered')){
+          const {data:signinData,error:signinErr}=await getSupa().auth.signInWithPassword({email,password:_ncData.password});
+          if(signinErr) throw new Error('Username already exists with a different password. Please choose a different username.');
+          authUserId=signinData.user.id;
+          const {data:existingUser}=await getSupa().from('app_users').select('company_id').eq('user_id',authUserId).maybeSingle();
+          if(existingUser) throw new Error('Username "'+username+'" is already taken. Please choose a different username.');
+        } else {
+          throw new Error('Registration failed: '+authErr.message);
+        }
       } else {
-        const {data:si,error:siE}=await getSupa().auth.signInWithPassword({email,password:_ncData.password});
-        if(!siE&&si&&si.session) await getSupa().auth.setSession(si.session);
+        if(!authData.user) throw new Error('Signup failed — in Supabase go to Auth → Settings → Email and turn OFF "Enable email confirmations".');
+        authUserId=authData.user.id;
+        if(authData.session){
+          await getSupa().auth.setSession(authData.session);
+        } else {
+          const {data:si,error:siE}=await getSupa().auth.signInWithPassword({email,password:_ncData.password});
+          if(!siE&&si&&si.session) await getSupa().auth.setSession(si.session);
+        }
       }
     }
 
-    // ── Step 2: Insert companies_registry FIRST (FK parent) ──────
+    // ── Step 2: Insert companies_registry (parent row) ───────────────────
     const {error:regErr}=await getSupa().from('companies_registry').upsert(
       {company_id:companyId, name:_ncData.name, gstin:_ncData.gstin||'', fy:_ncData.fy||'2025-26'},
       {onConflict:'company_id'}
     );
     if(regErr) throw new Error('Could not create company: '+regErr.message);
 
-    // ── Step 3: Insert app_users (FK child) ──────────────────────
-    const adminEmailVal=(_ncData.adminEmail||'').trim();
+    // ── Step 3: Insert app_users (links this auth user to the new company) ─
     const {error:userErr}=await getSupa().from('app_users').insert({
       username: username,
       user_id: authUserId,
@@ -1588,12 +1616,11 @@ async function doCreateCompany(){
       mobile: adminEmailVal
     });
     if(userErr){
-      // Rollback: remove company we just created
       await getSupa().from('companies_registry').delete().eq('company_id',companyId);
       throw new Error('Could not save user profile: '+userErr.message);
     }
 
-    // ── Step 4: Build and save company state ──────────────────────
+    // ── Step 4: Build and save company accounting state ──────────────────
     const fyParts=(_ncData.fy||'2025-26').split('-');
     const fyYear=parseInt(fyParts[0]);
     const ns=JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -1608,7 +1635,7 @@ async function doCreateCompany(){
     sessionStorage.setItem('loggedInUser',username);
     await saveState();
 
-    // ── Step 5: Set current user and launch app ───────────────────
+    // ── Step 5: Launch into the new company ──────────────────────────────
     currentUser={id:companyId+'_u1',username,passwordHash:'',role:'admin',companyId};
     const cname=_ncData.name;
     closeNewCoWizard();
@@ -1827,6 +1854,11 @@ async function doLogout(){
   sessionStorage.removeItem('companyId');
   document.getElementById('app').classList.add('hidden');
   document.getElementById('login-wrap').classList.add('hidden');
+
+  // ── BFCache Fix: replace current history entry so back button
+  //    cannot navigate back to the authenticated app state ──
+  try { history.replaceState(null, '', window.location.href); } catch(_) {}
+
   showCompanySelectScreen();
 
   // ── Step 2: Background cleanup (non-blocking) ──
@@ -3470,7 +3502,7 @@ function exportItems(){
 // ══════════════════════════════════════════════════════════════════
 let vFil='All', vItemLines=[], vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}], editVId=null, vMode='smart', _curVType='Receipt',
     _vNar='',_vRef='',_vId='',_vDate='',_vDue='',_vParty='',_vTds='',
-    _vGstPos='',_vRchrg='N',_vInvType='R',_vInvNo=''; // GST invoice fields
+    _vGstPos='',_vRchrg='N',_vInvType='R',_vInvNo='',_vInvRef=''; // GST fields + invoice linkage
 
 // Inject voucher + upload styles once
 (function _voucherStyles(){
@@ -3537,12 +3569,54 @@ let vFil='All', vItemLines=[], vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr
   document.head.appendChild(s);
 })();
 
+// ── Invoice payment linkage helpers ─────────────────────────────────
+// Build invoice options for the Against Invoice dropdown (avoids nested template literal)
+function vBuildInvOpts(pid, selectedId){
+  if(!pid) return '<option disabled>Select a party first</option>';
+  const unpaid=(state.salesInvoices||[]).filter(i=>i.customerId===pid&&i.status==='unpaid');
+  if(!unpaid.length) return '<option disabled>No unpaid invoices for this party</option>';
+  return unpaid.map(i=>'<option value="'+i.id+'"'+(selectedId===i.id?' selected':'')+'>'+i.invoiceNo+' — ₹'+(i.grandTotal||0).toLocaleString('en-IN',{minimumFractionDigits:2})+' (Due: '+(i.dueDate||'N/A')+')</option>').join('');
+}
+
+function vRefreshInvList(){
+  const party=document.getElementById('v-party')?.value||'';
+  const sel=document.getElementById('v-inv-ref');
+  if(!sel)return;
+  const tp=document.getElementById('v-type')?.value||_curVType;
+  if(!['Receipt','Payment'].includes(tp)){sel.innerHTML='';return;}
+  const unpaid=(state.salesInvoices||[]).filter(i=>i.customerId===party&&i.status==='unpaid');
+  sel.innerHTML='<option value="">— None / General Receipt —</option>'+(vBuildInvOpts(party,_vInvRef));
+  if(_vInvRef) sel.value=_vInvRef;
+}
+function vAutoNarration(){
+  _vInvRef=document.getElementById('v-inv-ref')?.value||'';
+  if(_vInvRef){
+    const inv=(state.salesInvoices||[]).find(i=>i.id===_vInvRef);
+    if(inv){
+      const narEl=document.getElementById('v-nar');
+      if(narEl&&!narEl.value) narEl.value='Payment received against '+inv.invoiceNo+' — '+inv.customerName;
+      _vNar=narEl?.value||_vNar;
+    }
+  }
+}
+function vMarkInvoicePaid(invId,voucherNo){
+  if(!invId)return;
+  const inv=(state.salesInvoices||[]).find(i=>i.id===invId);
+  if(inv&&inv.status==='unpaid'){
+    inv.status='paid';
+    inv.paidAt=new Date().toISOString();
+    inv.paidVoucherNo=voucherNo||'';
+    if(typeof logAudit==='function') logAudit('Payment','Auto-marked '+inv.invoiceNo+' as Paid via voucher '+voucherNo);
+    showToast('✅ Invoice '+inv.invoiceNo+' marked as Paid','#059669');
+  }
+}
+
 function pgVouchers(){
   vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];
   vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];
   editVId=null; _curVType='Receipt';
   _vNar='';_vRef='';_vId='';_vDate='';_vDue='';_vParty='';_vTds='';
-  _vGstPos='';_vRchrg='N';_vInvType='R';_vInvNo='';
+  _vGstPos='';_vRchrg='N';_vInvType='R';_vInvNo='';_vInvRef='';
   renderVouchers();
 }
 
@@ -3737,7 +3811,7 @@ function renderVouchers(){
       <div class="vf-meta-2">
         <div>
           <div class="vf-label">Party / Ledger</div>
-          <select class="vf-inp" id="v-party" onchange="onPartyChange(this.value,'${curType}')">
+          <select class="vf-inp" id="v-party" onchange="onPartyChange(this.value,'${curType}');vRefreshInvList()">
             <option value="">— No party —</option>${partyOpts.replace(`value="${_pv}"`,`value="${_pv}" selected`)}
           </select>
         </div>
@@ -3746,6 +3820,17 @@ function renderVouchers(){
           <input class="vf-inp" id="v-nar" value="${_nv}" placeholder="Transaction description…">
         </div>
       </div>
+      ${['Receipt','Payment'].includes(curType)?`
+      <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:9px;padding:10px 14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;">
+        <div style="flex:1;min-width:200px;">
+          <div class="vf-label" style="color:#065f46;">📎 Against Invoice (Receipt links to unpaid invoice)</div>
+          <select class="vf-inp" id="v-inv-ref" onchange="_vInvRef=this.value;vAutoNarration()" style="border-color:#86efac;">
+            <option value="">— None / General Receipt —</option>
+            ${vBuildInvOpts(_pv,_vInvRef)}
+          </select>
+        </div>
+        <div style="font-size:10px;color:#065f46;padding-bottom:4px;">✅ Selecting an invoice will auto-mark it as <strong>Paid</strong> when voucher is saved</div>
+      </div>`:''}
 
       <!-- GST Invoice Details (Sales, Debit Note, Credit Note only) -->
       ${['Sales','Debit Note','Credit Note'].includes(curType)?`
@@ -4310,6 +4395,10 @@ function _commitZohoVoucher(id,dt,tp,narEnc,ref,partyId,due,tdsSection){
     state.vouchers.push(vobj);
   }
   logAudit(wasEdit?'Voucher Edited':'Voucher Created', `${tp} ${id}: ${nar}`); // BUG 2 fix
+  // ── Link payment to invoice ──
+  const _invRef=document.getElementById('v-inv-ref')?.value||_vInvRef||'';
+  if(_invRef&&['Receipt','Payment'].includes(tp)) vMarkInvoicePaid(_invRef,id);
+  _vInvRef='';
   scheduleSave();
   showToast(`✅ ${tp} Voucher <strong>${id}</strong> posted successfully!`);
   vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];
@@ -4318,7 +4407,7 @@ function _commitZohoVoucher(id,dt,tp,narEnc,ref,partyId,due,tdsSection){
 }
 
 
-function cancelEdit(){editVId=null;_curVType='Sales';_vNar='';_vRef='';_vId='';_vDate='';_vDue='';_vParty='';_vTds='';_vGstPos='';_vRchrg='N';_vInvType='R';_vInvNo='';vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];renderVouchers();}
+function cancelEdit(){editVId=null;_curVType='Sales';_vNar='';_vRef='';_vId='';_vDate='';_vDue='';_vParty='';_vTds='';_vGstPos='';_vRchrg='N';_vInvType='R';_vInvNo='';_vInvRef='';vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];renderVouchers();}
 
 function showManualPreviewAndPost(){
   const id=eid('v-id')?.value.trim(), dt=eid('v-date')?.value, tp=eid('v-type')?.value;
@@ -4451,6 +4540,9 @@ function _postManualVoucher(id,dt,tp,narEnc,ref,partyId,due){
   if(editVId){state.vouchers=(state.vouchers||[]).map(v=>v.id===editVId?vobj:v);editVId=null;}
   else{if((state.vouchers||[]).find(v=>v.id===id))return showAlert('Voucher ID already exists');state.vouchers.push(vobj);}
   window._pendingManualEntries=[];
+  // ── Link payment to invoice ──
+  if(_vInvRef&&['Receipt','Payment'].includes(tp)) vMarkInvoicePaid(_vInvRef,id);
+  _vInvRef='';
   scheduleSave();
   showToast('✅ '+tp+' Voucher <strong>'+id+'</strong> posted successfully!');
   vManualEntries=[{accId:'',dr:0,cr:0},{accId:'',dr:0,cr:0}];
@@ -4481,6 +4573,10 @@ function saveManualVoucher(){
   const vobj={id,date:dt,type:tp,narration:nar,ref,partyId,dueDate:due,entries,gstType:'',tdsSection,items:[],totals:{taxable:0,cgst:0,sgst:0,igst:0,tds:0,grand:totDr}};
   if(editVId){state.vouchers=(state.vouchers||[]).map(v=>v.id===editVId?vobj:v);editVId=null;}
   else{if((state.vouchers||[]).find(v=>v.id===id))return showAlert('Voucher ID already exists');state.vouchers.push(vobj);}
+  // ── Link payment to invoice ──
+  const _mInvRef=document.getElementById('v-inv-ref')?.value||_vInvRef||'';
+  if(_mInvRef&&['Receipt','Payment'].includes(tp)) vMarkInvoicePaid(_mInvRef,id);
+  _vInvRef='';
   scheduleSave();
   showToast(`✅ ${tp} Voucher <strong>${id}</strong> posted!`);
   vItemLines=[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)'}];
@@ -4567,7 +4663,7 @@ function pgRegister(type){
   <div class="tb no-print" style="margin-bottom:14px;">
     <div style="font-weight:700;font-size:14px;">${iconMap[type]||'📋'} ${type} Register — FY ${state.fy}</div>
     <button class="btn btn-s" onclick="exportRegister('${type}')" style="margin-left:auto;">⬇ Export Excel</button>
-    <button class="btn btn-p" onclick="navigate(type==='Sales'?'salesinvoice':type==='Purchase'?'purchaseinvoice':'vouchers')" style="margin-left:6px;">+ New ${type}</button>
+    <button class="btn btn-p" onclick="navigate('${type==='Sales'?'salesinvoice':type==='Purchase'?'purchaseinvoice':'vouchers'}')" style="margin-left:6px;">+ New ${type}</button>
   </div>
 
   <!-- Summary cards -->
@@ -4603,7 +4699,7 @@ function pgRegister(type){
         <th class="tr">Amount</th>`}
         <th class="no-print">PDF / Edit / Del</th>
       </tr></thead>
-      <tbody>${rows||`<tr><td colspan="${isDetailed?13:9}" style="padding:28px;text-align:center;color:var(--tm);font-size:13px;">No ${type} entries found. <button class="btn btn-p btn-sm" onclick="navigate(type==='Sales'?'salesinvoice':type==='Purchase'?'purchaseinvoice':'vouchers')" style="margin-left:8px;">+ Create ${type}</button></td></tr>`}</tbody>
+      <tbody>${rows||`<tr><td colspan="${isDetailed?13:9}" style="padding:28px;text-align:center;color:var(--tm);font-size:13px;">No ${type} entries found. <button class="btn btn-p btn-sm" onclick="navigate('${type==='Sales'?'salesinvoice':type==='Purchase'?'purchaseinvoice':'vouchers'}')" style="margin-left:8px;">+ Create ${type}</button></td></tr>`}</tbody>
       ${vouchers.length>0&&isDetailed?`
       <tfoot><tr class="tf">
         <td colspan="6" class="tr">TOTALS</td>
@@ -12199,8 +12295,8 @@ function exportGSTR1(){
     const gross=(v.entries||[]).reduce((s,e)=>s+(e.dr||0),0);
     return{txval:Math.round((gross-cgst-sgst-igst)*100)/100,iamt:igst,camt:cgst,samt:sgst};
   }
-  const b2b=salesV.filter(v=>{const p=(state.debtors||[]).find(d=>d.id===v.partyId||d.name===v.partyId);return p?.gstin;});
-  const b2cs=salesV.filter(v=>{const p=(state.debtors||[]).find(d=>d.id===v.partyId||d.name===v.partyId);return !p?.gstin;});
+  const b2b=salesV.filter(v=>{const p=(state.debtors||[]).find(d=>d.id===v.partyId||d.name===v.partyId);return p?.gstn||p?.gstin;});
+  const b2cs=salesV.filter(v=>{const p=(state.debtors||[]).find(d=>d.id===v.partyId||d.name===v.partyId);return !(p?.gstn||p?.gstin);});
   // GSTR-1 NIC JSON v3.1.0 — fp format: MMYYYY (e.g. '032026' for Mar 2026)
   const _fyEndDate=new Date(state.fyEnd||'2026-03-31');
   const _fpMM=String(_fyEndDate.getMonth()+1).padStart(2,'0');
@@ -12235,7 +12331,7 @@ function exportGSTR1Excel(){
     return{taxable:gross-cgst-sgst-igst,cgst,sgst,igst};
   }
   const header=[[`GSTR-1 RETURN — FY ${state.fy}`],['GSTIN:',state.gstin,'Company:',state.company],[]];
-  const b2bRows=salesV.map(v=>{const g=calcGST(v);const p=(state.debtors||[]).find(d=>d.id===v.partyId||d.name===v.partyId);return[v.id,v.date,p?.gstin||'B2CS',p?.name||v.narration,g.taxable,g.cgst,g.sgst,g.igst,g.taxable+g.cgst+g.sgst+g.igst];});
+  const b2bRows=salesV.map(v=>{const g=calcGST(v);const p=(state.debtors||[]).find(d=>d.id===v.partyId||d.name===v.partyId);return[v.id,v.date,(p?.gstn||p?.gstin)||'B2CS',p?.name||v.narration,g.taxable,g.cgst,g.sgst,g.igst,g.taxable+g.cgst+g.sgst+g.igst];});
   exportMultiXLS([
     {data:[...header,['Invoice No','Date','Customer GSTIN','Customer Name','Taxable Value','CGST','SGST','IGST','Invoice Value'],...b2bRows],name:'GSTR-1 B2B+B2CS'},
   ],`GSTR1_${state.fy}.xlsx`);
@@ -12917,6 +13013,30 @@ function collapseAllNav(){
 
 init();
 
+// ── BFCache Guard: fires when browser restores this page via back/forward ──
+// bfcache restores a frozen snapshot — init() does NOT re-run.
+// We must manually check session validity here.
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    // Page was restored from bfcache (back/forward button)
+    const savedUser    = sessionStorage.getItem('loggedInUser');
+    const savedCompany = sessionStorage.getItem('companyId');
+
+    if (!savedUser || !savedCompany) {
+      // No valid session — force back to company select screen, hide app
+      currentUser = null;
+      _selectedCompanyId = null;
+      document.getElementById('app').classList.add('hidden');
+      document.getElementById('login-wrap').classList.add('hidden');
+      showCompanySelectScreen();
+    } else {
+      // Session keys exist — re-run init() to revalidate with Supabase
+      // This handles the case where the Supabase token may have expired
+      init();
+    }
+  }
+});
+
 // ══════════════════════════════════════════════════════════════════
 //  OTP PASSWORD RESET — v14
 //  Flow: Enter real email → Supabase sends Email OTP → Verify → New password
@@ -13449,7 +13569,7 @@ function exportVoucherPDF(vId){
   ${pName&&pName!=='—'?`<div style="background:#f8fafc;border-left:4px solid ${tc};padding:10px 16px;border-radius:0 8px 8px 0;margin-bottom:16px;">
     <div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#94a3b8;font-weight:700;margin-bottom:3px;">${['Sales','Debit Note'].includes(v.type)?'Bill To':'Supplier'}</div>
     <div style="font-size:14px;font-weight:700;color:#1e293b;">${pName}</div>
-    ${(()=>{const party=['Sales','Debit Note','Receipt'].includes(v.type)?(state.debtors||[]).find(d=>d.id===v.partyId):(state.vendors||[]).find(x=>x.id===v.partyId);return party?.gstin?`<div style="font-size:11px;color:#64748b;margin-top:2px;font-family:monospace;">GSTIN: ${party.gstin}</div>`:'';})()} 
+    ${(()=>{const party=['Sales','Debit Note','Receipt'].includes(v.type)?(state.debtors||[]).find(d=>d.id===v.partyId):(state.vendors||[]).find(x=>x.id===v.partyId);return (party?.gstn||party?.gstin)?`<div style="font-size:11px;color:#64748b;margin-top:2px;font-family:monospace;">GSTIN: ${party.gstn||party.gstin}</div>`:'';})()} 
   </div>`:''}
   <!-- Narration -->
   <div style="margin-bottom:16px;">
@@ -14267,7 +14387,7 @@ function siGetItems() {
     id: it.id, name: it.name || '',
     hsn: it.hsn || it.sacCode || '',
     unit: it.unit || 'Nos',
-    rate: parseFloat(it.sellingPrice || it.rate || 0),
+    rate: parseFloat(it.saleRate || it.sellingPrice || it.rate || 0),
     gst: parseFloat(it.gstRate || it.taxRate || it.gst || 0)
   }));
 }
@@ -14321,6 +14441,11 @@ function pgSalesInvoiceNew(editId) {
   C.innerHTML = siFormHTML();
   siBindEvents();
   siRecalc();
+  // Show SO banner if customer already set (e.g. via soConvertToInvoice)
+  if (_si.customerId && !_siEditId) {
+    const _cust = (state.debtors||[]).find(d=>d.id===_si.customerId);
+    if(_cust) setTimeout(()=>siShowSOBanner(_si.customerId,_cust.name),100);
+  }
 }
 let _siEditId = null;
 
@@ -14436,6 +14561,7 @@ function siFormHTML() {
               <th style="padding:10px 8px;width:4%;"></th>
             </tr>
           </thead>
+          <tbody id="si-so-banner-row"><tr><td colspan="10" id="si-so-banner" style="padding:0;border:none;"></td></tr></tbody>
           <tbody id="si-rows"></tbody>
         </table>
       </div>
@@ -14501,12 +14627,92 @@ function siPickCustomer(id) {
   const c = (state.debtors || []).find(d => d.id === id);
   if (!c) return;
   _si.customerId = c.id;
-  const setV = (eid, val) => { const el = document.getElementById(eid); if (el) el.value = val || ''; };
+  const setV = (fid, val) => { const el = document.getElementById(fid); if (el) el.value = val || ''; };
+  // Field in party master is 'gstn' — normalise all possible names
+  const gstin = c.gstn || c.gstin || c.gstNo || '';
   setV('si-cname', c.name);
-  setV('si-cgstin', c.gstin || c.gstNo || '');
-  setV('si-cstate', c.state || '');
-  setV('si-caddr', c.address || '');
+  setV('si-cgstin', gstin);
+  setV('si-caddr', c.address ? [c.address, c.city, c.pincode].filter(Boolean).join(', ') : '');
+  // Auto-set customer state from GSTIN state code or stored state
+  const _sc2st = {'01':'Jammu & Kashmir','02':'Himachal Pradesh','03':'Punjab','04':'Chandigarh',
+    '05':'Uttarakhand','06':'Haryana','07':'Delhi','08':'Rajasthan','09':'Uttar Pradesh',
+    '10':'Bihar','11':'Sikkim','12':'Arunachal Pradesh','13':'Nagaland','14':'Manipur',
+    '15':'Mizoram','16':'Tripura','17':'Meghalaya','18':'Assam','19':'West Bengal',
+    '20':'Jharkhand','21':'Odisha','22':'Chhattisgarh','23':'Madhya Pradesh','24':'Gujarat',
+    '27':'Maharashtra','28':'Andhra Pradesh','29':'Karnataka','30':'Goa','32':'Kerala',
+    '33':'Tamil Nadu','36':'Telangana','37':'Andhra Pradesh','38':'Ladakh'};
+  const stateFromGstin = gstin.length >= 2 ? (_sc2st[gstin.slice(0,2)] || '') : '';
+  const custState = stateFromGstin || c.state || '';
+  const stEl = document.getElementById('si-cstate');
+  if (stEl && custState) {
+    for (let i = 0; i < stEl.options.length; i++) {
+      if (stEl.options[i].value === custState) { stEl.selectedIndex = i; break; }
+    }
+  }
   siCheckIGST();
+  // ── SO pop-up: show open SOs for this customer ──────────────────
+  siShowSOBanner(id, c.name);
+}
+
+function siShowSOBanner(custId, custName) {
+  const openSOs = (state.salesOrders || []).filter(so =>
+    so.customerId === custId && (!so.status || so.status === 'open')
+  );
+  const bannerEl = document.getElementById('si-so-banner');
+  if (!bannerEl) return;
+  if (!openSOs.length) { bannerEl.innerHTML = ''; return; }
+  bannerEl.innerHTML = `
+    <div style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1.5px solid #f59e0b;border-radius:10px;padding:12px 16px;margin-bottom:14px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="font-size:16px;">📦</span>
+        <div style="font-size:12px;font-weight:700;color:#92400e;">${openSOs.length} Open Sales Order${openSOs.length>1?'s':''} found for ${custName}</div>
+        <button onclick="document.getElementById('si-so-banner').innerHTML='';"
+          style="margin-left:auto;background:none;border:none;cursor:pointer;font-size:14px;color:#92400e;" title="Dismiss">✕</button>
+      </div>
+      <div style="font-size:11px;color:#78350f;margin-bottom:8px;">Select an SO to auto-fill invoice with its items, or skip to create a standalone invoice.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        ${openSOs.map(so => {
+          const total = (so.items||[]).reduce((s,l)=>s+l.qty*(l.rate||0)*(1+(l.gstRate||0)/100),0);
+          return `<button onclick="siLoadFromSO('${so.id}')"
+            style="background:#fff;border:1.5px solid #f59e0b;border-radius:7px;padding:8px 14px;cursor:pointer;font-size:11px;font-family:var(--font);text-align:left;">
+            <div style="font-weight:700;color:#92400e;">${so.id}</div>
+            <div style="color:#78350f;">Dt: ${so.date} · ₹${total.toLocaleString('en-IN',{maximumFractionDigits:0})}</div>
+            <div style="color:#059669;font-size:10px;margin-top:2px;">▶ Invoice from this SO</div>
+          </button>`;
+        }).join('')}
+        <button onclick="document.getElementById('si-so-banner').innerHTML='';"
+          style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:7px;padding:8px 14px;cursor:pointer;font-size:11px;font-family:var(--font);color:#64748b;">
+          ✖ Skip — Standalone Invoice
+        </button>
+      </div>
+    </div>`;
+}
+
+function siLoadFromSO(soId) {
+  const so = (state.salesOrders||[]).find(o=>o.id===soId);
+  if(!so) return showAlert('Sales Order not found.');
+  // Fill narration and SO reference
+  const narEl = document.getElementById('si-narration');
+  if(narEl) narEl.value = 'Against Sales Order ' + soId;
+  _si.soRef = soId;
+  _si.narration = 'Against Sales Order ' + soId;
+  // Load items from SO into invoice rows
+  _si.rows = (so.items||[]).map(ln => ({
+    itemId: ln.itemId||'',
+    desc: ln.desc||'',
+    hsn: (state.items||[]).find(i=>i.id===ln.itemId)?.hsn||'',
+    unit: (state.items||[]).find(i=>i.id===ln.itemId)?.unit||'Nos',
+    qty: ln.qty||1,
+    rate: ln.rate||0,
+    disc: 0,
+    gst: ln.gstRate||18
+  }));
+  if(!_si.rows.length) _si.rows=[{itemId:'',desc:'',hsn:'',unit:'Nos',qty:1,rate:0,disc:0,gst:18}];
+  siRenderRows();
+  // Dismiss banner, show confirmation
+  const b = document.getElementById('si-so-banner');
+  if(b){ b.innerHTML='<div style="background:#ecfdf5;border:1px solid #86efac;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;color:#065f46;">✅ Items loaded from SO '+soId+' — '+(_si.rows.length)+' item(s)</div>'; }
+  showToast('📦 Items loaded from ' + soId);
 }
 
 function siCheckIGST() {
@@ -14658,8 +14864,18 @@ async function siSave() {
     customerAddress: custAddr, narration,
     rows: JSON.parse(JSON.stringify(_si.rows || [])),
     subTotal, totalCGST, totalSGST, totalIGST, totalTax, grandTotal,
-    isIgst, status: 'unpaid',
-    createdAt: new Date().toISOString(),
+    isIgst,
+    // Preserve existing status/paidAt on edit — never reset 'paid' back to 'unpaid'
+    status: _siEditId
+      ? ((state.salesInvoices||[]).find(i=>i.id===_siEditId)?.status || 'unpaid')
+      : 'unpaid',
+    paidAt: _siEditId
+      ? ((state.salesInvoices||[]).find(i=>i.id===_siEditId)?.paidAt || null)
+      : null,
+    createdAt: _siEditId
+      ? ((state.salesInvoices||[]).find(i=>i.id===_siEditId)?.createdAt || new Date().toISOString())
+      : new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     createdBy: (typeof currentUser !== 'undefined' && currentUser?.username) || 'user'
   };
 
@@ -14682,6 +14898,15 @@ async function siSave() {
 
   // ── Auto-post journal voucher ──
   siPostJournal(invoice);
+  // ── Mark linked SO as invoiced ──
+  if (invoice.soRef) {
+    const so = (state.salesOrders||[]).find(o=>o.id===invoice.soRef);
+    if(so && so.status==='open') {
+      so.status = 'invoiced';
+      so.invoicedNo = invoice.invoiceNo;
+      so.invoicedAt = new Date().toISOString();
+    }
+  }
 
   if (typeof saveData === 'function') await saveData();
   if (typeof logAudit === 'function') logAudit('Sales Invoice', `${_siEditId?'Edited':'Created'} invoice ${invoiceNo} for ${custName} — ₹${grandTotal.toFixed(2)}`);
@@ -14855,9 +15080,11 @@ function silBind() {} // future: keyboard nav
 function siMarkPaid(id) {
   const inv = (state.salesInvoices||[]).find(i=>i.id===id);
   if (!inv) return;
-  inv.status = 'paid'; inv.paidAt = new Date().toISOString();
+  if (!confirm(`Mark ${inv.invoiceNo} as Paid?\nCustomer: ${inv.customerName}\nAmount: ₹${(inv.grandTotal||0).toLocaleString('en-IN',{minimumFractionDigits:2})}\n\nThis cannot be undone automatically.`)) return;
+  inv.status = 'paid';
+  inv.paidAt = new Date().toISOString();
   if (typeof saveData === 'function') saveData();
-  if (typeof logAudit === 'function') logAudit('Sales Invoice', `Marked ${inv.invoiceNo} as Paid`);
+  if (typeof logAudit === 'function') logAudit('Sales Invoice', `Marked ${inv.invoiceNo} as Paid — ₹${(inv.grandTotal||0).toFixed(2)}`);
   showToast(`✅ ${inv.invoiceNo} marked as Paid`);
   pgSalesInvoiceList();
 }
@@ -15002,7 +15229,7 @@ function pgPurchaseInvoiceNew(editId){
   const inv=editId?(state.purchaseInvoices||[]).find(i=>i.id===editId):null;
   const today2=today();
   const vendors=state.vendors||[];
-  const vOpts=vendors.map(v=>`<option value="${v.id}" ${inv?.vendorId===v.id?'selected':''}>${v.name}${v.gstin?' ('+v.gstin+')':''}</option>`).join('');
+  const vOpts=vendors.map(v=>`<option value="${v.id}" ${inv?.vendorId===v.id?'selected':''}>${v.name}${(v.gstn||v.gstin)?' (' + (v.gstn||v.gstin) + ')':''}</option>`).join('');
   const itemsArr=inv?inv.items:[{itemId:'',desc:'',qty:1,rate:0,disc:0,gstRate:18,gstType:'CGST+SGST (Intra-state)',amount:0}];
   const itemOpts=(state.items||[]).map(i=>`<option value="${i.id}">${i.name}</option>`).join('');
   
@@ -15179,16 +15406,18 @@ let _piLines=[];
 function piOnVendorChange(vid){
   const v=(state.vendors||[]).find(x=>x.id===vid);
   if(!v){eid('pi-vendor-info').innerHTML='';return;}
-  const stateCode=v.gstin?v.gstin.slice(0,2):'';
+  // Normalise GSTIN — saved as 'gstn' in vendor master
+  const vGstin = v.gstn || v.gstin || v.gstNo || '';
+  const stateCode = vGstin ? vGstin.slice(0,2) : '';
   eid('pi-vendor-info').innerHTML=`<div style="background:#f0fdf4;border-radius:6px;padding:8px 10px;">
-    <div><strong>${v.name}</strong>${v.gstin?` · GSTIN: ${v.gstin}`:' · (Unregistered)'}</div>
-    <div style="margin-top:3px;">${v.address||''}${v.msmeCategory?` · <strong>MSME: ${v.msmeCategory}</strong>`:''}</div>
+    <div><strong>${v.name}</strong>${vGstin?' · GSTIN: '+vGstin:' · (Unregistered)'}</div>
+    <div style="margin-top:3px;">${v.address||''}${v.msmeCategory?' · <strong>MSME: '+v.msmeCategory+'</strong>':''}</div>
   </div>`;
   if(stateCode && eid('pi-pos')){
     const opts=eid('pi-pos').options;
     for(let i=0;i<opts.length;i++){if(opts[i].value===stateCode){opts.selectedIndex=i;break;}}
   }
-  if(!v.gstin && eid('pi-rcm')) eid('pi-rcm').value='Y';
+  if(!vGstin && eid('pi-rcm')) eid('pi-rcm').value='Y';
   piRecalc();
 }
 
@@ -15339,7 +15568,16 @@ function piSave(){
     dueDate:due,rcm,tdsSection:tdsSec,itcEligibility:itcEl,
     supplierState:posCode,items:processedLines,
     totals:{taxable:Math.round(taxable*100)/100,cgst:Math.round(cgst*100)/100,sgst:Math.round(sgst*100)/100,igst:Math.round(igst*100)/100,tds:tdsAmt,total:Math.round(total*100)/100,netPayable:Math.round(netPayable*100)/100},
-    status:'unpaid',createdAt:new Date().toISOString()
+    status:_piEditId
+      ? ((state.purchaseInvoices||[]).find(i=>i.id===_piEditId)?.status || 'unpaid')
+      : 'unpaid',
+    paidAt:_piEditId
+      ? ((state.purchaseInvoices||[]).find(i=>i.id===_piEditId)?.paidAt || null)
+      : null,
+    createdAt:_piEditId
+      ? ((state.purchaseInvoices||[]).find(i=>i.id===_piEditId)?.createdAt || new Date().toISOString())
+      : new Date().toISOString(),
+    updatedAt:new Date().toISOString()
   };
   
   if(!state.purchaseInvoices)state.purchaseInvoices=[];
@@ -15448,8 +15686,10 @@ function pgPurchaseInvoiceList(){
 function piMarkPaid(id){
   const inv=(state.purchaseInvoices||[]).find(i=>i.id===id);
   if(!inv)return;
-  inv.status='paid';inv.paidDate=today();
-  scheduleSave();showToast('✅ Bill marked as paid: '+id);
+  if(!confirm(`Mark Bill ${inv.billNo||id} as Paid?\nVendor: ${inv.vendorName||''}\nAmount: ₹${(inv.totals?.netPayable||0).toLocaleString('en-IN',{minimumFractionDigits:2})}\n\nThis cannot be undone automatically.`))return;
+  inv.status='paid';inv.paidDate=today();inv.paidAt=new Date().toISOString();
+  scheduleSave();showToast('✅ Bill marked as paid');
+  if(typeof logAudit==='function') logAudit('Purchase Invoice',`Marked ${inv.billNo||id} as Paid`);
   pgPurchaseInvoiceList();
 }
 
@@ -15865,13 +16105,42 @@ function soSave(){
 }
 
 function soConvertToInvoice(){
-  const id=eid('so-id')?.value?.trim();const so=state.salesOrders?.find(o=>o.id===id);
-  if(!so&&!id)return showAlert('Save the SO first, then convert.');
-  // Save current form first
+  const id=eid('so-id')?.value?.trim();
+  if(!id)return showAlert('Save the SO first, then convert.');
+  // Save SO first
   soSave();
-  // Navigate to sales invoice with SO reference
+  const so=state.salesOrders?.find(o=>o.id===id);
+  if(!so)return showAlert('SO not found. Please save first.');
+  // Pre-load _si with SO data so invoice opens pre-filled
+  const cust=(state.debtors||[]).find(d=>d.id===so.customerId);
+  const gstin=cust?(cust.gstn||cust.gstin||cust.gstNo||''):'';
+  _si={
+    invoiceNo: siNextNo(),
+    date: siTodayDate(),
+    dueDate: siDueDate(siTodayDate(),30),
+    customerId: so.customerId||'',
+    customerName: cust?.name||'',
+    customerGstin: gstin,
+    customerAddress: cust?[cust.address,cust.city,cust.pincode].filter(Boolean).join(', '):'',
+    customerState: cust?.state||'',
+    paymentTerms: '30',
+    placeOfSupply: state.companyState||'Maharashtra',
+    narration: 'Against Sales Order '+id,
+    soRef: id,
+    rows: (so.items||[]).map(ln=>({
+      itemId: ln.itemId||'',
+      desc: ln.desc||'',
+      hsn: (state.items||[]).find(i=>i.id===ln.itemId)?.hsn||'',
+      unit: (state.items||[]).find(i=>i.id===ln.itemId)?.unit||'Nos',
+      qty: ln.qty||1,
+      rate: ln.rate||0,
+      disc: 0,
+      gst: ln.gstRate||18
+    }))
+  };
+  if(!_si.rows.length) _si.rows=[{itemId:'',desc:'',hsn:'',unit:'Nos',qty:1,rate:0,disc:0,gst:18}];
   navigate('salesinvoice');
-  showToast('💡 Tip: Reference SO number: '+id+' in the invoice narration.');
+  showToast('✅ Invoice pre-filled from SO '+id+'. Review and save.');
 }
 
 function soPrint(){
@@ -15892,7 +16161,7 @@ function soPrint(){
   <body>
   <div class="header"><div><h2 style="margin:0;color:#3730a3;">${state.company||'Company Name'}</h2><div style="font-size:11px;color:#64748b;">GSTIN: ${state.gstin||'Not Set'}</div></div>
   <div style="text-align:right;"><h2 style="margin:0;color:#3730a3;">SALES ORDER</h2><div><strong>SO No.:</strong> ${id}</div><div><strong>Date:</strong> ${fmtD(dt)}</div>${eid('so-valid')?.value?`<div><strong>Valid Till:</strong> ${fmtD(eid('so-valid').value)}</div>`:''}</div></div>
-  <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:16px;"><strong>Bill To:</strong> ${cust?.name||'—'}<br>${cust?.gstin?'GSTIN: '+cust.gstin+' | ':''} ${cust?.address||''}</div>
+  <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:16px;"><strong>Bill To:</strong> ${cust?.name||'—'}<br>${(cust?.gstn||cust?.gstin)?'GSTIN: '+(cust.gstn||cust.gstin)+' | ':''} ${cust?.address||''}</div>
   <table style="margin-bottom:16px;"><thead><tr><th>#</th><th>Description</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate ₹</th><th style="text-align:center;">GST%</th><th style="text-align:right;">Amount ₹</th></tr></thead><tbody>${lineHtml}</tbody></table>
   <div class="total-box"><div style="display:flex;justify-content:space-between;"><span>Taxable:</span><strong>${fmt(taxable)}</strong></div><div style="display:flex;justify-content:space-between;"><span>GST:</span><strong>${fmt(gstTotal)}</strong></div><div style="display:flex;justify-content:space-between;font-size:15px;border-top:2px solid #3b82f6;padding-top:6px;margin-top:6px;"><span><strong>Total:</strong></span><strong style="color:#3730a3;">${fmt(taxable+gstTotal)}</strong></div></div>
   <div style="margin-top:24px;background:#f8fafc;border-radius:8px;padding:14px;"><strong style="display:block;margin-bottom:8px;">Terms & Conditions:</strong><div style="font-size:11px;line-height:1.7;">${terms}</div></div>
@@ -16410,7 +16679,7 @@ function pfPrint(){
     </div>
   </div>
   ${eid('pf-subject')?.value?`<div style="background:#fffbeb;border-radius:8px;padding:10px 14px;margin-bottom:14px;"><strong>Subject:</strong> ${eid('pf-subject').value}</div>`:''}
-  <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:16px;"><strong>Customer / Prospect:</strong> ${custName}${cust?.gstin?` | GSTIN: ${cust.gstin}`:''}</div>
+  <div style="background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:16px;"><strong>Customer / Prospect:</strong> ${custName}${(cust?.gstn||cust?.gstin)?` | GSTIN: ${cust.gstn||cust.gstin}`:''}</div>
   <table style="margin-bottom:16px;"><thead><tr><th>#</th><th>Description</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Rate ₹</th><th style="text-align:center;">Disc</th><th style="text-align:center;">GST%</th><th style="text-align:right;">Amount ₹</th></tr></thead><tbody>${lineHtml}</tbody></table>
   <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
     <div style="background:#fef9c3;border:2px solid #f59e0b;border-radius:8px;padding:14px;min-width:260px;">
