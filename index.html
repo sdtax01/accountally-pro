@@ -844,19 +844,26 @@ async function doLogin() {
 // Init
 goStep(1);
 
-// ── BFCache Guard: fires when browser restores this page via back/forward ──
-// If user is already logged in (sessionStorage has a token), redirect them
-// to the app instead of showing the login page from cache.
-// If user is NOT logged in, the login page is correct — do nothing.
+// ── BFCache Guard (Internet Banking Style) ──────────────────────────
+// Fires when browser restores this page via back/forward button.
+// Internet banking rule: back/forward always = logged out state.
+// So if this page is restored from bfcache, we ALWAYS clear any
+// remaining session and show the login form — never auto-redirect.
 window.addEventListener('pageshow', function(e) {
   if (e.persisted) {
-    // Page was restored from bfcache (back/forward button)
-    const loggedIn = sessionStorage.getItem('loggedInUser');
-    if (loggedIn) {
-      // Session still active — send back to app, not login page
-      window.location.replace(APP);
-    }
-    // No session = user is logged out, login page is correct, do nothing
+    // Page restored from bfcache — kill any leftover session silently
+    sessionStorage.removeItem('loggedInUser');
+    sessionStorage.removeItem('companyId');
+    sessionStorage.removeItem('activeCompanyId');
+    // Sign out from Supabase quietly in background (non-blocking)
+    try {
+      if (window._supa) {
+        window._supa.auth.signOut().catch(function(){});
+      }
+    } catch(_) {}
+    // Always show login panel (never redirect to app)
+    // goStep(1) resets the UI to the login screen
+    try { goStep(1); } catch(_) {}
   }
 });
 </script>
