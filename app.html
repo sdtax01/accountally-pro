@@ -13013,27 +13013,28 @@ function collapseAllNav(){
 
 init();
 
-// ── BFCache Guard: fires when browser restores this page via back/forward ──
-// bfcache restores a frozen snapshot — init() does NOT re-run.
-// We must manually check session validity here.
+// ── BFCache Guard (Internet Banking Style) ──────────────────────────
+// Fires when browser restores this page via back/forward button.
+// Internet banking rule: ANY back/forward press = immediate full logout
+// + redirect to Landing Page. No exceptions.
+const LANDING_PAGE = 'https://shreedigitax.netlify.app';
 window.addEventListener('pageshow', function(e) {
   if (e.persisted) {
-    // Page was restored from bfcache (back/forward button)
-    const savedUser    = sessionStorage.getItem('loggedInUser');
-    const savedCompany = sessionStorage.getItem('companyId');
+    // Page restored from bfcache — immediately kill session
+    currentUser = null;
+    _selectedCompanyId = null;
+    clearTimeout(_sessionTimer);
 
-    if (!savedUser || !savedCompany) {
-      // No valid session — force back to company select screen, hide app
-      currentUser = null;
-      _selectedCompanyId = null;
-      document.getElementById('app').classList.add('hidden');
-      document.getElementById('login-wrap').classList.add('hidden');
-      showCompanySelectScreen();
-    } else {
-      // Session keys exist — re-run init() to revalidate with Supabase
-      // This handles the case where the Supabase token may have expired
-      init();
-    }
+    // Clear all session keys so Landing Page also sees logged-out state
+    sessionStorage.removeItem('loggedInUser');
+    sessionStorage.removeItem('companyId');
+    sessionStorage.removeItem('activeCompanyId');
+
+    // Sign out from Supabase quietly in background (non-blocking)
+    try { getSupa().auth.signOut().catch(function(){}); } catch(_) {}
+
+    // Redirect to Landing Page — replace() so forward button also won't return
+    window.location.replace(LANDING_PAGE);
   }
 });
 
