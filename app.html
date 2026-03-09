@@ -1271,27 +1271,43 @@ async function showCompanySelectScreen(){
   try{
     // ── SECURITY FIX: Only show companies belonging to the logged-in user ──
     // Step 1: Get current Supabase Auth session
-    const { data: { session } } = await Promise.race([
-      getSupa().auth.getSession(),
-      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000))
-    ]);
+    let session = null;
+    try{
+      const { data } = await Promise.race([
+        getSupa().auth.getSession(),
+        new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000))
+      ]);
+      session = data?.session || null;
+    }catch(_){}
 
     if(loading)loading.style.display='none';
 
-    // Step 2: No session = new visitor, show only Create New Company card
-    if(!session || !session.user){
-      if(grid)grid.innerHTML=buildNewCoCard();
-      return;
+    // Step 2: Try to identify user — via Supabase session OR sessionStorage username
+    // sessionStorage fallback handles the case where user just arrived from landing page
+    // and Supabase session hasn't propagated yet
+    let userRows = null;
+
+    if(session && session.user){
+      // Primary: use Supabase user_id for most secure lookup
+      const { data, error } = await getSupa()
+        .from('app_users')
+        .select('company_id')
+        .eq('user_id', session.user.id);
+      if(!error && data) userRows = data;
     }
 
-    // Step 3: Session exists — fetch ONLY this user's companies via app_users
-    // app_users links user_id → company_id, so we get only their companies
-    const { data: userRows, error: userErr } = await getSupa()
-      .from('app_users')
-      .select('company_id')
-      .eq('user_id', session.user.id);
+    // Fallback: if no session yet, use saved username from sessionStorage
+    // This covers the landing page → app.html redirect window
+    if((!userRows || userRows.length === 0)){
+      const savedUsername = sessionStorage.getItem('loggedInUser');
+      const savedCompanyId = sessionStorage.getItem('companyId');
+      if(savedUsername && savedCompanyId){
+        // Directly use the saved companyId — user was authenticated on landing page
+        userRows = [{ company_id: savedCompanyId }];
+      }
+    }
 
-    if(userErr) throw userErr;
+    // Step 3: No user identified — new visitor, show only Create New Company
     if(!userRows || userRows.length === 0){
       if(grid)grid.innerHTML=buildNewCoCard();
       return;
@@ -1637,13 +1653,15 @@ async function doCreateCompany(){
     if(regErr) throw new Error('Could not create company: '+regErr.message);
 
     // ── Step 3: Insert app_users (links this auth user to the new company) ─
-    const {error:userErr}=await getSupa().from('app_users').insert({
+    // upsert with composite key (user_id, company_id) so same user can have
+    // multiple companies without hitting the primary key constraint
+    const {error:userErr}=await getSupa().from('app_users').upsert({
       username: username,
       user_id: authUserId,
       company_id: companyId,
       role: 'admin',
       mobile: adminEmailVal
-    });
+    },{onConflict:'user_id,company_id'});
     if(userErr){
       await getSupa().from('companies_registry').delete().eq('company_id',companyId);
       throw new Error('Could not save user profile: '+userErr.message);
@@ -8994,9 +9012,9 @@ async function addNewUser(){
     const userId=sd.user.id;
 
     // Step 2: Insert app_users using ADMIN session (RLS: "same company insert" policy allows this)
-    const {error:userErr}=await getSupa().from('app_users').insert({
+    const {error:userErr}=await getSupa().from('app_users').upsert({
       username, user_id:userId, company_id:companyId, role:r, mobile
-    });
+    },{onConflict:'user_id,company_id'});
     if(userErr) throw new Error('Could not save user profile: '+userErr.message);
 
     if(!state.appUsers)state.appUsers=[];
@@ -10781,13 +10799,13 @@ async function saveAppUser(editUsername){
       if(se2) throw new Error('Auth signup failed: '+se2.message);
       if(!sd2.user) throw new Error('Signup failed — ensure email confirmations are OFF in Supabase.');
       // Insert using ADMIN session (RLS: "same company insert" policy allows this)
-      const {error:insErr}=await getSupa().from('app_users').insert({
+      const {error:insErr}=await getSupa().from('app_users').upsert({
         username:username.toLowerCase(),
         user_id:sd2.user.id,
         company_id:companyId2,
         role,
         mobile:userRealEmail
-      });
+      },{onConflict:'user_id,company_id'});
       if(insErr) throw new Error('DB error: '+insErr.message);
       const newUser={username:username.toLowerCase(),role,fullName,
         createdAt:new Date().toISOString(),createdBy:currentUser?.username};
