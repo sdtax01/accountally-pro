@@ -439,31 +439,8 @@ select.finp{cursor:pointer;appearance:none;background-image:url("data:image/svg+
 const APP = 'https://sdtax01.github.io/accountally-pro/app.html';
 const SU  = 'https://dfsltxehfdmnwxkwecww.supabase.co';
 
-// ── AUTO SIGN-OUT ON LANDING PAGE LOAD ──
-// Because bfcache is disabled (no-store meta), this page is always freshly loaded.
-// So DOMContentLoaded fires every single time — including when the user presses Back
-// from app.html. We use this to kill any active Supabase session immediately,
-// ensuring the user is fully logged out before they can interact with this page.
-document.addEventListener('DOMContentLoaded', async function() {
-  try {
-    const db = await getSupa();
-    const { data: { session } } = await db.auth.getSession();
-    if (session) {
-      // Active session found — user navigated back while still logged in.
-      // Sign them out silently and wipe all session storage keys.
-      await db.auth.signOut();
-      sessionStorage.removeItem('loggedInUser');
-      sessionStorage.removeItem('companyId');
-      sessionStorage.removeItem('activeCompanyId');
-    }
-  } catch(_) {
-    // If Supabase hasn't loaded yet or any error occurs, we still clear sessionStorage
-    // so the app.html auth guard won't find a valid key and let the user back in.
-    sessionStorage.removeItem('loggedInUser');
-    sessionStorage.removeItem('companyId');
-    sessionStorage.removeItem('activeCompanyId');
-  }
-});
+// ── Session is cleared by pageshow listener below on bfcache restore ──
+// DOMContentLoaded auto-signout removed — it was killing sessions on normal login too.
 const SK  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmc2x0eGVoZmRtbnd4a3dlY3d3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NTg0MDgsImV4cCI6MjA4NzQzNDQwOH0.Xe8JTV2Gw1WfCx-0U4im64dZ8aw_wYWhrFqciDrX990';
 
 // ── Supabase loader ──
