@@ -351,65 +351,8 @@ select.finp{cursor:pointer;appearance:none;background-image:url("data:image/svg+
         </button>
       </div>
 
-      <!-- STEP 2: Company -->
+      <!-- STEP 2: Confirm & Create (company setup happens inside the app) -->
       <div id="step2" style="display:none;">
-        <div class="ptitle" style="font-size:clamp(20px,2.2vw,28px);margin-bottom:4px;">Your Company</div>
-        <div class="psub" style="margin-bottom:clamp(12px,2vh,20px);">Set up your first company in AccounTally.</div>
-
-        <div class="fg">
-          <label class="flbl">Company Name</label>
-          <input class="finp" id="r-cname" type="text" placeholder="e.g. Shree Traders Pvt Ltd">
-        </div>
-        <div class="fg">
-          <label class="flbl">GSTIN (optional)</label>
-          <input class="finp" id="r-gstin" type="text" placeholder="22AAAAA0000A1Z5" maxlength="15" style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()">
-        </div>
-        <div class="fg-half fg">
-          <div>
-            <label class="flbl">State</label>
-            <select class="finp" id="r-state">
-              <option value="">Select State</option>
-              <option>Maharashtra</option><option>Delhi</option><option>Karnataka</option>
-              <option>Tamil Nadu</option><option>Gujarat</option><option>Rajasthan</option>
-              <option>Uttar Pradesh</option><option>West Bengal</option><option>Telangana</option>
-              <option>Andhra Pradesh</option><option>Madhya Pradesh</option><option>Punjab</option>
-              <option>Haryana</option><option>Bihar</option><option>Odisha</option>
-              <option>Kerala</option><option>Jharkhand</option><option>Chhattisgarh</option>
-              <option>Uttarakhand</option><option>Himachal Pradesh</option><option>Goa</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div>
-            <label class="flbl">Financial Year</label>
-            <select class="finp" id="r-fy">
-              <option value="2025-26">2025-26</option>
-              <option value="2024-25">2024-25</option>
-            </select>
-          </div>
-        </div>
-        <div class="fg">
-          <label class="flbl">Business Type</label>
-          <select class="finp" id="r-btype">
-            <option value="">Select Type</option>
-            <option>Proprietorship</option>
-            <option>Partnership</option>
-            <option>Private Limited</option>
-            <option>Public Limited</option>
-            <option>LLP</option>
-            <option>Trust / Society</option>
-            <option>HUF</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div style="display:flex;gap:10px;">
-          <button class="btn-outline" onclick="goStep(1)" style="flex:0 0 auto;width:auto;padding:12px 20px;">&larr;</button>
-          <button class="btn" style="flex:1;" onclick="goStep3()">Continue &rarr;</button>
-        </div>
-      </div>
-
-      <!-- STEP 3: Confirm & Create -->
-      <div id="step3" style="display:none;">
         <div class="ptitle" style="font-size:clamp(20px,2.2vw,28px);margin-bottom:4px;">Confirm &amp; Launch</div>
         <div class="psub" style="margin-bottom:clamp(12px,2vh,20px);">Review your details before creating your account.</div>
 
@@ -422,7 +365,7 @@ select.finp{cursor:pointer;appearance:none;background-image:url("data:image/svg+
         </button>
 
         <div style="display:flex;gap:10px;margin-top:10px;">
-          <button class="btn-outline" onclick="goStep(2)" style="width:100%;">&larr; Back</button>
+          <button class="btn-outline" onclick="goStep(1)" style="width:100%;">&larr; Back</button>
         </div>
       </div>
 
@@ -436,7 +379,7 @@ select.finp{cursor:pointer;appearance:none;background-image:url("data:image/svg+
 </div>
 
 <script>
-const APP = 'https://sdtax01.github.io/accountally-pro/app.html';
+const APP = 'https://shreedigitax.netlify.app/app.html';
 const SU  = 'https://dfsltxehfdmnwxkwecww.supabase.co';
 
 // ── Session is cleared by pageshow listener below on bfcache restore ──
@@ -550,68 +493,26 @@ function goStep2() {
   if (!email || !email.includes('@')) { markErr('r-email','Valid email required'); return; }
   if (pass.length < 8) { markErr('r-pass','Password must be at least 8 characters'); return; }
 
+  // Build confirm summary (no company fields — those are set up inside the app)
+  function escapeHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  document.getElementById('summary').innerHTML = `
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;">
+      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Name</span>
+      <strong>${escapeHtml(fname)} ${escapeHtml(lname)}</strong>
+      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Username</span>
+      <strong>${escapeHtml(user)}</strong>
+      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Email</span>
+      <strong>${escapeHtml(email)}</strong>
+    </div>`;
+
   goStep(2);
 }
 
 function markErr(fieldId, msg) {
   document.getElementById(fieldId).classList.add('err-field');
   showMsg('reg-err', msg, 'error');
-}
-
-// ── Step 2 validate ──
-function goStep3() {
-  clearMsg();
-  const cname = document.getElementById('r-cname').value.trim();
-  const state = document.getElementById('r-state').value;
-  const btype = document.getElementById('r-btype').value;
-  const gstin = document.getElementById('r-gstin').value.trim();
-
-  if (!cname) { markErr('r-cname','Company name required'); return; }
-  if (!state) { showMsg('reg-err','Please select your state','error'); return; }
-  if (!btype) { showMsg('reg-err','Please select business type','error'); return; }
-  if (gstin && !/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/.test(gstin)) {
-    markErr('r-gstin','Invalid GSTIN format. Example: 27AAPFU0939F1ZV');
-    return;
-  }
-
-  // Escape helper — converts dangerous HTML characters to safe entities
-  // so user input is always treated as plain text, never as HTML
-  function escapeHtml(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-
-  // Build summary — all user-supplied values are escaped before insertion
-  const fname = escapeHtml(document.getElementById('r-fname').value.trim());
-  const lname = escapeHtml(document.getElementById('r-lname').value.trim());
-  const user  = escapeHtml(document.getElementById('r-user').value.trim());
-  const email = escapeHtml(document.getElementById('r-email').value.trim());
-  const fy    = escapeHtml(document.getElementById('r-fy').value);
-
-  document.getElementById('summary').innerHTML = `
-    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;">
-      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Name</span>
-      <strong>${fname} ${lname}</strong>
-      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Username</span>
-      <strong>${user}</strong>
-      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Email</span>
-      <strong>${email}</strong>
-      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Company</span>
-      <strong>${escapeHtml(cname)}</strong>
-      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">Type</span>
-      <strong>${escapeHtml(btype)}</strong>
-      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">State</span>
-      <strong>${escapeHtml(state)}</strong>
-      <span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">F.Y.</span>
-      <strong>${fy}</strong>
-      ${gstin ? `<span style="color:#3A1C08;font-size:11px;letter-spacing:1px;text-transform:uppercase;">GSTIN</span><strong>${escapeHtml(gstin)}</strong>` : ''}
-    </div>`;
-
-  goStep(3);
 }
 
 // ── REGISTER ──
@@ -634,11 +535,6 @@ async function doRegister() {
   const user  = document.getElementById('r-user').value.trim().toLowerCase();
   const email = document.getElementById('r-email').value.trim();
   const pass  = document.getElementById('r-pass').value;
-  const cname = document.getElementById('r-cname').value.trim();
-  const gstin = document.getElementById('r-gstin').value.trim().toUpperCase();
-  const state = document.getElementById('r-state').value;
-  const btype = document.getElementById('r-btype').value;
-  const fy    = document.getElementById('r-fy').value;
 
   try {
     // Step 0: Raw connection diagnostic
@@ -653,8 +549,8 @@ async function doRegister() {
     }
 
     const db = await getSupa();
-    const companyId = genCompanyId();
     let authUserId = null;
+    let session = null;
 
     // 1. Create Supabase Auth user
     const { data: authData, error: authErr } = await db.auth.signUp({
@@ -673,24 +569,11 @@ async function doRegister() {
         if (recoverErr) {
           throw new Error('This email is already registered with a different password. Please use the Sign In button instead.');
         }
-        // ── Set session FIRST so RLS is active before any table queries ──
         if (recoverData?.session) {
           try { await db.auth.setSession(recoverData.session); } catch(_) {}
+          session = recoverData.session;
         }
         authUserId = recoverData.user?.id;
-        // Now check if they already have a live app_users row — if yes, just redirect
-        const { data: existingRow } = await db.from('app_users')
-          .select('company_id,username').eq('user_id', authUserId).maybeSingle();
-        if (existingRow?.company_id) {
-          const savedUser = existingRow.username || user;
-          sessionStorage.setItem('loggedInUser', savedUser);
-          sessionStorage.setItem('companyId', existingRow.company_id);
-          sessionStorage.setItem('activeCompanyId', existingRow.company_id);
-          showMsg('reg-ok', '✅ Account found! Launching your dashboard...', 'success');
-          setTimeout(() => { window.location.replace(APP); }, 1800);
-          return;
-        }
-        // No app_users row — safe to create company under this auth user
       } else if (authErr.status === 401) {
         throw new Error('Connection error (401). In Supabase → Auth → URL Configuration → add this site to Allowed Origins.');
       } else {
@@ -701,54 +584,24 @@ async function doRegister() {
       if (!authUserId) throw new Error('Signup failed — in Supabase go to Auth → Settings → Email and turn OFF "Enable email confirmations".');
     }
 
-    // 2. Sign in to activate RLS session before inserting rows
+    // 2. Sign in to activate RLS session
     const { data: signinData, error: signinErr } = await db.auth.signInWithPassword({ email, password: pass });
     if (signinErr) throw new Error('Account created but auto-login failed. Please use Sign In.');
     if (signinData?.session) {
       try { await db.auth.setSession(signinData.session); } catch(_) {}
+      session = signinData.session;
     }
 
-    // 3. Insert company into companies_registry
-    const { error: coErr } = await db.from('companies_registry').insert({
-      company_id: companyId,
-      name: cname,
-      gstin: gstin || null,
-      fy: fy
-    });
-    if (coErr) throw new Error('Company setup failed: ' + coErr.message);
+    if (!session) throw new Error('Could not establish session. Please try signing in.');
 
-    // 4. Insert into app_users
-    const { error: usrErr } = await db.from('app_users').insert({
-      user_id: authUserId,
-      username: user,
-      role: 'admin',
-      company_id: companyId,
-      mobile: email
-    });
-    if (usrErr) {
-      // Duplicate key = row already exists (race condition or stale state) — just redirect
-      if (usrErr.message.includes('duplicate key') || usrErr.message.includes('unique constraint')) {
-        const { data: existingRow } = await db.from('app_users')
-          .select('company_id').eq('user_id', authUserId).maybeSingle();
-        if (existingRow?.company_id) {
-          sessionStorage.setItem('loggedInUser', user);
-          sessionStorage.setItem('companyId', existingRow.company_id);
-          sessionStorage.setItem('activeCompanyId', existingRow.company_id);
-          showMsg('reg-ok', '✅ Account found! Launching your dashboard...', 'success');
-          setTimeout(() => { window.location.replace(APP); }, 1800);
-          return;
-        }
-      }
-      throw new Error('User profile setup failed: ' + usrErr.message);
-    }
-
-    // 5. Redirect
-    sessionStorage.setItem('loggedInUser', user);
-    sessionStorage.setItem('companyId', companyId);
-    sessionStorage.setItem('activeCompanyId', companyId);
-
-    showMsg('reg-ok', '✅ Account created successfully! Launching your dashboard...', 'success');
-    setTimeout(() => { window.location.replace(APP); }, 1800);
+    // 3. Redirect to app with session tokens in URL (cross-domain session transfer)
+    showMsg('reg-ok', '✅ Account created! Launching your dashboard…', 'success');
+    const at = session.access_token;
+    const rt = session.refresh_token;
+    const url = APP + '?usr=' + encodeURIComponent(user)
+              + '&at=' + encodeURIComponent(at)
+              + '&rt=' + encodeURIComponent(rt);
+    setTimeout(() => { window.location.replace(url); }, 1800);
 
   } catch(e) {
     showMsg('reg-err', e.message || 'Registration failed. Please try again.', 'error');
@@ -786,11 +639,12 @@ async function doLogin() {
     }
 
     let ok = false;
+    let session = null;
 
     // Try 1: real email stored in mobile column (new registrations via File 1)
     if (userRow.mobile && userRow.mobile.includes('@')) {
       const { data, error } = await db.auth.signInWithPassword({ email: userRow.mobile, password: pw });
-      if (!error && data?.session) ok = true;
+      if (!error && data?.session) { ok = true; session = data.session; }
     }
 
     // Try 2: synthetic email format used by File 2 new-company wizard
@@ -798,20 +652,20 @@ async function doLogin() {
     if (!ok && userRow.company_id) {
       const syntheticEmail = u + '_' + userRow.company_id.toLowerCase() + '@accountally.app';
       const { data, error } = await db.auth.signInWithPassword({ email: syntheticEmail, password: pw });
-      if (!error && data?.session) ok = true;
+      if (!error && data?.session) { ok = true; session = data.session; }
     }
 
-    if (!ok) {
+    if (!ok || !session) {
       throw new Error('Incorrect username or password. Please try again.');
     }
 
-    const cid = userRow.company_id || '';
-    sessionStorage.setItem('loggedInUser', u);
-    if (cid) {
-      sessionStorage.setItem('companyId', cid);
-      sessionStorage.setItem('activeCompanyId', cid);
-    }
-    window.location.replace(APP);
+    // Pass session tokens in URL for cross-domain session transfer (netlify → github.io)
+    const at = session.access_token;
+    const rt = session.refresh_token;
+    const url = APP + '?usr=' + encodeURIComponent(u)
+              + '&at=' + encodeURIComponent(at)
+              + '&rt=' + encodeURIComponent(rt);
+    window.location.replace(url);
   } catch(e) {
     showMsg('login-err', e.message || 'Login failed.', 'error');
     setLoginLoad(false);
