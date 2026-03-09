@@ -1518,8 +1518,11 @@ function openNewCoWizard(){
   ovl.style.display='flex';
 
   // 'add' mode = client already logged in, just adding another company (no new auth needed)
-  // 'new' mode = fresh client registering for the first time
-  _wizardMode = currentUser ? 'add' : 'new';
+  // 'new' mode = fresh client registering for the first time via File 2 internal wizard
+  // 'add' also applies when user arrived from File 1 with a valid Supabase session
+  // (they already have an auth account — we just need to create their first company)
+  const _existingSession = (await getSupa().auth.getSession())?.data?.session;
+  _wizardMode = (currentUser || _existingSession) ? 'add' : 'new';
 
   // Show/hide Step 2 (credentials) and its dot based on mode
   const step2=document.getElementById('nc-step-2');
@@ -1614,11 +1617,14 @@ async function doCreateCompany(){
       const {data:{session}}=await getSupa().auth.getSession();
       if(!session) throw new Error('Your session expired. Please log in again and retry.');
       authUserId=session.user.id;
-      username=currentUser.username;
-      // Carry existing email forward so OTP reset still works for this company too
+      // Use currentUser username if available (already logged in),
+      // otherwise fall back to sessionStorage (File-1 redirect, first-ever company creation)
+      username = currentUser?.username || sessionStorage.getItem('loggedInUser') || session.user.user_metadata?.username || '';
+      if(!username) throw new Error('Could not determine username. Please log in again.');
+      // Carry existing email forward if available; for new File-1 users use auth email
       const {data:existingRow}=await getSupa().from('app_users')
         .select('mobile').eq('user_id',authUserId).maybeSingle();
-      adminEmailVal=existingRow?.mobile||'';
+      adminEmailVal = existingRow?.mobile || session.user.email || '';
 
     } else {
       // ── PATH B: New client registering for the first time ───────────────
@@ -13005,6 +13011,41 @@ function collapseAllNav(){
 }
 
 // ══════════════════════════════════════════════════════════════════
+//  CROSS-DOMAIN SESSION RESTORE
+//  When the landing page (netlify.app) redirects here after login/
+//  registration, it passes access_token + refresh_token in the URL.
+//  We restore the Supabase session from those tokens, save the
+//  username, then clean the URL so tokens aren't visible or reused.
+// ══════════════════════════════════════════════════════════════════
+(async function restoreCrossDomainSession(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const at  = params.get('at');
+    const rt  = params.get('rt');
+    const usr = params.get('usr');
+    if (!at || !rt) return; // No tokens — normal navigation or already set
+
+    // Restore Supabase session from the tokens passed in URL
+    const { data, error } = await getSupa().auth.setSession({
+      access_token: at,
+      refresh_token: rt
+    });
+    if (error || !data?.session) {
+      console.warn('[restoreCrossDomainSession] setSession failed:', error?.message);
+      return;
+    }
+
+    // Save username for UI
+    if (usr) sessionStorage.setItem('loggedInUser', usr);
+
+    // Clean the URL — remove tokens so they aren't visible in history
+    history.replaceState(null, '', window.location.pathname);
+  } catch(e) {
+    console.warn('[restoreCrossDomainSession] error:', e);
+  }
+})();
+
+// ══════════════════════════════════════════════════════════════════
 //  MAGIC LINK / PASSWORD RESET REDIRECT HANDLER
 //  When Supabase sends a magic link email, clicking it returns the
 //  user to this file with a hash fragment containing the session.
@@ -13158,7 +13199,7 @@ async function otpSendStep1(){
       const {error: testErr} = await getSupa().auth.signInWithOtp({
         email: fakeEmail,
         options: {
-          emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/'
+          emailRedirectTo: 'https://shreedigitax.netlify.app/'
         }
       });
       // If no error, this email exists in auth
@@ -13175,7 +13216,7 @@ async function otpSendStep1(){
       const {error: oldErr} = await getSupa().auth.signInWithOtp({
         email: oldEmail,
         options: {
-          emailRedirectTo: 'https://sdtax01.github.io/accountally-pro/'
+          emailRedirectTo: 'https://shreedigitax.netlify.app/'
         }
       });
       if(!oldErr) foundEmail = oldEmail;
