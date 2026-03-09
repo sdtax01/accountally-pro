@@ -1270,7 +1270,12 @@ async function showCompanySelectScreen(){
   if(loading){loading.textContent='⏳ Loading companies…';loading.style.display='block';}
   try{
     // ── SECURITY FIX: Only show companies belonging to the logged-in user ──
-    // Step 1: Get current Supabase Auth session
+
+    // Step 1: Read sessionStorage set by landing page at login time
+    const savedUsername  = sessionStorage.getItem('loggedInUser');
+    const savedCompanyId = sessionStorage.getItem('companyId');
+
+    // Step 2: Get Supabase session and explicitly re-apply it so RLS token is active
     let session = null;
     try{
       const { data } = await Promise.race([
@@ -1278,42 +1283,45 @@ async function showCompanySelectScreen(){
         new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000))
       ]);
       session = data?.session || null;
+      // Re-apply session explicitly — ensures RLS works for queries below
+      if(session){ try{ await getSupa().auth.setSession(session); }catch(_){} }
     }catch(_){}
 
     if(loading)loading.style.display='none';
 
-    // Step 2: Try to identify user — via Supabase session OR sessionStorage username
-    // sessionStorage fallback handles the case where user just arrived from landing page
-    // and Supabase session hasn't propagated yet
     let userRows = null;
 
+    // Step 3a: Primary — query app_users by Supabase user_id (RLS-safe)
     if(session && session.user){
-      // Primary: use Supabase user_id for most secure lookup
       const { data, error } = await getSupa()
         .from('app_users')
         .select('company_id')
         .eq('user_id', session.user.id);
-      if(!error && data) userRows = data;
+      if(!error && data && data.length > 0) userRows = data;
     }
 
-    // Fallback: if no session yet, use saved username from sessionStorage
-    // This covers the landing page → app.html redirect window
-    if((!userRows || userRows.length === 0)){
-      const savedUsername = sessionStorage.getItem('loggedInUser');
-      const savedCompanyId = sessionStorage.getItem('companyId');
-      if(savedUsername && savedCompanyId){
-        // Directly use the saved companyId — user was authenticated on landing page
-        userRows = [{ company_id: savedCompanyId }];
-      }
+    // Step 3b: Fallback A — query by username if user_id lookup returned nothing
+    if((!userRows || userRows.length === 0) && savedUsername){
+      const { data, error } = await getSupa()
+        .from('app_users')
+        .select('company_id')
+        .eq('username', savedUsername);
+      if(!error && data && data.length > 0) userRows = data;
     }
 
-    // Step 3: No user identified — new visitor, show only Create New Company
+    // Step 3c: Fallback B — use sessionStorage companyId directly
+    // Handles timing gap right after landing page redirect
+    if((!userRows || userRows.length === 0) && savedCompanyId){
+      userRows = [{ company_id: savedCompanyId }];
+    }
+
+    // Step 4: No user identified at all — new visitor, show Create New Company only
     if(!userRows || userRows.length === 0){
       if(grid)grid.innerHTML=buildNewCoCard();
       return;
     }
 
-    // Step 4: Get company details for only the matched company IDs
+    // Step 5: Fetch company details for only this user's company IDs
     const companyIds = userRows.map(r => r.company_id);
     const { data, error } = await getSupa()
       .from('companies_registry')
